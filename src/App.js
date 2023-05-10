@@ -1,11 +1,10 @@
-function App() {
+import { Route, Routes } from "react-router-dom";
+import Auth from "./Pages/Auth/Auth";
+
+export default function App() {
   return (
-    <div>
-      <h1>React 18 Alpha</h1>
-      <p>React 18 Alpha is here!</p>
-      <p className="text-red-500">This is a red paragraph.</p>
-    </div>
+    <Routes>
+      <Route path="/auth" element={<Auth />} />
+    </Routes>
   );
 }
-
-export default App;
