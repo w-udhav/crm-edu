@@ -5,8 +5,8 @@ export default function Auth() {
     e.preventDefault();
   };
   return (
-    <div className="min-h-screen w-full border border-red-500 flex justify-center items-center bg-p1">
-      <div className="max-w-full w-[30rem] border border-black rounded-md bg-black-1 text-white p-8 shadow-lg">
+    <div className="min-h-screen w-full flex justify-center items-center bg-p1">
+      <div className="max-w-full w-[26rem] border border-black rounded-md bg-black-1 text-white p-8 shadow-lg">
         <div className="flex flex-col gap-6 items-center">
           <h1 className="font-black text-5xl">Welcome</h1>
 
@@ -58,8 +58,8 @@ export default function Auth() {
             </div>
 
             {/* Submit */}
-            <div className="">
-              <button className="w-full  bg-purple-600 hover:bg-purple-700 rounded-md text-white text-[15px] font-semibold py-2">
+            <div>
+              <button onClick={handleSubmit} className="w-full  bg-purple-600 hover:bg-purple-700 rounded-md text-white text-[15px] font-semibold py-2">
                 Continue
               </button>
             </div>

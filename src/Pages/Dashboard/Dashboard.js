@@ -1,0 +1,79 @@
+import React, { useState } from "react";
+import Cards from "./Components/Cards";
+import Table from "../../Components/Table";
+
+export default function Dashboard() {
+  const headings = ["Name", "Email", "Phone", "Subject", "Status", "Action"];
+
+  const data = [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "abc@test.com",
+      phone: "120-145-789",
+      subject: <SubjectList subs={["maths", "english", "arts"]} />,
+      status: true,
+      action: "",
+    },
+    {
+      id: 2,
+      name: "John Doe",
+      email: "abc@test.com",
+      phone: "120-145-789",
+      subject: "",
+      status: false,
+      action: "",
+    },
+  ];
+  return (
+    <div className="w-full h-full flex flex-col gap-5">
+      {/* Section 1 - Display */}
+      <div className="flex gap-5">
+        {/* Section 1.1 - Display - Left */}
+        <div className="flex-1 flex flex-col rounded-2xl bg-blue-50"></div>
+        <div className="w-[max-content] flex flex-col gap-2">
+          <div>
+            <h3 className="text-xl ">Overview</h3>
+          </div>
+          <div className="grid grid-cols-2 grid-flow-row gap-5">
+            <Cards />
+          </div>
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="rounded-xl border p-3 overflow-hidden">
+        <h1>Table</h1>
+        <Table headings={headings} data={data} />
+      </div>
+    </div>
+  );
+}
+
+export function SubjectList({ subs }) {
+  const sub = {
+    maths: "yellow",
+    english: "red",
+    science: "green",
+    arts: "blue",
+    painting: "purple",
+    gymnastics: "pink",
+  };
+  // All subjects are predefined      !noted
+  // Maths | English | Science | Arts | Painting | Gymnastics
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {subs.map((subject, index) => {
+        return (
+          <div className="px-2 py-1 text-[13px] rounded-full border capitalize flex items-center gap-2">
+            <span
+              className={`w-[5px] h-[5px] rounded-full bg-[${sub[subject]}]`}
+            ></span>
+            <h1>{subject}</h1>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

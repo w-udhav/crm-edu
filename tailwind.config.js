@@ -10,6 +10,8 @@ module.exports = {
         p4: "#FDF7C3",
 
         white: "#F2F3F5", // ! override
+        "white-1": "#F7F9FC",
+        "white-og": "#FFFFFF",
 
         "black-1": "#313338",
       },
