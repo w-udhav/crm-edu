@@ -25,11 +25,11 @@ export default function Table({ headings, data }) {
               <td className=" px-2 py-1">{row.subject}</td>
               <td className=" px-2 py-1">
                 {row.status ? (
-                  <span className="bg-green-500 text-white px-2 py-[2px] rounded-full">
+                  <span className="text-green-500 rounded-full">
                     Active
                   </span>
                 ) : (
-                  <span className="bg-red-500 text-white px-2 py-[2px] rounded-full">
+                  <span className="text-red-500 rounded-full">
                     Inactive
                   </span>
                 )}

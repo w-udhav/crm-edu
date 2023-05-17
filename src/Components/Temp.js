@@ -49,7 +49,7 @@ export default function Temp({ children }) {
                 <Link
                   key={item.id}
                   to={item.route}
-                  className="flex items-center text-[15px] gap-2 py-2 px-4 bg-[#C2E7FF] rounded-full"
+                  className="flex items-center text-[15px] gap-2 py-2 px-4 bg-[#C2E7FF] rounded-full outline-none"
                 >
                   <div className="w-5">{item.icon && item.icon}</div>
                   <p>{item.name}</p>
@@ -60,9 +60,9 @@ export default function Temp({ children }) {
         </div>
 
         {/* Right */}
-        <div className="w-full min-h-screen overflow-hidden">
+        <div className="w-full max-h-[100vh] overflow-hidden">
           <Navbar location={location} />
-          <div className="p-2 border overflow-y-auto">
+          <div className="h-[92vh] p-2 overflow-y-auto">
             <div className="w-full h-full rounded-2xl">
               {children}
             </div>

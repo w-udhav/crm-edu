@@ -42,8 +42,20 @@ export default function Dashboard() {
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border p-3 overflow-hidden">
-        <h1>Table</h1>
+      <div className="overflow-hidden flex flex-col gap-3">
+
+        {/* Filter */}
+        <div className="flex justify-between">
+          <h3 className="text-xl ">Students</h3>
+          <select name="" id="" className="border border-zinc-400 rounded-md bg-white ">
+            <option value="">All Students</option>
+            <option value="">Today</option>
+            <option value="">Active</option>
+            <option value="">Non-Active</option>
+          </select>
+        </div>
+
+        {/* table */}
         <Table headings={headings} data={data} />
       </div>
     </div>
