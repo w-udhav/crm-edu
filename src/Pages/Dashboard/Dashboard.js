@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Cards from "./Components/Cards";
 import Table from "../../Components/Table";
 
@@ -30,10 +30,10 @@ export default function Dashboard() {
       {/* Section 1 - Display */}
       <div className="flex gap-5">
         {/* Section 1.1 - Display - Left */}
-        <div className="flex-1 flex flex-col rounded-2xl bg-blue-50"></div>
+        <div className="flex-1 flex flex-col rounded-3xl shadow-md shadow-[#b8b8d470] bg-paleLavender"></div>
         <div className="w-[max-content] flex flex-col gap-2">
           <div>
-            <h3 className="text-xl ">Overview</h3>
+            <h3 className="text-2xl font-semibold">Overview</h3>
           </div>
           <div className="grid grid-cols-2 grid-flow-row gap-5">
             <Cards />
@@ -43,11 +43,14 @@ export default function Dashboard() {
 
       {/* Table */}
       <div className="overflow-hidden flex flex-col gap-3">
-
         {/* Filter */}
         <div className="flex justify-between">
           <h3 className="text-xl ">Students</h3>
-          <select name="" id="" className="border border-zinc-400 rounded-md bg-white ">
+          <select
+            name=""
+            id=""
+            className="border border-zinc-400 rounded-md bg-white "
+          >
             <option value="">All Students</option>
             <option value="">Today</option>
             <option value="">Active</option>
@@ -78,7 +81,10 @@ export function SubjectList({ subs }) {
     <div className="flex flex-wrap gap-2">
       {subs.map((subject, index) => {
         return (
-          <div className="px-2 py-1 text-[13px] rounded-full border capitalize flex items-center gap-2">
+          <div
+            key={index}
+            className="px-2 py-1 text-[13px] rounded-full border capitalize flex items-center gap-2"
+          >
             <span
               className={`w-[5px] h-[5px] rounded-full bg-[${sub[subject]}]`}
             ></span>

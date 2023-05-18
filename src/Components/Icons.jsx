@@ -8,7 +8,7 @@ export default function FormIcon({ className }) {
       xmlns="http://www.w3.org/2000/svg"
       className={`w-5 h-5 ${className}`}
     >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
         strokeLinecap="round"
@@ -53,11 +53,11 @@ export function DashboardIcon({ className }) {
       xmlns="http://www.w3.org/2000/svg"
       className={`w-5 h-5 ${className}`}
     >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       ></g>
       <g id="SVGRepo_iconCarrier">
         {" "}
@@ -68,8 +68,8 @@ export function DashboardIcon({ className }) {
           height="7"
           rx="1"
           stroke="#33363F"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         ></rect>{" "}
         <rect
           x="3"
@@ -78,8 +78,8 @@ export function DashboardIcon({ className }) {
           height="7"
           rx="1"
           stroke="#33363F"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         ></rect>{" "}
         <rect
           x="14"
@@ -88,8 +88,8 @@ export function DashboardIcon({ className }) {
           height="7"
           rx="1"
           stroke="#33363F"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         ></rect>{" "}
         <rect
           x="14"
@@ -98,8 +98,8 @@ export function DashboardIcon({ className }) {
           height="7"
           rx="1"
           stroke="#33363F"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         ></rect>{" "}
       </g>
     </svg>

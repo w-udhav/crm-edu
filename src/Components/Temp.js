@@ -8,7 +8,7 @@ export default function Temp({ children }) {
     {
       id: 1,
       name: "Dashboard",
-      route: "/",
+      route: "./",
       icon: <DashboardIcon />,
     },
     {
@@ -20,14 +20,14 @@ export default function Temp({ children }) {
     {
       id: 3,
       name: "Email",
-      route: "/student",
+      route: "./mail",
     },
   ];
 
   const location = useLocation();
 
   return (
-    <div className="min-h-screen w-full bg-white-1 overflow-y-auto">
+    <div className="min-h-screen w-full bg-grayishBlue bg-opacity-[15%] overflow-y-auto">
       <div className="flex flex-row w-full h-full">
         {/* Left */}
         <div className="w-[18rem] h-full p-4 flex flex-col gap-3">

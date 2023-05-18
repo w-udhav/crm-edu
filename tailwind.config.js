@@ -9,11 +9,18 @@ module.exports = {
         p3: "#FFDEB4",
         p4: "#FDF7C3",
 
+        lightPeach: "#FFD8B6",
+        paleBlue: " #AEDFF2",
+        paleLavender: "#E6E6FA",
+        dustRose: " #f3dddd",
+        grayishBlue: "#D4D8E9",
+
         white: "#F2F3F5", // ! override
         "white-1": "#F7F9FC",
         "white-og": "#FFFFFF",
 
         "black-1": "#313338",
+        charcoal: "#36454F",
       },
     },
   },

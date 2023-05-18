@@ -69,7 +69,7 @@ export default function Student() {
           </div>
         </div>
         {/* Main */}
-        <div className="overflow-y-auto rounded-xl h-full">
+        <div className="overflow-y-auto rounded-xl h-full scrollbar-hide">
           <div className="rounded-2xl flex flex-col gap-12">
             {active === 1 && <About />}
             {active === 2 && <Parents />}
