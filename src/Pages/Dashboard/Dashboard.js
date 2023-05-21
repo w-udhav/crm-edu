@@ -30,10 +30,12 @@ export default function Dashboard() {
       {/* Section 1 - Display */}
       <div className="flex gap-5">
         {/* Section 1.1 - Display - Left */}
-        <div className="flex-1 flex flex-col rounded-3xl shadow-md shadow-[#b8b8d470] bg-paleLavender"></div>
+        <div className="flex-1 flex flex-col rounded-3xl p-3 shadow-md shadow-[#b8b8d470] bg-paleLavender">
+          <h1 className="text-4xl font-semibold  "> Chart Overview </h1>
+        </div>
         <div className="w-[max-content] flex flex-col gap-2">
           <div>
-            <h3 className="text-2xl font-semibold">Overview</h3>
+            <h3 className="text-3xl font-semibold">Overview</h3>
           </div>
           <div className="grid grid-cols-2 grid-flow-row gap-5">
             <Cards />

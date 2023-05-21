@@ -1,9 +1,27 @@
 import React from "react";
+import { login } from "../../Utils/Firebase/auth";
+import { AuthContext } from "../../Utils/Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-export default function Auth() {
+export default function Login() {
+  const [email, setEmail] = React.useState("");
+  const [pass, setPass] = React.useState("");
+  const { user } = React.useContext(AuthContext);
+
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    try {
+      login(email, pass);
+      setEmail("");
+      setPass("");
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
+    }
   };
+
   return (
     <div className="min-h-screen w-full flex justify-center items-center bg-p1">
       <div className="max-w-full w-[26rem] border border-black rounded-md bg-black-1 text-white p-8 shadow-lg">
@@ -26,6 +44,8 @@ export default function Auth() {
                   type="email"
                   name="email"
                   id="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                   className="bg-zinc-900 rounded-md text-[16px] p-2 outline-none border-none"
                 />
               </div>
@@ -44,6 +64,8 @@ export default function Auth() {
                     type="password"
                     name="pass"
                     id="pass"
+                    onChange={(e) => setPass(e.target.value)}
+                    value={pass}
                     className="bg-zinc-900 rounded-md text-[16px] p-2 outline-none border-none"
                   />
                 </div>
@@ -59,7 +81,10 @@ export default function Auth() {
 
             {/* Submit */}
             <div>
-              <button onClick={handleSubmit} className="w-full  bg-purple-600 hover:bg-purple-700 rounded-md text-white text-[15px] font-semibold py-2">
+              <button
+                onClick={handleSubmit}
+                className="w-full  bg-purple-600 hover:bg-purple-700 rounded-md text-white text-[15px] font-semibold py-2"
+              >
                 Continue
               </button>
             </div>

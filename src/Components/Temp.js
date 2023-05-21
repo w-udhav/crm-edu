@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 import { Link, useLocation } from "react-router-dom";
-import FormIcon, { DashboardIcon } from "./Icons";
+import FormIcon, { DashboardIcon, MailIcon } from "./Icons";
 
 export default function Temp({ children }) {
   const links = [
@@ -13,14 +13,26 @@ export default function Temp({ children }) {
     },
     {
       id: 2,
-      name: "Form",
-      route: "./student",
+      name: "Enrollment Form",
+      route: "/form",
+      target: "_blank",
       icon: <FormIcon />,
     },
     {
       id: 3,
-      name: "Email",
+      name: "Mail",
       route: "./mail",
+      icon: <MailIcon />,
+    },
+    {
+      id: 4,
+      name: "Student _dev_",
+      route: "./student",
+    },
+    {
+      id: 5,
+      name: "Settings",
+      route: "./settings",
     },
   ];
 
@@ -49,6 +61,7 @@ export default function Temp({ children }) {
                 <Link
                   key={item.id}
                   to={item.route}
+                  target={item.target && item.target}
                   className="flex items-center text-[15px] gap-2 py-2 px-4 bg-[#C2E7FF] rounded-full outline-none"
                 >
                   <div className="w-5">{item.icon && item.icon}</div>
@@ -63,9 +76,7 @@ export default function Temp({ children }) {
         <div className="w-full max-h-[100vh] overflow-hidden">
           <Navbar location={location} />
           <div className="h-[92vh] p-2 overflow-y-auto">
-            <div className="w-full h-full rounded-2xl">
-              {children}
-            </div>
+            <div className="w-full h-full rounded-2xl">{children}</div>
           </div>
         </div>
       </div>

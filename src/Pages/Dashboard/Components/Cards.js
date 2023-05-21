@@ -1,5 +1,10 @@
 import React from "react";
-import { GroupUserIcon } from "../../../Components/Icons";
+import {
+  BankIcon,
+  CalIcon,
+  CashIcon,
+  GroupUserIcon,
+} from "../../../Components/Icons";
 
 export default function Cards() {
   const card = [
@@ -14,23 +19,26 @@ export default function Cards() {
       id: 2,
       title: "Today",
       value: "50",
-      icon: <GroupUserIcon className="w-7 h-7" fill="#08f78c" />,
-      color:"bg-[#dafeee]"
+      icon: <CalIcon className="w-7 h-7" fill="#ebf708" />,
+      color: "bg-[#fcfeda]",
+      // fill="#00ff40"
     },
     {
       id: 3,
       title: "Card 3",
       value: "50",
-      icon: <GroupUserIcon className="w-7 h-7" fill="#ebf708" />,
-      color:"bg-[#fcfeda]"
+      icon: <CashIcon className="w-7 h-7" fill="#00e038" />,
+      color: "bg-[#dafeee]",
+      // fill="#ebf708"
     },
     {
       id: 4,
       title: "Card 4",
       value: "50",
       type: "multi",
-      icon: <GroupUserIcon className="w-7 h-7" fill="#eb1f48" />,
-      color:"bg-[#fcdde4]"
+      icon: <BankIcon className="w-7 h-7" fill="#eb1f48" />,
+      color: "bg-[#fcdde4]",
+      // fill="#eb1f48"
     },
   ];
   return card.map((item) => {

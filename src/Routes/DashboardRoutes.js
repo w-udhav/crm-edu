@@ -5,7 +5,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Student from "../Pages/Student/Student";
 import Mail from "../Pages/Mail/Mail";
 
-export default function DashboardRoutes() {
+export default function DashboardRoutes({ user }) {
   return (
     <Temp>
       <Routes>
@@ -16,4 +16,16 @@ export default function DashboardRoutes() {
       </Routes>
     </Temp>
   );
+  // return user ? (
+  //   <Temp>
+  //     <Routes>
+  //       <Route path="/" element={<Dashboard />} />
+  //       <Route path="/student/" element={<Student />} />
+  //       <Route path="/mail" element={<Mail />} />
+  //       <Route path="*" element={<Navigate to="/dashboard" />} />
+  //     </Routes>
+  //   </Temp>
+  // ) : (
+  //   <Navigate to="/auth/login" />
+  // );
 }
