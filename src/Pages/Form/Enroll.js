@@ -1,69 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { data } from "./data";
+import Number from "./Components/Number";
 
 export default function Enrol() {
-  const data = [
-    
-    // Section-1
-    {
-      id:10,
-      name: "Personal Details",
-      fields: [
-        {
-          id: 1,
-          name: "First Name",
-          type: "text",
-          placeholder: "Enter your first name",
-          value: "",
-        },
-        {
-          id: 2,
-          name: "Last Name",
-          type: "text",
-          placeholder: "Enter your last name",
-          value: "",
-        },
-        {
-          id: 3,
-          name: "Middle Name",
-          type: "text",
-          placeholder: "Enter your middle name",
-          value: "",
-        },
-        {
-          id: 4,
-          name: "Date of Birth",
-          type: "date",
-          placeholder: "Enter your date of birth",
-          value: "",
-        },
-        {
-          id: 5,
-          name: "School Name",
-          type: "text",
-          placeholder: "Enter your school name",
-          value: "",
-        },
-        {
-          id: 6,
-          name: "Year",
-          type: "text",
-          placeholder: "Enter your year",
-          value:""
-        },
-      ],      
-    },
-    {
-      id:20,
-      name: "Parent's Details",
-    }
-  ]
+  const [formData, setFormData] = useState({});
+  const [error, setError] = useState({});
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    console.log(formData);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validation = {};
+    data.forEach((section) => {
+      section.questions.forEach((question) => {
+        if (!formData[question.name]) {
+          validation[question.name] = "This field is required";
+        }
+      });
+    });
+    setError(validation);
+  };
 
   return (
     <div className="min-h-screen w-full bg-[#F6F3EE] flex flex-col items-center">
       {/* Navigation */}
-      <div className="bg-white-og w-full py-2 px-4 shadow-sm border-b border-zinc-200 fixed">
-        <div className="flex justify-between">
+      <div className="bg-white-og w-full z-10 py-2 px-4 shadow-sm border-b border-zinc-200 fixed">
+        <div className="flex justify-between items-baseline">
           <div>Navigation</div>
           <div>
             <button className="px-2 py-1 text-[14px] text-black-1 border border-blue-300 bg-blue-200  hover:shadow-md rounded-md">
@@ -81,23 +47,142 @@ export default function Enrol() {
           </h1>
         </div>
 
-        <form className="flex flex-col text-black-1 gap-4">
-          {/* Section-1 */}
-          <div className="">
-            <h1 className="text-2xl mb-3">Student's Information</h1>
-            <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
-              <p>First Name</p>
-              <input
-                type="text"
-                name="fname"
-                id=""
-                className="border-b outline-none focus:border-black-1 text-black"
-                placeholder="Short answer"
-              />
-            </div>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col text-black-1 gap-10"
+        >
+          {data.map((section, index) => {
+            return (
+              <div key={section.id}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="">
+                    {" "}
+                    <Number number={index + 1} />{" "}
+                  </div>
+                  <h1 className="text-2xl ">{section.name}</h1>
+                </div>
+                <div className="flex flex-col gap-4 ">
+                  {section.questions.map((item) => {
+                    return (
+                      <div
+                        key={item.id}
+                        style={{
+                          borderColor: error[item.name] && "red",
+                        }}
+                        className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-7"
+                      >
+                        <p>{item.name}</p>
+                        <input
+                          type={item.type}
+                          name={item.name}
+                          value={formData[item.name]}
+                          onChange={handleChange}
+                          className="border-b outline-none focus:border-black-1 text-black"
+                          placeholder={item.placeholder}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          <div className="flex justify-between items-center">
+            <button className="py-2 rounded-md transition-all text-red-500">
+              Clear
+            </button>
+
+            <button className="px-5 py-2 text-white  bg-blue-600 transition-all ease-linear rounded-md">
+              Submit
+            </button>
           </div>
         </form>
       </div>
     </div>
   );
 }
+
+// {
+//   {
+//     text: (
+//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
+//         <p>{item.name}</p>
+//         <input
+//           type="text"
+//           name="fname"
+//           id=""
+//           className="border-b outline-none focus:border-black-1 text-black"
+//           placeholder="Short answer"
+//         />
+//       </div>
+//     ),
+//     radio: (
+//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
+//         <p>{item.question}</p>
+//         <div className="flex flex-col gap-2">
+//           {item.options.map((option, index) => {
+//             return (
+//               <div className="flex items-center gap-2">
+//                 <input
+//                   type="radio"
+//                   name="fname"
+//                   id=""
+//                   className="border-b outline-none focus:border-black-1 text-black"
+//                   placeholder="Short answer"
+//                 />
+//                 <label htmlFor="">{option}</label>
+//               </div>
+//             );
+//           })}
+//         </div>
+//       </div>
+//     ),
+//     checkbox: (
+//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
+//         <p>{item.question}</p>
+//         <div className="flex flex-col gap-2">
+//           {item.options.map((option, index) => {
+//             return (
+//               <div className="flex items-center gap-2">
+//                 <input
+//                   type="checkbox"
+//                   name="fname"
+//                   id=""
+//                   className="border-b outline-none focus:border-black-1 text-black"
+//                   placeholder="Short answer"
+//                 />
+//                 <label htmlFor="">{option}</label>
+//               </div>
+//             );
+//           })}
+//         </div>
+//       </div>
+//     ),
+//     date: (
+//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
+//         <p>{item.question}</p>
+//         <input
+//           type="date"
+//           name="fname"
+//           id=""
+//           className="border-b outline-none focus:border-black-1 text-black"
+//           placeholder="Short answer"
+//         />
+//       </div>
+//     ),
+//     textarea: (
+//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
+//         <p>{item.question}</p>
+//         <textarea
+//           name=""
+//           id=""
+//           cols="30"
+//           rows="10"
+//           className="border-b outline-none focus:border-black-1 text-black"
+//           placeholder="Short answer"
+//         ></textarea>
+//       </div>
+//     ),
+//   }[item.type]
+// }
