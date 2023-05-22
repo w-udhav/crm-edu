@@ -29,11 +29,6 @@ export default function Temp({ children }) {
       name: "Student _dev_",
       route: "./student",
     },
-    {
-      id: 5,
-      name: "Settings",
-      route: "./settings",
-    },
   ];
 
   const location = useLocation();

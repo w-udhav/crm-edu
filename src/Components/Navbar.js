@@ -36,11 +36,11 @@ export default function Navbar({ location }) {
           />
         </div>
         <div className="flex-1 flex justify-end items-center relative">
-          {isOpen && <LeftArrowHead className="w-2 h-2" />}
+          {isOpen && <LeftArrowHead className="w-3 h-3" />}
           <button
             onClick={handleIsOpen}
             className={` ${
-              isOpen && "rotate-12 translate-x-1"
+              isOpen && "rotate-45 translate-x-2"
             } " transition-all"`}
           >
             <SettingIcon className="w-6 h-6" />
@@ -53,7 +53,7 @@ export default function Navbar({ location }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.2 }}
-                className="absolute border shadow-md backdrop-blur-smq rounded-[3px] bg-white right-10 top-0 overflow-hidden"
+                className="absolute border shadow-md backdrop-blur-lg rounded-[3px] right-10 top-0 overflow-hidden"
               >
                 <div className="flex flex-col items-center text-[15px]">
                   <div className="py-2 px-5">Profile</div>

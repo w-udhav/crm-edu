@@ -1,34 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import About from "./Components/About";
 import Parents from "./Components/Parents";
 import Subjects from "./Components/Subjects";
 import Medical from "./Components/Medical";
+import Address from "./Components/Address";
+import {
+  AboutIcon,
+  AddressIcon,
+  BooksIcon,
+  EditIcon,
+  ParentsIcon,
+} from "../../Components/Icons";
 
 export default function Student() {
+  const [isEdit, setIsEdit] = useState(false);
+  const [active, setActive] = useState(1);
+
   const links = [
     {
       id: 1,
       name: "About",
       component: "/",
+      icon: <AboutIcon className="" />,
     },
     {
       id: 2,
-      name: "Parents",
+      name: "Address",
       component: "/address",
+      icon: <AddressIcon className="w-6 h-6" />,
     },
     {
       id: 3,
-      name: "Subjects",
+      name: "Parents",
       component: "/parents",
+      icon: <ParentsIcon className="w-6 h-6" />,
     },
     {
       id: 4,
+      name: "Subjects",
+      component: "/subjects",
+      icon: <BooksIcon className="w-6 h-6" />,
+    },
+    {
+      id: 5,
       name: "Medical",
       component: "/medical",
+      // icon: <MedicalIcon />
     },
   ];
 
-  const [active, setActive] = React.useState(1);
+  const handleEdit = () => {
+    setIsEdit(!isEdit);
+  };
+
   return (
     <div className="flex gap-3 h-full">
       <div className="sticky mt-40 min-w-[max-content]">
@@ -41,7 +65,9 @@ export default function Student() {
                 className="flex gap-5 items-center justify-between outline-none"
               >
                 <div className="flex gap-3 items-center">
-                  <div className="w-10 h-10 bg-zinc-400 rounded-full"></div>
+                  <div className="w-10 h-10 flex items-center justify-center rounded-full">
+                    {item.icon}
+                  </div>
                   <p>{item.name}</p>
                 </div>
                 <div>{">"}</div>
@@ -64,17 +90,31 @@ export default function Student() {
             </div>
 
             <div>
-              <button>Edit</button>
+              <button
+                onClick={handleEdit}
+                className={`${
+                  !isEdit && "hover:bg-blue-200"
+                }  transition-all ease-in-out rounded-full p-2`}
+              >
+                {isEdit ? (
+                  <span className="bg-red-500 hover:bg-red-600 transition-all ease-linear text-white rounded-md px-4 py-2">
+                    Cancel
+                  </span>
+                ) : (
+                  <EditIcon className="w-6 h-6" />
+                )}
+              </button>
             </div>
           </div>
         </div>
         {/* Main */}
         <div className="overflow-y-auto rounded-xl h-full scrollbar-hide">
           <div className="rounded-2xl flex flex-col gap-12">
-            {active === 1 && <About />}
-            {active === 2 && <Parents />}
-            {active === 3 && <Subjects />}
-            {active === 4 && <Medical />}
+            {active === 1 && <About isEdit={isEdit} />}
+            {active === 2 && <Address isEdit={isEdit} />}
+            {active === 3 && <Parents isEdit={isEdit} />}
+            {active === 4 && <Subjects isEdit={isEdit} />}
+            {active === 5 && <Medical isEdit={isEdit} />}
           </div>
         </div>
       </div>

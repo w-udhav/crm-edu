@@ -3,7 +3,9 @@ import { data } from "./data";
 import Number from "./Components/Number";
 
 export default function Enrol() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+
+  });
   const [error, setError] = useState({});
 
   const handleChange = (e) => {
@@ -74,7 +76,7 @@ export default function Enrol() {
                         <p>{item.name}</p>
                         <input
                           type={item.type}
-                          name={item.name}
+                          name={item.key}
                           value={formData[item.name]}
                           onChange={handleChange}
                           className="border-b outline-none focus:border-black-1 text-black"
