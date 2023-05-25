@@ -10,7 +10,7 @@ export default function DashboardRoutes({ user }) {
     <Temp>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/student/" element={<Student />} />
+        <Route path="/student/:id" element={<Student />} />
         <Route path="/mail" element={<Mail />} />
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>

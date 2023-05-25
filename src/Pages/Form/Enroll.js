@@ -1,30 +1,122 @@
 import React, { useState } from "react";
 import { data } from "./data";
 import Number from "./Components/Number";
+import { sendForm } from "../../Utils/Api/Api";
 
 export default function Enrol() {
   const [formData, setFormData] = useState({
+    // * Student
+    firstName: "",
+    lastName: "",
+    dob: "",
+    gender: "",
+    schoolName: "",
+    schoolYear: "",
+    email: "",
+    phone: "",
 
+    // * Address
+    addressStreet: "",
+    suburb: "",
+    postCode: "",
+    parentsEmail: "",
+
+    // * Parent
+    //! Parent 1
+    parentName: "",
+    relation: "",
+    parentPhone: "",
+
+    // * Health
+    allergicFood: "",
+    medications: "",
+    allergicMedication: "",
+    healthProblem: "",
+
+    // * Subjects
+    subjects: [],
+    frequency: 0,
+    paymentMethod: "",
+
+    // * Terms
+    terms: false,
   });
+
   const [error, setError] = useState({});
 
+  // ? Handle the Form Change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    console.log(formData);
   };
 
+  // ? Handle the Form Submit
   const handleSubmit = (e) => {
     e.preventDefault();
     const validation = {};
+    console.log(formData);
     data.forEach((section) => {
       section.questions.forEach((question) => {
-        if (!formData[question.name]) {
-          validation[question.name] = "This field is required";
+        // * Check if the field is required
+
+        if (!formData[question.key] && question.required) {
+          validation[question.key] = "This field is required";
         }
       });
     });
     setError(validation);
+    console.log("error" + error);
+
+    sendForm(formData).then((res) => {
+      console.log(res);
+    });
+  };
+
+  // ? Clear the form
+  const handleClear = () => {
+    if (window.confirm("Are you sure, you want to clear the form?")) {
+      setFormData({
+        // * Student
+        firstName: "",
+        lastName: "",
+        dob: "",
+        gender: "",
+        schoolName: "",
+        schoolYear: "",
+        email: "",
+        phone: "",
+
+        // * Address
+        addressStreet: "",
+        suburb: "",
+        postCode: "",
+        parentsEmail: "",
+
+        // * Parent
+        //! Parent 1
+        parentName1: "",
+        relation1: "",
+        parentPhone1: "",
+        //! Parent 2
+        parentName2: "",
+        relation2: "",
+        parentPhone2: "",
+
+        // * Health
+        allergicFood: "",
+        medications: "",
+        allergicMedication: "",
+        healthProblem: "",
+
+        // * Subjects
+        subjects: [],
+        frequency: "",
+        paymentMethod: "",
+
+        // * Terms
+        terms: false,
+      });
+    }
   };
 
   return (
@@ -65,37 +157,209 @@ export default function Enrol() {
                 </div>
                 <div className="flex flex-col gap-4 ">
                   {section.questions.map((item) => {
-                    return (
-                      <div
-                        key={item.id}
-                        style={{
-                          borderColor: error[item.name] && "red",
-                        }}
-                        className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-7"
-                      >
-                        <p>{item.name}</p>
-                        <input
-                          type={item.type}
-                          name={item.key}
-                          value={formData[item.name]}
-                          onChange={handleChange}
-                          className="border-b outline-none focus:border-black-1 text-black"
-                          placeholder={item.placeholder}
-                        />
-                      </div>
-                    );
+                    if (
+                      item.type === "text" ||
+                      item.type === "number" ||
+                      item.type === "email"
+                    ) {
+                      return (
+                        <div
+                          key={item.id}
+                          style={{
+                            borderColor: error[item.key] && "red",
+                          }}
+                          className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-7"
+                        >
+                          <div>{item.name}</div>
+                          <input
+                            type={item.type}
+                            name={item.key}
+                            value={formData[item.key]}
+                            onChange={handleChange}
+                            className="border-b outline-none focus:border-black-1 text-black"
+                            placeholder={item.placeholder}
+                            required={item.required}
+                          />
+                        </div>
+                      );
+                    }
+
+                    //! Radio
+                    if (item.type === "radio") {
+                      return (
+                        <div
+                          key={item.id}
+                          style={{
+                            borderColor: error[item.key] && "red",
+                          }}
+                          className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-5"
+                        >
+                          <div>{item.name}</div>
+                          <div className="flex flex-col gap-2">
+                            {item.options.map((option, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2 w-full"
+                                >
+                                  <input
+                                    type="radio"
+                                    name={item.key}
+                                    value={option}
+                                    onChange={() => {
+                                      if (item.key === "frequency") {
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          [item.key]: index + 1,
+                                        }));
+                                        return;
+                                      }
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        [item.key]: option,
+                                      }));
+                                    }}
+                                    className="border-b outline-none focus:border-black-1 text-black"
+                                    required={item.required}
+                                  />
+                                  <label htmlFor="">{option}</label>
+                                  {
+                                    // * If the option is "Other", show the input
+                                    option === "Other" && (
+                                      <input
+                                        type="text"
+                                        name={item.key}
+                                        value={formData[item.name]}
+                                        onChange={handleChange}
+                                        className="border-b w-full outline-none focus:border-black-1 text-black"
+                                        placeholder={item.placeholder}
+                                        required={item.required}
+                                      />
+                                    )
+                                  }
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    if (item.type === "date") {
+                      return (
+                        <div
+                          key={item.id}
+                          style={{
+                            borderColor: error[item.key] && "red",
+                          }}
+                          className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-6"
+                        >
+                          <div>{item.name}</div>
+                          <input
+                            type="date"
+                            name={item.key}
+                            value={formData[item.key]}
+                            onChange={handleChange}
+                            id=""
+                            className="border-b outline-none focus:border-black-1 text-black"
+                            placeholder="Short answer"
+                          />
+                        </div>
+                      );
+                    }
+
+                    if (
+                      item.type === "checkbox" &&
+                      Array.isArray(item.options) &&
+                      item.key !== "terms"
+                    ) {
+                      return (
+                        <div
+                          key={item.id}
+                          style={{
+                            borderColor: error[item.key] && "red",
+                          }}
+                          className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-6"
+                        >
+                          <div>{item.name}</div>
+                          <div className="flex flex-col gap-2">
+                            {item.options.map((option, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    name={item.key}
+                                    id=""
+                                    value={option}
+                                    onChange={() => {
+                                      // setFormData();
+                                      formData.subjects = [
+                                        ...formData.subjects,
+                                        option,
+                                      ];
+                                    }}
+                                    className="border-b outline-none focus:border-black-1 text-black"
+                                    placeholder="Short answer"
+                                  />
+                                  <label htmlFor="">{option}</label>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    if (item.key === "terms") {
+                      return (
+                        <div
+                          key={item.id}
+                          style={{
+                            borderColor: error[item.key] && "red",
+                          }}
+                          className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-7"
+                        >
+                          <div>{item.name}</div>
+                          <div className="flex gap-2">
+                            <input
+                              type={item.type}
+                              name={item.key}
+                              value={formData[item.key]}
+                              onChange={() => {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  [item.key]: !formData.terms,
+                                }));
+                              }}
+                              className="border-b outline-none focus:border-black-1 text-black"
+                              placeholder={item.placeholder}
+                            />
+                            <label htmlFor="">{item.options}</label>
+                          </div>
+                        </div>
+                      );
+                    }
                   })}
                 </div>
               </div>
             );
           })}
-
           <div className="flex justify-between items-center">
-            <button className="py-2 rounded-md transition-all text-red-500">
+            {/* <button
+              // onClick={handleClear}
+              className="py-2 rounded-md transition-all text-red-500"
+            >
               Clear
-            </button>
+            </button> */}
 
-            <button className="px-5 py-2 text-white  bg-blue-600 transition-all ease-linear rounded-md">
+            <button
+              disabled={formData.terms === true ? false : true}
+              onClick={handleSubmit}
+              className="px-5 py-2 text-white  bg-blue-600 disabled:bg-gray-500 transition-all ease-linear rounded-md"
+            >
               Submit
             </button>
           </div>
@@ -104,87 +368,3 @@ export default function Enrol() {
     </div>
   );
 }
-
-// {
-//   {
-//     text: (
-//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
-//         <p>{item.name}</p>
-//         <input
-//           type="text"
-//           name="fname"
-//           id=""
-//           className="border-b outline-none focus:border-black-1 text-black"
-//           placeholder="Short answer"
-//         />
-//       </div>
-//     ),
-//     radio: (
-//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
-//         <p>{item.question}</p>
-//         <div className="flex flex-col gap-2">
-//           {item.options.map((option, index) => {
-//             return (
-//               <div className="flex items-center gap-2">
-//                 <input
-//                   type="radio"
-//                   name="fname"
-//                   id=""
-//                   className="border-b outline-none focus:border-black-1 text-black"
-//                   placeholder="Short answer"
-//                 />
-//                 <label htmlFor="">{option}</label>
-//               </div>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     ),
-//     checkbox: (
-//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
-//         <p>{item.question}</p>
-//         <div className="flex flex-col gap-2">
-//           {item.options.map((option, index) => {
-//             return (
-//               <div className="flex items-center gap-2">
-//                 <input
-//                   type="checkbox"
-//                   name="fname"
-//                   id=""
-//                   className="border-b outline-none focus:border-black-1 text-black"
-//                   placeholder="Short answer"
-//                 />
-//                 <label htmlFor="">{option}</label>
-//               </div>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     ),
-//     date: (
-//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
-//         <p>{item.question}</p>
-//         <input
-//           type="date"
-//           name="fname"
-//           id=""
-//           className="border-b outline-none focus:border-black-1 text-black"
-//           placeholder="Short answer"
-//         />
-//       </div>
-//     ),
-//     textarea: (
-//       <div className="rounded-lg bg-white-og border shadow-md p-5 flex flex-col gap-6">
-//         <p>{item.question}</p>
-//         <textarea
-//           name=""
-//           id=""
-//           cols="30"
-//           rows="10"
-//           className="border-b outline-none focus:border-black-1 text-black"
-//           placeholder="Short answer"
-//         ></textarea>
-//       </div>
-//     ),
-//   }[item.type]
-// }

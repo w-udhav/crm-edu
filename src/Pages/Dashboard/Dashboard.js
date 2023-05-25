@@ -1,30 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Cards from "./Components/Cards";
 import Table from "../../Components/Table";
+import { getStudents } from "../../Utils/Api/Api";
 
 export default function Dashboard() {
   const headings = ["Name", "Email", "Phone", "Subject", "Status", "Action"];
 
-  const data = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "abc@test.com",
-      phone: "120-145-789",
-      subject: <SubjectList subs={["maths", "english", "arts"]} />,
-      status: true,
-      action: "",
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      email: "abc@test.com",
-      phone: "120-145-789",
-      subject: "",
-      status: false,
-      action: "",
-    },
-  ];
+  // const data = [
+  //   {
+  //     id: 1,
+  //     name: "John Doe",
+  //     email: "abc@test.com",
+  //     phone: "120-145-789",
+  //     subject: <SubjectList subs={["maths", "english", "arts"]} />,
+  //     status: true,
+  //     action: "",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "John Doe",
+  //     email: "abc@test.com",
+  //     phone: "120-145-789",
+  //     subject: "",
+  //     status: false,
+  //     action: "",
+  //   },
+  // ];
+
+//? Data from API   {
+//     "_id": "646b062195c8ade227e4222d",
+//     "firstName": "Ujjwal",
+//     "email": "ujjwal@gmail.com",
+//     "phone": 9559971272,
+//     "tutoringDetail": {
+//         "subjects": [
+//             "Maths",
+//             "Science"
+//         ]
+//     },
+//     "status": "Inactive"
+// } 
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getStudents().then((data) => setData(data));
+  }, []);
+
   return (
     <div className="w-full h-full flex flex-col gap-5">
       {/* Section 1 - Display */}
@@ -63,37 +85,6 @@ export default function Dashboard() {
         {/* table */}
         <Table headings={headings} data={data} />
       </div>
-    </div>
-  );
-}
-
-export function SubjectList({ subs }) {
-  const sub = {
-    maths: "yellow",
-    english: "red",
-    science: "green",
-    arts: "blue",
-    painting: "purple",
-    gymnastics: "pink",
-  };
-  // All subjects are predefined      !noted
-  // Maths | English | Science | Arts | Painting | Gymnastics
-
-  return (
-    <div className="flex flex-wrap gap-2">
-      {subs.map((subject, index) => {
-        return (
-          <div
-            key={index}
-            className="px-2 py-1 text-[13px] rounded-full border capitalize flex items-center gap-2"
-          >
-            <span
-              className={`w-[5px] h-[5px] rounded-full bg-[${sub[subject]}]`}
-            ></span>
-            <h1>{subject}</h1>
-          </div>
-        );
-      })}
     </div>
   );
 }

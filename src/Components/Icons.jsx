@@ -500,7 +500,7 @@ export function LeftArrowHead({ className }) {
       xmlnsxlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 31.418 31.418"
       xmlspace="preserve"
-      className={`w-5 h-5 ${className}`}
+      className={`w-2 h-2 ${className}`}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
@@ -550,7 +550,6 @@ export function ParentsIcon({ className }) {
       fill="#33363F"
       viewBox="-1 0 19 19"
       xmlns="http://www.w3.org/2000/svg"
-      class="cf-icon-svg"
       className={`w-5 h-5 ${className}`}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -595,7 +594,6 @@ export function AddressIcon({ className }) {
     <svg
       viewBox="0 0 1024 1024"
       fill="#33363F"
-      class="icon"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       stroke="#33363F"

@@ -1,5 +1,5 @@
 export const data = [
-  // Section-1
+  //? Student Details
   {
     id: 10,
     name: "Student Details",
@@ -11,6 +11,7 @@ export const data = [
         type: "text",
         placeholder: "Enter your first name",
         value: "",
+        required: true,
       },
       {
         id: 2,
@@ -19,6 +20,7 @@ export const data = [
         key: "lastName",
         placeholder: "Enter your last name",
         value: "",
+        required: true,
       },
       {
         id: 3,
@@ -27,25 +29,40 @@ export const data = [
         type: "date",
         placeholder: "Enter your date of birth",
         value: "",
+        required: true,
       },
       {
         id: 4,
+        name: "Gender",
+        key: "gender",
+        type: "radio",
+        placeholder: "",
+        value: "",
+        options: ["Male", "Female", "Other"],
+        required: true,
+      },
+      {
+        id: 5,
         name: "School Name",
         key: "schoolName",
         type: "text",
         placeholder: "Enter your school name",
         value: "",
+        required: true,
       },
       {
-        id: 5,
+        id: 6,
         name: "School Year",
         key: "schoolYear",
         type: "number",
         placeholder: "Enter your year",
         value: "",
+        required: true,
       },
     ],
   },
+
+  //? Address Details
   {
     id: 30,
     name: "Address Details",
@@ -54,9 +71,10 @@ export const data = [
         id: 1,
         name: "Address Street",
         key: "addressStreet",
-        type: "textarea",
+        type: "text",
         placeholder: "Enter your address",
         value: "",
+        required: true,
       },
       {
         id: 2,
@@ -65,6 +83,7 @@ export const data = [
         type: "text",
         placeholder: "Enter your Suburb",
         value: "",
+        required: true,
       },
       {
         id: 3,
@@ -73,17 +92,21 @@ export const data = [
         type: "number",
         placeholder: "Enter your postcode",
         value: "",
+        required: true,
       },
       {
         id: 4,
         name: "Parent's Email",
-        key: "parentEmail",
+        key: "parentsEmail",
         type: "email",
         placeholder: "Enter your email",
         value: "",
+        required: true,
       },
     ],
   },
+
+  //? Parent Details
   {
     id: 20,
     name: "Parents Details",
@@ -95,36 +118,117 @@ export const data = [
         type: "text",
         placeholder: "Enter your first name",
         value: "",
+        required: true,
       },
       {
         id: 2,
         name: "Relationship",
-        key: "relationship",
+        key: "relation",
         type: "text",
         placeholder: "Who are you to the student?",
         value: "",
+        required: true,
       },
       {
         id: 3,
         name: "Contact Number",
-        key: "contactNumber",
+        key: "parentPhone",
         type: "number",
         placeholder: "Enter your contact number",
         value: "",
+        required: true,
       },
     ],
   },
+  
 
+  // ? Preferred Days
   {
-    id: 40,
-    name: "",
+    id: 60,
+    name: "Academics Details",
     questions: [
       {
         id: 1,
+        name: "Frequency of classes",
+        type: "radio",
+        key: "frequency",
+        placeholder: "",
+        value: "",
+        options: ["Once a week", "Twice a week", "Thrice a week"],
+        required: true,
+      },
+      {
+        id: 2,
+        name: "Subjects",
+        type: "checkbox",
+        key: "subjects",
+        placeholder: "",
+        value: "",
+        options: ["Maths", "English", "Science", "Arts or painting"],
+        required: true,
+      },
+      {
+        id: 3,
+        name: "Payment Method",
+        type: "radio",
+        key: "paymentMethod",
+        placeholder: "",
+        value: "",
+        options: ["Cash", "Ezi-Debit"],
+        required: true,
       },
     ],
   },
 
+  //? Health Details
+  {
+    id: 40,
+    name: "Health Details",
+    questions: [
+      {
+        id: 1,
+        name: "Is your child allergic to any food?",
+        type: "radio",
+        key: "allergicFood",
+        placeholder: "",
+        value: "",
+        options: ["No", "Other"],
+        required: true,
+      },
+      {
+        id: 2,
+        name: "Is your child on any medication?",
+        type: "radio",
+        key: "medications",
+        placeholder: "",
+        value: "",
+        options: ["No", "Other"],
+        required: true,
+      },
+      {
+        id: 3,
+        name: "Is your child allergic to any medication?",
+        type: "radio",
+        key: "allergicMedication",
+        placeholder: "",
+        value: "",
+        options: ["No", "Other"],
+        required: true,
+      },
+      {
+        id: 4,
+        name: "Does your child have any health problems?",
+        type: "radio",
+        key: "healthProblem",
+        placeholder: "",
+        value: "",
+        options: ["No", "Other"],
+        required: true,
+      },
+    ],
+  },
+
+  //? Terms and Conditions
   {
     id: 50,
     name: "Terms and Conditions",
@@ -232,6 +336,10 @@ export const data = [
           </div>
         ),
         type: "checkbox",
+        key: "terms",
+        placeholder: "",
+        options: "I have read and understood the conditions of tuition",
+        required: true,
       },
     ],
   },

@@ -1,36 +1,27 @@
 import React from "react";
 
-export default function Address({ isEdit }) {
-  const data = [
+export default function Address({ isEdit, data }) {
+  const dataFields = [
     {
       id: 1,
-      name: "Address Line 1",
-      value: "123, ABC Street",
+      name: "Address Street",
+      value: data.addressStreet,
     },
     {
       id: 2,
-      name: "Address Line 2",
-      value: "XYZ",
+      name: "PostCode",
+      value: data.postCode,
     },
     {
       id: 3,
-      name: "City",
-      value: "ABC",
+      name: "Suburb",
+      value: data.suburb,
     },
-    {
-      id: 4,
-      name: "State",
-      value: "XYZ",
-    },
-    {
-      id: 5,
-      name: "Country",
-      value: "ABC",
-    },
+
     {
       id: 6,
-      name: "Pincode",
-      value: "123456",
+      name: "Parent's Email",
+      value: data.parentsEmail,
     },
   ];
 
@@ -38,18 +29,18 @@ export default function Address({ isEdit }) {
     <div className="grid grid-cols-2 flex-col xl:flex-row gap-10">
       <div className="flex-1 flex flex-col gap-3 rounded-xl border border-zinc-300 p-5">
         <h3 className="capitalize text-gray-400 text-sm">
-          Student's personal information
+          Address Inforamtion
         </h3>
 
         {/* Content container */}
         <div className="flex flex-col transition-all ease-linear">
-          {data.map((item) => {
+          {dataFields.map((item) => {
             return (
               <div
                 key={item.id}
                 className="border-b hover:bg-gray-100 border-gray-300 hover:px-3 py-5 hover:rounded-t-md transition-all ease-linear flex gap-3"
               >
-                <p className="flex-1 text-gray-600"> {item.name} </p>
+                <p className="flex-1 text-gray-600 "> {item.name} </p>
                 {isEdit ? (
                   <input
                     className="flex-1 p-1 rounded-md"

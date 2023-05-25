@@ -53,7 +53,7 @@ export default function Navbar({ location }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.2 }}
-                className="absolute border shadow-md backdrop-blur-lg rounded-[3px] right-10 top-0 overflow-hidden"
+                className="absolute shadow-md backdrop-blur-lg rounded-[5px] right-10 top-0 overflow-hidden"
               >
                 <div className="flex flex-col items-center text-[15px]">
                   <div className="py-2 px-5">Profile</div>
