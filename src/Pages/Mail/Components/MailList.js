@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function MailList() {
-  const [selectAll, setSelectAll] = React.useState(false);
-  const [selected, setSelected] = React.useState([]);
+export default function MailList({ toMail, setToMail }) {
+  const [selectAll, setSelectAll] = useState(false);
+  const [selected, setSelected] = useState([]);
 
   const headings = ["Name", "Student's Email", "Parent's Email", "Status"];
   const data = [
@@ -25,8 +25,6 @@ export default function MailList() {
       paEmail: "parent@mail.com",
     },
   ];
-
-  console.log(selected);
 
   return (
     <div className="border rounded-xl overflow-hidden">
