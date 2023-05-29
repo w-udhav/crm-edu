@@ -1,8 +1,9 @@
 import React from "react";
 import SubjectList from "./SubjectList";
 import { useNavigate } from "react-router-dom";
+import { ReloadIcon } from "./Icons";
 
-export default function Table({ headings, data }) {
+export default function Table({ headings, data, loading, error, fetchData }) {
   const navigate = useNavigate();
 
   const handlleRowClick = (id) => {
@@ -22,6 +23,7 @@ export default function Table({ headings, data }) {
         </thead>
         <tbody>
           {data &&
+            !loading &&
             data.map((row) => (
               <tr
                 key={row._id}
@@ -44,6 +46,46 @@ export default function Table({ headings, data }) {
                 <td className=" px-2 py-1">{row.action}</td>
               </tr>
             ))}
+          {
+            // ! This is the loading state
+            loading && (
+              <tr>
+                <td colSpan={6} className="text-center p-2">
+                  Loading...
+                </td>
+              </tr>
+            )
+          }
+          {
+            // ! This is the no data state
+            !loading && data && data.length === 0 && !error && (
+              <tr>
+                <td colSpan={6} className="text-center p-2">
+                  No Data Found
+                </td>
+              </tr>
+            )
+          }
+
+          {
+            // ! This is the error state
+            error && (
+              <tr>
+                <td colSpan={6} className="text-center py-3 px-2">
+                  <div className=" w-full flex flex-col gap-2 items-center justify-center">
+                    <p className="text-red-500 text-xl">{error}</p>
+                    <button
+                      onClick={fetchData}
+                      className="flex gap-1 items-center p-2 bg-gray-200 hover:bg-gray-300 rounded-xl"
+                    >
+                      <span>Retry</span>
+                      <ReloadIcon />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            )
+          }
         </tbody>
       </table>
     </div>

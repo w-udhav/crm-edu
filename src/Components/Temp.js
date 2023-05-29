@@ -37,18 +37,11 @@ export default function Temp({ children }) {
     <div className="min-h-screen w-full bg-grayishBlue bg-opacity-[15%] overflow-y-auto">
       <div className="flex flex-row w-full h-full">
         {/* Left */}
-        <div className="w-[18rem] h-full p-4 flex flex-col gap-3">
+        <div className="w-[16rem] lg:w-[18rem] h-full p-4 fixed lg:relative flex flex-col bg-white-1 gap-9 lg:shadow-none shadow-md ">
           {/* Title */}
           <h3 className="font-medium text-red-500 text-lg">
             High<span className="text-black-1">Hopes</span>
           </h3>
-
-          {/* New */}
-          <div>
-            <button className="px-2 py-3 w-32 rounded-xl bg-[#FFFFFF] outline-none shadow-sm shadow-black-1 hover:shadow-md transition-all ease-in">
-              New
-            </button>
-          </div>
 
           <div className="flex flex-col gap-1">
             {links.map((item) => {

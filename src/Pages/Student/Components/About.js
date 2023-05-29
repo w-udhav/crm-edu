@@ -5,7 +5,6 @@ export default function About({ isEdit, data }) {
   const [subjects, setSubjects] = useState(
     data.tutoringDetail.subjects ? data.tutoringDetail.subjects : false
   );
-  console.log(data.tutoringDetail);
 
   const dataFields = [
     {
@@ -41,13 +40,13 @@ export default function About({ isEdit, data }) {
   ];
 
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex gap-10">
+    <div className="flex flex-col gap-7">
+      <div className="flex flex-col xxl:flex-row gap-5">
         <div className="flex-1 flex flex-col gap-3">
           <h1 className="text-xl font-medium">Academic</h1>
           {subjects ? (
-            <div className="flex gap-2">
-              <div className="flex-1 flex flex-col gap-10">
+            <div className="flex flex-col lg:flex-row flex-wrap gap-5">
+              <div className="flex-1 flex flex-col gap-3">
                 {subjects.map((item, index) => {
                   return (
                     <SubjectCard
@@ -58,7 +57,7 @@ export default function About({ isEdit, data }) {
                 })}
               </div>
 
-              <div className="flex-1 flex flex-col gap-3 rounded-xl shadow-md p-5">
+              <div className="flex-1 flex flex-col gap-3 rounded-2xl shadow-md p-5">
                 <div className="flex justify-between items-start">
                   <h3 className="capitalize text-gray-400 text-sm">
                     Frequency
@@ -87,13 +86,13 @@ export default function About({ isEdit, data }) {
         </div>
 
         {/* payment */}
-        <div className="flex-1">
+        <div className="flex-1 border">
           <h1 className="text-xl font-medium">Chart</h1>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 grid-flow-row flex-col xl:flex-row gap-10">
-        <div className="flex-1 flex flex-col gap-3 rounded-xl border border-zinc-300 p-5">
+      <div className="flex-col gap-5">
+        <div className="max-w-[45rem] flex flex-col gap-3 rounded-2xl border border-zinc-300 p-5">
           <h3 className="capitalize text-gray-400 text-sm">
             Student's personal information
           </h3>

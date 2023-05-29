@@ -22,20 +22,33 @@ export default function Navbar({ location }) {
   return (
     <div className="w-full h-[8vh] p-2 flex items-center">
       <div className="flex w-full items-center gap-2 justify-between">
+        
+        
         <div className="flex-1 text-3xl font-medium text-blue-800 capitalize">
-          {location.pathname.split("/").pop()}
+          {location.pathname.split("/")[1]}
         </div>
+
+        {/* 
+        //! Search Bar
+        */}
         <div
-          className={`flex-1 flex items-center bg-zinc-200 p-3 rounded-full gap-2`}
+          className={`lg:flex-1 flex items-center lg:bg-zinc-200 p-3 rounded-full gap-2`}
         >
           <SearchIcon className="w-6 h-6 opacity-70" />
+          {
+            
+          }
           <input
             type="text"
             placeholder="Search for Student"
-            className="w-[30rem] bg-transparent outline-none border-none placeholder:text-zinc-700"
+            className="hidden lg:block max-w-[30rem] min-w-[18rem] bg-transparent outline-none border-none placeholder:text-zinc-700"
           />
         </div>
-        <div className="flex-1 flex justify-end items-center relative">
+
+        {/*
+        //! Profile
+        */}
+        <div className="lg:flex-1 flex justify-end items-center relative">
           {isOpen && <LeftArrowHead className="w-3 h-3" />}
           <button
             onClick={handleIsOpen}
@@ -43,7 +56,7 @@ export default function Navbar({ location }) {
               isOpen && "rotate-45 translate-x-2"
             } " transition-all"`}
           >
-            <SettingIcon className="w-6 h-6" />
+            <SettingIcon className="lg:w-6 lg:h-6" />
           </button>
 
           <AnimatePresence>
