@@ -22,8 +22,6 @@ export default function Navbar({ location }) {
   return (
     <div className="w-full h-[8vh] p-2 flex items-center">
       <div className="flex w-full items-center gap-2 justify-between">
-        
-        
         <div className="flex-1 text-3xl font-medium text-blue-800 capitalize">
           {location.pathname.split("/")[1]}
         </div>
@@ -32,17 +30,26 @@ export default function Navbar({ location }) {
         //! Search Bar
         */}
         <div
-          className={`lg:flex-1 flex items-center lg:bg-zinc-200 p-3 rounded-full gap-2`}
+          className={`lg:flex-1 flex items-center relative lg:bg-zinc-200 px-3 py-2 rounded-lg gap-2`}
         >
           <SearchIcon className="w-6 h-6 opacity-70" />
-          {
-            
-          }
           <input
             type="text"
             placeholder="Search for Student"
-            className="hidden lg:block max-w-[30rem] min-w-[18rem] bg-transparent outline-none border-none placeholder:text-zinc-700"
+            className="hidden lg:block w-full min-w-[18rem] bg-transparent outline-none border-none placeholder:text-zinc-700"
           />
+
+          {
+            // ? This is the dropdown for search
+          }
+          {/* <div className="absolute z-20 top-12 left-0 w-full border bg-white-og rounded-lg p-2">
+            <div className="">
+              <p className="py-1 border-b">Student 1</p>
+              <p className="py-1 border-b">Student 2</p>
+              <p className="py-1 border-b">Student 3</p>
+              <p className="py-1 border-b">Student 4</p>
+            </div>
+          </div> */}
         </div>
 
         {/*

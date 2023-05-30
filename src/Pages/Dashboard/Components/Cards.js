@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BankIcon,
   CalIcon,
   CashIcon,
   GroupUserIcon,
 } from "../../../Components/Icons";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Cards() {
+  const [isChange, setIsChange] = useState(true);
   const card = [
     {
       id: 1,
@@ -41,28 +43,183 @@ export default function Cards() {
       // fill="#eb1f48"
     },
   ];
-  return card.map((item) => {
-    return (
-      <div
-        key={item.id}
-        className="p-8 w-[11rem] h-[10rem] rounded-3xl shadow-md flex justify-center items-center bg-white-og text-charcoal"
-      >
+  // return card.map((item) => {
+  //   return (
+  //     <div
+  //       key={item.id}
+  //       className="p-8 w-[11rem] h-[10rem] rounded-3xl shadow-md flex justify-center items-center bg-white-og text-charcoal"
+  //     >
+  //       <div className="flex flex-col items-center text-center gap-3">
+  //         <div>
+  //           {item.icon ? (
+  //             <div
+  //               className={`w-12 h-12 rounded-2xl flex justify-center items-center ${item.color}`}
+  //             >
+  //               {item.icon}
+  //             </div>
+  //           ) : (
+  //             <div className="w-12 h-12 rounded-2xl bg-blue-50"></div>
+  //           )}
+  //         </div>
+  //         <div className="text-3xl font-bold">{item.value}</div>
+  //         <div className=" font-medium text-zinc-500 ">{item.title}</div>
+  //       </div>
+  //     </div>
+  //   );
+  // });
+  return (
+    <div className="flex xl:grid xl:grid-cols-2 xl:grid-flow-row gap-5">
+      <div className="p-8 w-[11rem] h-[10rem] rounded-3xl shadow-md flex justify-center items-center bg-white-og text-charcoal">
         <div className="flex flex-col items-center text-center gap-3">
           <div>
-            {item.icon ? (
-              <div
-                className={`w-12 h-12 rounded-2xl flex justify-center items-center ${item.color}`}
-              >
-                {item.icon}
-              </div>
-            ) : (
-              <div className="w-12 h-12 rounded-2xl bg-blue-50"></div>
-            )}
+            <div
+              className={`w-12 h-12 rounded-2xl flex justify-center items-center bg-[#daeafe]`}
+            >
+              <GroupUserIcon className="w-7 h-7" fill="#0873F7" />
+            </div>
           </div>
-          <div className="text-3xl font-bold">{item.value}</div>
-          <div className=" font-medium text-zinc-500 ">{item.title}</div>
+          <div className="text-3xl font-bold">500</div>
+          <div className=" font-medium text-zinc-500 ">Total</div>
         </div>
       </div>
-    );
-  });
+
+      <div className="p-8 w-[11rem] h-[10rem] rounded-3xl shadow-md flex justify-center items-center bg-white-og text-charcoal">
+        <div className="flex flex-col items-center text-center gap-3">
+          <div>
+            <div
+              className={`w-12 h-12 rounded-2xl flex justify-center items-center bg-[#fcfeda]`}
+            >
+              <CalIcon className="w-7 h-7" fill="#ebf708" />
+            </div>
+          </div>
+          <div className="text-3xl font-bold">50</div>
+          <div className=" font-medium text-zinc-500 ">Today</div>
+        </div>
+      </div>
+
+      <button
+        className=" col-span-2 w-[23.5rem] min-h-[10.5rem] max-h-[11.5rem] relative overflow-hidden rounded-3xl pb-2"
+        onClick={() => setIsChange(!isChange)}
+      >
+        <AnimatePresence>
+          {isChange && (
+            <motion.div
+              initial={{ y: "100px", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "-100px", opacity: 0 }}
+              transition={{ duration: 0.3, type: "spring" }}
+              className="p-5 top-0 left-0 absolute w-[23.5rem] min-h-[10rem] max-h-[11.5rem] col-span-2 rounded-3xl shadow-md flex flex-col items-center bg-white-og text-charcoal"
+            >
+              <div className="flex flex-col gap-4 w-full">
+                {/* //! Section-1 */}
+                <div className="flex items-center w-full justify-between">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-11 h-11 rounded-2xl flex justify-center items-center bg-[#dafeee]`}
+                    >
+                      <CashIcon className="w-7 h-7" fill="#00e038" />
+                    </div>
+
+                    <div>
+                      <div className="text-zinc-500 text-lg font-medium">
+                        Cash
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* //*  number */}
+                  <div>
+                    <div className="text-3xl font-bold">300</div>
+                  </div>
+                </div>
+
+                <div className="border-b"></div>
+
+                {/* //! Section-2 */}
+                <div className="flex items-center w-full justify-between">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-11 h-11 rounded-2xl flex justify-center items-center bg-[#fcdde4]`}
+                    >
+                      <BankIcon className="w-6 h-6" fill="#eb1f48" />
+                    </div>
+
+                    <div>
+                      <div className="text-zinc-500 text-lg font-medium">
+                        Online
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* //*  number */}
+                  <div>
+                    <div className="text-3xl font-bold">150</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {!isChange && (
+            <motion.div
+              initial={{ y: "100px", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "-100px", opacity: 0 }}
+              transition={{ duration: 0.3, type: "spring" }}
+              className="p-5 top-0 left-0 absolute w-[23.5rem] min-h-[10rem] max-h-[11.5rem] col-span-2 rounded-3xl shadow-md flex flex-col items-center bg-white-og text-charcoal"
+            >
+              <div className="flex flex-col gap-4 w-full">
+                {/* //! Section-1 */}
+                <div className="flex items-center w-full justify-between">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-11 h-11 rounded-2xl flex justify-center items-center bg-[#dafeee]`}
+                    >
+                      <CashIcon className="w-7 h-7" fill="#00e038" />
+                    </div>
+
+                    <div>
+                      <div className="text-zinc-500 text-lg font-medium">
+                        Active
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* //*  number */}
+                  <div>
+                    <div className="text-3xl font-bold">200</div>
+                  </div>
+                </div>
+
+                <div className="border-b"></div>
+
+                {/* //! Section-2 */}
+                <div className="flex items-center w-full justify-between">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-11 h-11 rounded-2xl flex justify-center items-center bg-[#fcdde4]`}
+                    >
+                      <BankIcon className="w-6 h-6" fill="#eb1f48" />
+                    </div>
+
+                    <div>
+                      <div className="text-zinc-500 text-lg font-medium">
+                        Inactive
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* //*  number */}
+                  <div>
+                    <div className="text-3xl font-bold">300</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </button>
+    </div>
+  );
 }

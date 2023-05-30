@@ -12,10 +12,12 @@ export default function AuthRoute({ user }) {
   //   </Routes>
   // );
 
-  return (
+  return !user ? (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<Navigate to="/auth/login" />} />
     </Routes>
+  ) : (
+    <Navigate to="/dashboard" />
   );
 }

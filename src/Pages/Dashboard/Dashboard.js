@@ -56,9 +56,8 @@ export default function Dashboard() {
           <div>
             <h3 className="text-3xl font-semibold">Overview</h3>
           </div>
-          <div className="flex xl:grid xl:grid-cols-2 xl:grid-flow-row gap-5">
-            <Cards />
-          </div>
+
+          <Cards />
         </div>
       </div>
 

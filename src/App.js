@@ -1,8 +1,8 @@
 import React from "react";
+import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import DashboardRoutes from "./Routes/DashboardRoutes";
 import { AuthContext } from "./Utils/Context/AuthContext";
-import { useContext, useState } from "react";
 import AuthRoute from "./Routes/AuthRoute";
 import Enroll from "./Pages/Form/Enroll";
 // import PrivateRoute from "./Routes/PrivateRoute";
@@ -15,7 +15,11 @@ export default function App() {
       <Route path="/auth/*" element={<AuthRoute user={user} />} />
       <Route path="/dashboard/*" element={<DashboardRoutes user={user} />} />
       <Route path="/form" element={<Enroll />} />
-      <Route path="*" element={<Navigate to="/auth/login" />} />
+      {user ? (
+        <Route path="*" element={<Navigate to="/dashboard" />} />
+      ) : (
+        <Route path="*" element={<Navigate to="/auth/login" />} />
+      )}
     </Routes>
 
     // <Routes>
