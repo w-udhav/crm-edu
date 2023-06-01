@@ -4,11 +4,13 @@ import About from "./Components/About";
 import Parents from "./Components/Parents";
 import Medical from "./Components/Medical";
 import Address from "./Components/Address";
+import user from "../../Assets/User/user.jpg";
 import {
   AboutIcon,
   AddressIcon,
   EditIcon,
   LeftArrowHead,
+  MedicalIcon,
   ParentsIcon,
 } from "../../Components/Icons";
 import { useParams } from "react-router-dom";
@@ -49,7 +51,7 @@ export default function Student() {
       id: 4,
       name: "Medical",
       component: "/medical",
-      // icon: <MedicalIcon />
+      icon: <MedicalIcon className="w-6 h-6" />,
     },
   ];
 
@@ -108,7 +110,9 @@ export default function Student() {
           {/* Header */}
           <div className="flex justify-between items-center px-8">
             <div className="flex gap-5 items-center">
-              <div className="w-20 h-20 bg-zinc-400 rounded-full"></div>
+              <div className="w-20 h-20 rounded-full">
+                <img src={user} className="rounded-full object-cover" />
+              </div>
               <div className="flex flex-col">
                 <h3 className="text-3xl">
                   {studentData.firstName} {studentData.lastName}

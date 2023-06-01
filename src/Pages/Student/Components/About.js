@@ -6,36 +6,60 @@ export default function About({ isEdit, data }) {
     data.tutoringDetail.subjects ? data.tutoringDetail.subjects : false
   );
 
+  const [form, setForm] = useState({
+    firstName: data.firstName,
+    lastName: data.lastName,
+    email: data.email,
+    dob: data.dob,
+    gender: data.gender,
+    schoolName: data.schoolName,
+    schoolYear: data.schoolYear,
+  });
+
   const dataFields = [
     {
       id: 1,
       name: "Full Name",
       value: data.firstName + " " + data.lastName,
+      ref: "firstName",
+      ref2: "lastName",
+      type: "text",
     },
     {
       id: 2,
       name: "Email",
       value: data.email,
+      ref: "email", // ? Ref is used to identify the input field
+      type: "email",
     },
     {
       id: 3,
       name: "Date of Birth",
       value: data.dob,
+      ref: "dob",
+      type: "date",
     },
     {
       id: 4,
       name: "Gender",
       value: data.gender,
+      ref: "gender",
+      type: "text",
+      options: ["Male", "Female", "Other"],
     },
     {
       id: 5,
       name: "School Name",
       value: data.schoolName,
+      ref: "schoolName",
+      type: "text",
     },
     {
       id: 6,
       name: "School Year",
       value: data.schoolYear,
+      ref: "schoolYear",
+      type: "number",
     },
   ];
 
@@ -107,11 +131,51 @@ export default function About({ isEdit, data }) {
                 >
                   <p className="flex-1 text-gray-600"> {item.name} </p>
                   {isEdit ? (
-                    <input
-                      className="flex-1 p-1 rounded-md"
-                      type="text"
-                      value={item.value}
-                    />
+                    item.ref2 ? (
+                      <div className="flex-1 flex gap-3">
+                        <input
+                          type={item.type}
+                          className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
+                          defaultValue={form[item.ref]}
+                          onChange={(e) =>
+                            setForm({ ...form, [item.ref]: e.target.value })
+                          }
+                        />
+                        <input
+                          type={item.type}
+                          className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
+                          defaultValue={form[item.ref2]}
+                          onChange={(e) =>
+                            setForm({ ...form, [item.ref2]: e.target.value })
+                          }
+                        />
+                      </div>
+                    ) : item.options ? (
+                      <select
+                        className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
+                        defaultValue={form[item.ref]}
+                        onChange={(e) =>
+                          setForm({ ...form, [item.ref]: e.target.value })
+                        }
+                      >
+                        {item.options.map((option, index) => {
+                          return (
+                            <option key={index} value={option}>
+                              {option}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    ) : (
+                      <input
+                        type={item.type}
+                        className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
+                        defaultValue={form[item.ref]}
+                        onChange={(e) =>
+                          setForm({ ...form, [item.ref]: e.target.value })
+                        }
+                      />
+                    )
                   ) : (
                     <p className="flex-1"> {item.value} </p>
                   )}

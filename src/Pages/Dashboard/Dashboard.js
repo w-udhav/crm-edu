@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Cards from "./Components/Cards";
 import Table from "../../Components/Table";
-import { getStudents } from "../../Utils/Api/Api";
+import { getMiscData, getStudents } from "../../Utils/Api/Api";
 import { ReloadIcon } from "../../Components/Icons";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Dashboard() {
   const headings = ["Name", "Email", "Phone", "Subject", "Status", "Action"];
@@ -24,6 +25,7 @@ export default function Dashboard() {
   // }
 
   const [data, setData] = useState([]);
+  const [miscData, setMiscData] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -31,7 +33,9 @@ export default function Dashboard() {
       setError(null);
       setData([]);
       const data = await getStudents();
+      const miscData = await getMiscData();
       setData(data);
+      setMiscData(miscData);
       setLoading(false);
       console.log("running");
     } catch (err) {
@@ -45,7 +49,12 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col gap-5 overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      className="w-full h-full flex flex-col gap-5 overflow-hidden"
+    >
       {/* Section 1 - Display */}
       <div className="flex flex-col xl:flex-row gap-5">
         {/* Section 1.1 - Display - Left */}
@@ -57,7 +66,7 @@ export default function Dashboard() {
             <h3 className="text-3xl font-semibold">Overview</h3>
           </div>
 
-          <Cards />
+          <Cards data={miscData} />
         </div>
       </div>
 
@@ -93,6 +102,6 @@ export default function Dashboard() {
           fetchData={fetchData}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }

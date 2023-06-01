@@ -6,6 +6,16 @@ export const getStudents = async () => {
   return data;
 };
 
+export const getMiscData = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/student/misc`);
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const sendForm = async (data) => {
   // console.log(data);
   const formData = {

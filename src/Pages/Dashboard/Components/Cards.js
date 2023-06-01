@@ -7,7 +7,7 @@ import {
 } from "../../../Components/Icons";
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function Cards() {
+export default function Cards({ data }) {
   const [isChange, setIsChange] = useState(true);
   const card = [
     {
@@ -43,6 +43,8 @@ export default function Cards() {
       // fill="#eb1f48"
     },
   ];
+
+  const { active, inactive, offlinePayment, onlinePayment } = data;
   // return card.map((item) => {
   //   return (
   //     <div
@@ -89,7 +91,7 @@ export default function Cards() {
             <div
               className={`w-12 h-12 rounded-2xl flex justify-center items-center bg-[#fcfeda]`}
             >
-              <CalIcon className="w-7 h-7" fill="#ebf708" />
+              <CalIcon className="w-7 h-7" fill="#ffd300" />
             </div>
           </div>
           <div className="text-3xl font-bold">50</div>
@@ -98,17 +100,17 @@ export default function Cards() {
       </div>
 
       <button
-        className=" col-span-2 w-[23.5rem] min-h-[10.5rem] max-h-[11.5rem] relative overflow-hidden rounded-3xl pb-2"
+        className=" col-span-2 w-[23.6rem] min-h-[10.5rem] max-h-[11.5rem] outline-none relative overflow-y-hidden rounded-3xl pb-2"
         onClick={() => setIsChange(!isChange)}
       >
         <AnimatePresence>
           {isChange && (
             <motion.div
-              initial={{ y: "100px", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "-100px", opacity: 0 }}
+              initial={{ y: "100px", opacity: 0, zIndex: -1 }}
+              animate={{ y: 0, opacity: 1, zIndex: 1 }}
+              exit={{ y: "-100px", opacity: 0, zIndex: -1 }}
               transition={{ duration: 0.3, type: "spring" }}
-              className="p-5 top-0 left-0 absolute w-[23.5rem] min-h-[10rem] max-h-[11.5rem] col-span-2 rounded-3xl shadow-md flex flex-col items-center bg-white-og text-charcoal"
+              className="p-5 top-0 left-0 absolute w-[23.5rem] min-h-[10rem] max-h-[11.5rem] col-span-2 rounded-3xl shadow-md flex flex-col justify-center items-center bg-white-og text-charcoal"
             >
               <div className="flex flex-col gap-4 w-full">
                 {/* //! Section-1 */}
@@ -129,7 +131,7 @@ export default function Cards() {
 
                   {/* //*  number */}
                   <div>
-                    <div className="text-3xl font-bold">300</div>
+                    <div className="text-3xl font-bold">{offlinePayment}</div>
                   </div>
                 </div>
 
@@ -153,7 +155,7 @@ export default function Cards() {
 
                   {/* //*  number */}
                   <div>
-                    <div className="text-3xl font-bold">150</div>
+                    <div className="text-3xl font-bold">{onlinePayment}</div>
                   </div>
                 </div>
               </div>
@@ -163,20 +165,20 @@ export default function Cards() {
         <AnimatePresence>
           {!isChange && (
             <motion.div
-              initial={{ y: "100px", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "-100px", opacity: 0 }}
+              initial={{ y: "100px", opacity: 0, zIndex: -1 }}
+              animate={{ y: 0, opacity: 1, zIndex: 1 }}
+              exit={{ y: "-100px", opacity: 0, zIndex: -1 }}
               transition={{ duration: 0.3, type: "spring" }}
-              className="p-5 top-0 left-0 absolute w-[23.5rem] min-h-[10rem] max-h-[11.5rem] col-span-2 rounded-3xl shadow-md flex flex-col items-center bg-white-og text-charcoal"
+              className="p-5 top-0 left-0 absolute w-[23.5rem] min-h-[10rem] max-h-[11.5rem] col-span-2 rounded-3xl shadow-md flex flex-col justify-center items-center bg-white-og text-charcoal"
             >
               <div className="flex flex-col gap-4 w-full">
                 {/* //! Section-1 */}
                 <div className="flex items-center w-full justify-between">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-11 h-11 rounded-2xl flex justify-center items-center bg-[#dafeee]`}
+                      className={`w-3 h-3 rounded-full flex justify-center items-center bg-green-500`}
                     >
-                      <CashIcon className="w-7 h-7" fill="#00e038" />
+                      {/* <CashIcon className="w-7 h-7" fill="#00e038" /> */}
                     </div>
 
                     <div>
@@ -188,7 +190,9 @@ export default function Cards() {
 
                   {/* //*  number */}
                   <div>
-                    <div className="text-3xl font-bold">200</div>
+                    <div className="text-3xl text-green-500 font-bold">
+                      {active}
+                    </div>
                   </div>
                 </div>
 
@@ -198,9 +202,9 @@ export default function Cards() {
                 <div className="flex items-center w-full justify-between">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-11 h-11 rounded-2xl flex justify-center items-center bg-[#fcdde4]`}
+                      className={`w-3 h-3 rounded-full flex justify-center items-center bg-red-500`}
                     >
-                      <BankIcon className="w-6 h-6" fill="#eb1f48" />
+                      {/* <BankIcon className="w-6 h-6" fill="#eb1f48" /> */}
                     </div>
 
                     <div>
@@ -212,7 +216,9 @@ export default function Cards() {
 
                   {/* //*  number */}
                   <div>
-                    <div className="text-3xl font-bold">300</div>
+                    <div className="text-3xl text-red-500 font-bold">
+                      {inactive}
+                    </div>
                   </div>
                 </div>
               </div>

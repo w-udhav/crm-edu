@@ -73,7 +73,8 @@ export default function Enrol() {
   };
 
   // ? Clear the form
-  const handleClear = () => {
+  const handleClear = (e) => {
+    e.preventDefault();
     if (window.confirm("Are you sure, you want to clear the form?")) {
       setFormData({
         // * Student
@@ -348,12 +349,12 @@ export default function Enrol() {
             );
           })}
           <div className="flex justify-between items-center">
-            {/* <button
-              // onClick={handleClear}
+            <button
+              onClick={handleClear}
               className="py-2 rounded-md transition-all text-red-500"
             >
               Clear
-            </button> */}
+            </button>
 
             <button
               disabled={formData.terms === true ? false : true}

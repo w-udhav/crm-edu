@@ -1,30 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getStudents } from "../../../Utils/Api/Api";
 
 export default function MailList({ toMail, setToMail }) {
   const [selectAll, setSelectAll] = useState(false);
-  const [selected, setSelected] = useState([]);
+  const [selectedEmails, setSelectedEmails] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [data, setData] = useState([]);
+
+  //? handle email selection
+  const handleEmailSelection = (e, email) => {
+    const index = toMail.indexOf(email);
+    if (index > -1) {
+      const arr = [...toMail];
+      arr.splice(index, 1);
+      setToMail(arr);
+    } else {
+      setToMail([...toMail, email]);
+    }
+
+    setSelectedEmails((prev) => {
+      // * creating a copy of the previous state
+      const updatedSelection = { ...prev };
+
+      // * if the email is already selected, then remove it from the list
+      if (updatedSelection[email]) {
+        delete updatedSelection[email];
+      }
+      // * else add it to the list
+      else {
+        updatedSelection[email] = true;
+      }
+
+      return updatedSelection;
+    });
+  };
+
+  //? handle select all
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedEmails({});
+      setToMail([]);
+    } else {
+      const allEmails = data.map((item) => item.email);
+      setToMail(allEmails);
+      const selectedEmails = allEmails.reduce((acc, email) => {
+        acc[email] = true;
+        return acc;
+      }, {});
+      setSelectedEmails(selectedEmails);
+    }
+    setSelectAll(!selectAll);
+  };
+
+  //? fetch data
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      setData([]);
+      const data = await getStudents();
+      setData(data);
+      setLoading(false);
+      console.log("running");
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const headings = ["Name", "Student's Email", "Parent's Email", "Status"];
-  const data = [
-    {
-      id: 1,
-      name: "Full Name",
-      stuEmail: "abc@test.com",
-      paEmail: "parent@mail.com",
-    },
-    {
-      id: 2,
-      name: "Full Name",
-      stuEmail: "abc@test.com",
-      paEmail: "parent@mail.com",
-    },
-    {
-      id: 3,
-      name: "Full Name",
-      stuEmail: "abc@test.com",
-      paEmail: "parent@mail.com",
-    },
-  ];
 
   return (
     <div className="border rounded-xl overflow-hidden">
@@ -39,7 +89,7 @@ export default function MailList({ toMail, setToMail }) {
                     name="selectAll"
                     id="selectAll"
                     className="z-10 cursor-pointer w-4 h-4"
-                    onChange={(e) => setSelectAll(e.target.checked)}
+                    onChange={handleSelectAll}
                     checked={selectAll}
                   />
                   {/* <div className="bg-blue-100 absolute w-6 h-6 p-4 z-0 rounded-full"></div> */}
@@ -55,7 +105,7 @@ export default function MailList({ toMail, setToMail }) {
           <tbody>
             {data.map((row, index) => (
               <tr
-                key={row.id}
+                key={row._id}
                 className="hover:bg-blue-50 transition-all ease-in-out"
               >
                 <td className="w-1 py-1 px-4">
@@ -63,23 +113,19 @@ export default function MailList({ toMail, setToMail }) {
                     type="checkbox"
                     name="selectAll"
                     id="selectAll"
-                    value={row.paEmail}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelected([...selected, e.target.value]);
-                      } else {
-                        setSelected(
-                          selected.filter((item) => item !== e.target.value)
-                        );
-                      }
-                    }}
+                    className="w-4 h-4 cursor-pointer"
+                    value={row.email}
+                    checked={!!selectedEmails[row.email]}
+                    onChange={(e) => handleEmailSelection(e, row.email)}
                   />
                 </td>
-                <td className=" px-2 py-1">{row.name}</td>
-                <td className=" px-2 py-1">{row.stuEmail}</td>
-                <td className=" px-2 py-1">{row.paEmail}</td>
-                <td className=" px-2 py-1">
-                  {row.status ? (
+                <td className="px-2 py-1">{row.firstName}</td>
+                <td className="px-2 py-1">{row.email}</td>
+                <td className="px-2 py-1">
+                  {row.parentEmail ? row.parentEmail : "NA"}
+                </td>
+                <td className="px-2 py-1">
+                  {row.status === "Active" ? (
                     <span className="text-green-500 rounded-full">Active</span>
                   ) : (
                     <span className="text-red-500 rounded-full">Inactive</span>
