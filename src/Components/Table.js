@@ -2,6 +2,7 @@ import React from "react";
 import SubjectList from "./SubjectList";
 import { useNavigate } from "react-router-dom";
 import { ReloadIcon } from "./Icons";
+import Loader from "./Loader";
 
 export default function Table({ headings, data, loading, error, fetchData }) {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ export default function Table({ headings, data, loading, error, fetchData }) {
             loading && (
               <tr>
                 <td colSpan={6} className="text-center p-2">
-                  Loading...
+                  <Loader />
                 </td>
               </tr>
             )

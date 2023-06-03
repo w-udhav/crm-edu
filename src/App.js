@@ -14,7 +14,7 @@ export default function App() {
     <Routes>
       <Route path="/auth/*" element={<AuthRoute user={user} />} />
       <Route path="/dashboard/*" element={<DashboardRoutes user={user} />} />
-      <Route path="/form" element={<Enroll />} />
+      <Route path="/form" element={<Enroll user={user} />} />
       {user ? (
         <Route path="*" element={<Navigate to="/dashboard" />} />
       ) : (

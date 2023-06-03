@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import MailList from "./Components/MailList";
 import { AnimatePresence, motion } from "framer-motion";
+import { sendEmail } from "../../Utils/Api/Api";
+import Loader from "../../Components/Loader";
+import Success from "../../Components/Success";
 
 export default function Mail() {
   const [toMail, setToMail] = useState([]);
@@ -9,6 +12,14 @@ export default function Mail() {
     body: "",
   });
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState({
+    to: "",
+    subject: "",
+    body: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [isDis, setIsDis] = useState(true);
+  const [success, setSuccess] = useState(false);
 
   //? handle modal
   const handleModal = (res) => {
@@ -25,6 +36,74 @@ export default function Mail() {
   //? handle change
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+    if (data.subject.length > 0) setError({ ...error, subject: "" });
+    if (data.body.length > 0) setError({ ...error, body: "" });
+    if (toMail.length > 0) setError({ ...error, to: "" });
+
+    if (data.subject.length > 0 && data.body.length > 0 && toMail.length > 0) {
+      setIsDis(false);
+    } else {
+      setIsDis(true);
+    }
+  };
+
+  //? handle send mail
+  const handleSend = async () => {
+    if (toMail.length === 0) {
+      return setError({
+        ...error,
+        to: "Please enter atleast one email",
+      });
+    } else {
+      setError({
+        ...error,
+        to: "",
+      });
+      console.log("error to");
+    }
+
+    if (data.subject === "") {
+      return setError({
+        ...error,
+        subject: "Please enter subject",
+      });
+    } else {
+      setError({
+        ...error,
+        subject: "",
+      });
+    }
+
+    if (data.body === "") {
+      return setError({
+        ...error,
+        body: "Please enter body",
+      });
+    } else {
+      setError({
+        ...error,
+        body: "",
+      });
+    }
+
+    try {
+      setLoading(true);
+      const res = await sendEmail({
+        to: toMail,
+        subject: data.subject,
+        body: data.body,
+      });
+      handleClear();
+      console.log(res);
+      setLoading(false);
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 2000);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,7 +129,7 @@ export default function Mail() {
         <div className="flex flex-col bg-white-og">
           {/* To */}
           <div className="border-b px-3 py-[6px] flex items-center gap-2 flex-wrap">
-            <span>To:</span>
+            <span className={`${error.to && "text-red-500"}`}>To:</span>
 
             {/* To mails */}
             <div className="flex gap-1">
@@ -75,7 +154,9 @@ export default function Mail() {
             onChange={handleChange}
             value={data.subject}
             autoComplete="off"
-            className="border-b outline-none px-3 py-[6px] text-[15px]"
+            className={`border-b outline-none px-3 py-[6px] text-[15px] ${
+              error.subject && "placeholder:text-red-500"
+            }`}
             placeholder="Subject"
           />
         </div>
@@ -89,16 +170,28 @@ export default function Mail() {
             name="body"
             value={data.body}
             onChange={handleChange}
-            className="w-full outline-none p-3 text-[15px] -mb-1"
+            className={`w-full outline-none p-3 text-[15px] -mb-1
+              ${error.body && "placeholder:text-red-500"}
+            `}
           ></textarea>
         </div>
 
         {/* Buttons */}
         <div className="p-3 border-t border-gray-300 ">
-          <div>
-            <button className="bg-blue-600 font-medium text-white px-6 py-2 rounded-full">
-              Send
+          <div className="flex justify-between items-center">
+            <button
+              onClick={handleSend}
+              disabled={loading || isDis}
+              className={`bg-blue-600 font-medium text-white px-6 py-2 rounded-full
+                ${
+                  (loading || isDis) &&
+                  "cursor-not-allowed opacity-50 bg-gray-500"
+                }
+              `}
+            >
+              {loading ? "Sending..." : "Send"}
             </button>
+            {/* {error && <span className="text-red-500 text-[13px]">{error}</span>} */}
           </div>
         </div>
 
@@ -143,6 +236,19 @@ export default function Mail() {
                   </button>
                 </div>
               </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {success && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="w-full h-full bg-black bg-opacity-40 flex justify-center items-center absolute top-0 left-0 backdrop-blur-[2px]"
+            >
+              <Success />
             </motion.div>
           )}
         </AnimatePresence>

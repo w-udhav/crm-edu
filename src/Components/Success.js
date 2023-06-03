@@ -1,11 +1,11 @@
 import React from "react";
 import Lottie from "lottie-react";
-import loadingCicle from "../Assets/Lotties/loadingCircle.json";
+import done from "../Assets/Lotties/done.json";
 
-export default function Loader() {
+export default function Success() {
   return (
     <div className="w-full h-full flex justify-center items-center">
-      <Lottie animationData={loadingCicle} />
+      <Lottie animationData={done} className="w-60" />
     </div>
   );
 }

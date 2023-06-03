@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { data } from "./data";
 import Number from "./Components/Number";
 import { sendForm } from "../../Utils/Api/Api";
+import Loader from "../../Components/Loader";
+import { useNavigate } from "react-router-dom";
+import Success from "../../Components/Success";
 
-export default function Enrol() {
+export default function Enrol({ user }) {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState({});
   const [formData, setFormData] = useState({
     // * Student
     firstName: "",
@@ -42,7 +48,7 @@ export default function Enrol() {
     terms: false,
   });
 
-  const [error, setError] = useState({});
+  const navigate = useNavigate();
 
   // ? Handle the Form Change
   const handleChange = (e) => {
@@ -67,9 +73,26 @@ export default function Enrol() {
     setError(validation);
     console.log("error" + error);
 
-    sendForm(formData).then((res) => {
-      console.log(res);
-    });
+    setLoading(true);
+
+    try {
+      sendForm(formData).then((res) => {
+        console.log(res);
+      });
+      setLoading(false);
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        if (user) {
+          navigate("/dashboard");
+        } else {
+          navigate("auth/login");
+        }
+      }, 2000);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
   };
 
   // ? Clear the form
@@ -348,24 +371,34 @@ export default function Enrol() {
               </div>
             );
           })}
-          <div className="flex justify-between items-center">
-            <button
-              onClick={handleClear}
-              className="py-2 rounded-md transition-all text-red-500"
-            >
-              Clear
-            </button>
-
-            <button
-              disabled={formData.terms === true ? false : true}
-              onClick={handleSubmit}
-              className="px-5 py-2 text-white  bg-blue-600 disabled:bg-gray-500 transition-all ease-linear rounded-md"
-            >
-              Submit
-            </button>
-          </div>
         </form>
       </div>
+      <div className="sticky bottom-0 backdrop-blur-sm py-1 w-full flex justify-center">
+        <div className="w-[45rem] p-1 flex justify-between items-center">
+          <button
+            onClick={handleClear}
+            className="py-2 rounded-md transition-all text-red-500"
+          >
+            Clear
+          </button>
+
+          <button
+            disabled={formData.terms ? false : true}
+            onClick={handleSubmit}
+            className="px-5 py-2 text-white  bg-blue-600 disabled:bg-gray-500 transition-all ease-linear rounded-md"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+
+      {/* Loader */}
+      {(loading || success) && (
+        <div className="fixed bg-black bg-opacity-80 w-full h-full top-0 left-0">
+          {loading && <Loader />}
+          {success && <Success />}
+        </div>
+      )}
     </div>
   );
 }
