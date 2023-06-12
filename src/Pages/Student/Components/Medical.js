@@ -37,7 +37,8 @@ export default function Medical({ isEdit, data }) {
             return (
               <div
                 key={item.id}
-                className="border-b hover:bg-gray-100 border-gray-300 hover:px-3 py-5 hover:rounded-t-md transition-all ease-linear flex gap-3"
+                  className="borde hover:bg-blue-100 border-gray-300 hover:scale-[1.04] hover:px-2 py-3 hover:rounded-t-md transition-all ease-linear flex gap-3"
+                  // className="border-b hover:bg-gray-100 border-gray-300 hover:px-3 py-5 hover:rounded-t-md transition-all ease-linear flex gap-3"
               >
                 <p className="flex-1 text-gray-600"> {item.name} </p>
                 <div className="flex-1 flex flex-col gap-1">

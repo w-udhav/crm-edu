@@ -140,7 +140,6 @@ export const data = [
       },
     ],
   },
-  
 
   // ? Preferred Days
   {
@@ -155,6 +154,16 @@ export const data = [
         placeholder: "",
         value: "",
         options: ["Once a week", "Twice a week", "Thrice a week"],
+        required: true,
+      },
+      {
+        id: 4,
+        name: "Preferred Days",
+        type: "checkbox",
+        key: "preferredDays",
+        placeholder: "",
+        value: "",
+        options: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         required: true,
       },
       {

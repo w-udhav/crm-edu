@@ -42,6 +42,7 @@ export default function Enrol({ user }) {
     // * Subjects
     subjects: [],
     frequency: 0,
+    preferredDays: [],
     paymentMethod: "",
 
     // * Terms
@@ -134,7 +135,8 @@ export default function Enrol({ user }) {
 
         // * Subjects
         subjects: [],
-        frequency: "",
+        frequency: 0,
+        preferredDays: [],
         paymentMethod: "",
 
         // * Terms
@@ -295,7 +297,8 @@ export default function Enrol({ user }) {
                     if (
                       item.type === "checkbox" &&
                       Array.isArray(item.options) &&
-                      item.key !== "terms"
+                      item.key !== "terms" &&
+                      item.key !== "preferredDays"
                     ) {
                       return (
                         <div
@@ -316,7 +319,7 @@ export default function Enrol({ user }) {
                                   <input
                                     type="checkbox"
                                     name={item.key}
-                                    id=""
+                                    id={option}
                                     value={option}
                                     onChange={() => {
                                       // setFormData();
@@ -328,7 +331,48 @@ export default function Enrol({ user }) {
                                     className="border-b outline-none focus:border-black-1 text-black"
                                     placeholder="Short answer"
                                   />
-                                  <label htmlFor="">{option}</label>
+                                  <label htmlFor={option}>{option}</label>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    if (item.key === "preferredDays") {
+                      return (
+                        <div
+                          key={item.id}
+                          style={{
+                            borderColor: error[item.key] && "red",
+                          }}
+                          className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-6"
+                        >
+                          <div>{item.name}</div>
+                          <div className="flex flex-col gap-2">
+                            {item.options.map((option, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-2"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    name={item.key}
+                                    id={option}
+                                    value={option}
+                                    disabled={formData.frequency === 0}
+                                    onChange={() => {
+                                      formData.preferredDays = [
+                                        ...formData.preferredDays,
+                                        option,
+                                      ];
+                                    }}
+                                    className="border-b outline-none focus:border-black-1 text-black"
+                                    placeholder="Short answer"
+                                  />
+                                  <label htmlFor={option}>{option}</label>
                                 </div>
                               );
                             })}
@@ -373,7 +417,7 @@ export default function Enrol({ user }) {
           })}
         </form>
       </div>
-      <div className="sticky bottom-0 backdrop-blur-sm py-1 w-full flex justify-center">
+      <div className="sticky bottom-0 backdrop-blur-sm bg-white-og bg-opacity-80 shadow-md py-1 w-full flex justify-center">
         <div className="w-[45rem] p-1 flex justify-between items-center">
           <button
             onClick={handleClear}

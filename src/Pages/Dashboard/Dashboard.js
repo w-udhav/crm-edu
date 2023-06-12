@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cards from "./Components/Cards";
 import Table from "../../Components/Table";
+import CommentBox from "../../Components/CommentBox";
 import { getMiscData, getStudents } from "../../Utils/Api/Api";
 import { ReloadIcon } from "../../Components/Icons";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,18 +12,18 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   //? Data from API   {
-  //     "_id": "646b062195c8ade227e4222d",
-  //     "firstName": "Ujjwal",
-  //     "email": "ujjwal@gmail.com",
-  //     "phone": 9559971272,
-  //     "tutoringDetail": {
-  //         "subjects": [
-  //             "Maths",
-  //             "Science"
-  //         ]
-  //     },
-  //     "status": "Inactive"
-  // }
+  //!     "_id": "646b062195c8ade227e4222d",
+  //!     "firstName": "Ujjwal",
+  //!     "email": "ujjwal@gmail.com",
+  //!     "phone": 9559971272,
+  //!     "tutoringDetail": {
+  //!         "subjects": [
+  //!             "Maths",
+  //!             "Science"
+  //!         ]
+  //!     },
+  //!     "status": "Inactive"
+  //! }
 
   const [data, setData] = useState([]);
   const [miscData, setMiscData] = useState([]);
@@ -37,7 +38,6 @@ export default function Dashboard() {
       setData(data);
       setMiscData(miscData);
       setLoading(false);
-      console.log("running");
     } catch (err) {
       setError(err.message);
       setLoading(false);

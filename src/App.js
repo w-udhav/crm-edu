@@ -5,11 +5,33 @@ import DashboardRoutes from "./Routes/DashboardRoutes";
 import { AuthContext } from "./Utils/Context/AuthContext";
 import AuthRoute from "./Routes/AuthRoute";
 import Enroll from "./Pages/Form/Enroll";
-// import PrivateRoute from "./Routes/PrivateRoute";
+import { useState } from "react";
+import Loader from "./Components/Loader";
+import { useEffect } from "react";
 
 export default function App() {
   const { user } = useContext(AuthContext);
-  console.log(user);
+  const [loading, setLoading] = useState(false);
+
+  function fetchingData() {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }
+
+  useEffect(() => {
+    fetchingData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="w-full h-full min-h-screen flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <Routes>
       <Route path="/auth/*" element={<AuthRoute user={user} />} />
@@ -21,15 +43,5 @@ export default function App() {
         <Route path="*" element={<Navigate to="/auth/login" />} />
       )}
     </Routes>
-
-    // <Routes>
-    //   {user?.length !== 0 ? (
-    //     <Route path="/auth/*" element={<Navigate to="/dashboard" />} />
-    //   ) : (
-    //     <Route path="/auth/*" element={<AuthRoute user={user} />} />
-    //   )}
-    //   <Route path="/dashboard/*" element={<DashboardRoutes user={user} />} />
-    //   <Route path="*" element={<Navigate to="/auth/login" />} />
-    // </Routes>
   );
 }

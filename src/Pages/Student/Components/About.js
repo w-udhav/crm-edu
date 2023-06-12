@@ -111,7 +111,7 @@ export default function About({ isEdit, data }) {
 
         {/* payment */}
         <div className="flex-1 border">
-          <h1 className="text-xl font-medium">Chart</h1>
+          <h1 className="text-xl font-medium">Other</h1>
         </div>
       </div>
 
@@ -127,7 +127,7 @@ export default function About({ isEdit, data }) {
               return (
                 <div
                   key={item.id}
-                  className="border-b hover:bg-gray-100 border-gray-300 hover:px-3 py-5 hover:rounded-t-md transition-all ease-linear flex gap-3"
+                  className="borde hover:bg-blue-100 border-gray-300 hover:scale-[1.04] hover:px-2 py-3 hover:rounded-t-md transition-all ease-linear flex gap-3"
                 >
                   <p className="flex-1 text-gray-600"> {item.name} </p>
                   {isEdit ? (

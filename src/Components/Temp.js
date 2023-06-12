@@ -1,7 +1,12 @@
 import React from "react";
 import Navbar from "./Navbar";
 import { Link, useLocation } from "react-router-dom";
-import FormIcon, { DashboardIcon, MailIcon, NewLinkIcon } from "./Icons";
+import FormIcon, {
+  ApprovalIcon,
+  DashboardIcon,
+  MailIcon,
+  NewLinkIcon,
+} from "./Icons";
 
 export default function Temp({ children }) {
   const links = [
@@ -11,13 +16,12 @@ export default function Temp({ children }) {
       route: "./",
       icon: <DashboardIcon />,
     },
-    // {
-    //   id: 2,
-    //   name: "Enrollment Form",
-    //   route: "/form",
-    //   target: "_blank",
-    //   icon: <FormIcon />,
-    // },
+    {
+      id: 2,
+      name: "Approvals",
+      route: "./approvals",
+      icon: <ApprovalIcon className="w-5 h-5" />,
+    },
     {
       id: 3,
       name: "Mail",
