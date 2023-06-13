@@ -42,7 +42,7 @@ export default function Enrol({ user }) {
     // * Subjects
     subjects: [],
     frequency: 0,
-    preferredDays: [],
+    days: [],
     paymentMethod: "",
 
     // * Terms
@@ -61,7 +61,6 @@ export default function Enrol({ user }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const validation = {};
-    console.log(formData);
     data.forEach((section) => {
       section.questions.forEach((question) => {
         // * Check if the field is required
@@ -72,10 +71,15 @@ export default function Enrol({ user }) {
       });
     });
     setError(validation);
-    console.log("error" + error);
 
+
+    if(Object.keys(error).length !== 0){
+      setSuccess(false);
+      return;
+    }
+    console.log("submitted")
+    
     setLoading(true);
-
     try {
       sendForm(formData).then((res) => {
         console.log(res);
@@ -136,14 +140,17 @@ export default function Enrol({ user }) {
         // * Subjects
         subjects: [],
         frequency: 0,
-        preferredDays: [],
+        days: [],
         paymentMethod: "",
 
         // * Terms
         terms: false,
+    
       });
     }
   };
+
+  console.log(formData)
 
   return (
     <div className="min-h-screen w-full bg-[#F6F3EE] flex flex-col items-center">
@@ -223,6 +230,20 @@ export default function Enrol({ user }) {
                           <div>{item.name}</div>
                           <div className="flex flex-col gap-2">
                             {item.options.map((option, index) => {
+                              const handleRadioChange = (e) => {
+                                const value = e.target.value;
+                                if (item.key === "frequency") {
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    [item.key]: index + 1,
+                                  }));
+                                } else {
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    [item.key]: value,
+                                  }));
+                                }
+                              };
                               return (
                                 <div
                                   key={index}
@@ -260,6 +281,7 @@ export default function Enrol({ user }) {
                                         className="border-b w-full outline-none focus:border-black-1 text-black"
                                         placeholder={item.placeholder}
                                         required={item.required}
+                                        disabled={ formData[item.key] === "No" || formData[item.key] === "Male" || formData[item.key] === "Female" }
                                       />
                                     )
                                   }
@@ -298,7 +320,7 @@ export default function Enrol({ user }) {
                       item.type === "checkbox" &&
                       Array.isArray(item.options) &&
                       item.key !== "terms" &&
-                      item.key !== "preferredDays"
+                      item.key !== "days"
                     ) {
                       return (
                         <div
@@ -311,6 +333,24 @@ export default function Enrol({ user }) {
                           <div>{item.name}</div>
                           <div className="flex flex-col gap-2">
                             {item.options.map((option, index) => {
+                              const handleCheckboxChange = (e) => {
+                                const checked = e.target.checked;
+                                setFormData((prevFormData) => {
+                                  const subjects = prevFormData.subjects.slice();
+                                  if (checked) {
+                                    subjects.push(option);
+                                  } else {
+                                    const indexToRemove = subjects.indexOf(option);
+                                    if (indexToRemove !== -1) {
+                                      subjects.splice(indexToRemove, 1);
+                                    }
+                                  }
+                                  return {
+                                    ...prevFormData,
+                                    subjects,
+                                  };
+                                });
+                              };
                               return (
                                 <div
                                   key={index}
@@ -321,13 +361,7 @@ export default function Enrol({ user }) {
                                     name={item.key}
                                     id={option}
                                     value={option}
-                                    onChange={() => {
-                                      // setFormData();
-                                      formData.subjects = [
-                                        ...formData.subjects,
-                                        option,
-                                      ];
-                                    }}
+                                    onChange={handleCheckboxChange}
                                     className="border-b outline-none focus:border-black-1 text-black"
                                     placeholder="Short answer"
                                   />
@@ -340,7 +374,7 @@ export default function Enrol({ user }) {
                       );
                     }
 
-                    if (item.key === "preferredDays") {
+                    if (item.key === "days") {
                       return (
                         <div
                           key={item.id}
@@ -352,6 +386,24 @@ export default function Enrol({ user }) {
                           <div>{item.name}</div>
                           <div className="flex flex-col gap-2">
                             {item.options.map((option, index) => {
+                              const handleCheckboxChange = (e) => {
+                                const checked = e.target.checked;
+                                setFormData((prevFormData) => {
+                                  const days = prevFormData.days.slice();
+                                  if (checked) {
+                                    days.push(option);
+                                  } else {
+                                    const indexToRemove = days.indexOf(option);
+                                    if (indexToRemove !== -1) {
+                                      days.splice(indexToRemove, 1);
+                                    }
+                                  }
+                                  return {
+                                    ...prevFormData,
+                                    days,
+                                  };
+                                });
+                              };
                               return (
                                 <div
                                   key={index}
@@ -363,12 +415,7 @@ export default function Enrol({ user }) {
                                     id={option}
                                     value={option}
                                     disabled={formData.frequency === 0}
-                                    onChange={() => {
-                                      formData.preferredDays = [
-                                        ...formData.preferredDays,
-                                        option,
-                                      ];
-                                    }}
+                                    onChange={handleCheckboxChange}
                                     className="border-b outline-none focus:border-black-1 text-black"
                                     placeholder="Short answer"
                                   />

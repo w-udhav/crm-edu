@@ -42,7 +42,7 @@ export const sendForm = async (data) => {
     gender: data.gender,
     schoolName: data.schoolName,
     schoolYear: data.schoolYear,
-    email: data.parentsEmail,
+    email: data.email,
     phone: data.parentPhone,
     addressDetail: {
       addressStreet: data.addressStreet,
@@ -66,9 +66,11 @@ export const sendForm = async (data) => {
     tutoringDetail: {
       subjects: data.subjects,
       frequency: 2,
+      days: data.days,
       paymentMethod: data.paymentMethod,
     },
-    status: "Active",
+    status: "Pending",
+    approved: true
   };
 
   const response = await fetch(`${BASE_URL}/student/save`, {
