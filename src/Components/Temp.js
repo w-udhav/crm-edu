@@ -32,24 +32,43 @@ export default function Temp({ children }) {
 
   const location = useLocation();
 
+  const getNav = (route) => {
+    const path = route;
+    const pathParts = path.split("/");
+    const lastPart = pathParts[pathParts.length - 1];
+
+    const currentRoute = location.pathname.split("/");
+    console.log(lastPart);
+    // console.log(currentRoute);
+    for (var i = currentRoute.length - 1; i >= 0; i--) {
+      if (lastPart === currentRoute[i]) {
+        // console.log(currentRoute[i]);
+        // console.log(lastPart);
+        return "bg-blue-200";
+      }
+    }
+
+    // return currentRoute ? "bg-blue-200" : "";
+  };
+
   return (
     <div className="min-h-screen w-full bg-grayishBlue bg-opacity-[15%] overflow-y-auto">
       <div className="flex flex-row w-full h-full">
         {/* Left */}
-        <div className="w-[16rem] lg:w-[17rem] h-full p-2  flex flex-col bg-white-1 z-20 gap-9  ">
+        <div className="w-[16rem] lg:w-[17rem] h-full p-2 flex flex-col bg-white-1 z-20 gap-9  ">
           {/* Title */}
-          <h3 className="font-medium text-red-500 text-lg">
-            High<span className="text-black-1">Hopes</span>
-          </h3>
+          <h3 className="font-medium px-4 text-red-500 text-lg">HighHopes</h3>
 
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col">
             {links.map((item) => {
               return (
                 <Link
                   key={item.id}
                   to={item.route}
                   target={item.target && item.target}
-                  className="flex items-center text-[15px] gap-2 py-[6px] px-4 bg-[#C2E7FF] rounded-full outline-none"
+                  className={`flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none hover:bg-zinc-200
+                    ${getNav(item.route)}
+                  `}
                 >
                   <div className="w-5">{item.icon && item.icon}</div>
                   <p>{item.name}</p>

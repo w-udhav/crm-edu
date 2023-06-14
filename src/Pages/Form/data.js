@@ -42,6 +42,15 @@ export const data = [
         required: true,
       },
       {
+        id: 6,
+        name: "Year",
+        key: "schoolYear",
+        type: "number",
+        placeholder: "Enter your year",
+        value: "",
+        required: true,
+      },
+      {
         id: 5,
         name: "School Name",
         key: "schoolName",
@@ -50,15 +59,7 @@ export const data = [
         value: "",
         required: true,
       },
-      {
-        id: 6,
-        name: "School Year",
-        key: "schoolYear",
-        type: "number",
-        placeholder: "Enter your year",
-        value: "",
-        required: true,
-      },
+
       {
         id: 7,
         name: "Student Email",
@@ -70,7 +71,12 @@ export const data = [
       },
       {
         id: 8,
-        name: <p>Student Phone No <span className="text-sm text-gray-500">(Optional)</span></p>,
+        name: (
+          <p>
+            Student Phone No{" "}
+            <span className="text-sm text-gray-500">(Optional)</span>
+          </p>
+        ),
         key: "phone",
         type: "number",
         placeholder: "Enter your number",
@@ -276,11 +282,6 @@ export const data = [
                   they are enrolled.
                 </li>
                 <li className="py-1">
-                  Tuition is provided on a term basis; students are enrolled for
-                  the term and fees are payable in advance for the term which
-                  they are enrolled.
-                </li>
-                <li className="py-1">
                   Your Tuition time remains same from term to term unless
                   otherwise notified.
                 </li>
@@ -317,7 +318,7 @@ export const data = [
                 <p className="flex gap-2">
                   <span className="font-bold text-red-500">*</span>
                   <span>
-                    No more than 2 occasions per term and cannot be carried
+                    No more than 1 occasion per term and cannot be carried
                     forward
                   </span>
                 </p>
@@ -347,17 +348,6 @@ export const data = [
               <p>
                 For students who join mid-term, full payment for the remaining
                 of the term is to be made upon the enrolment.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <h1 className="font-semibold text-xl">
-                Payment of Account/Securing your place for the next Term
-              </h1>
-              <p>
-                Invoices for the next term will be printed and handed to all
-                students or email to the parents on week 7 of our term (3 weeks
-                before the school holidays).
               </p>
             </div>
           </div>

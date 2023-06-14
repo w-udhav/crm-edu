@@ -105,6 +105,26 @@ export const sendEmail = async (data) => {
   return responseData;
 };
 
+//? Add Comment
+export const addComment = async (id, author, text) => {
+  try {
+    const response = await fetch(`${BASE_URL}/student/${id}/comments`, {
+      method: "POST",
+      body: JSON.stringify({ author, text }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const newComment = data.comment;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 // ======================= UPDATE =============================================================================
 //? Update Student
 export const updateStudent = async (id, data) => {
@@ -176,3 +196,27 @@ export const updateApprovedStatus = async (studentId, approvalStatus) => {
 
 // Usage
 // changeApprovalStatus('your-student-id', true);
+
+// ======================= DELETE =============================================================================
+//? Removing the particular comment
+export const removeComment = async (studentId, commentId) => {
+  try {
+    const response = await fetch(
+      `/student/${studentId}/comments/${commentId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.ok) {
+      // Comment removed successfully
+      // Update the UI or perform any necessary actions
+    } else {
+      // Handle error response
+      throw new Error("Failed to update comment status");
+    }
+  } catch (error) {
+    // Handle fetch error
+    return error;
+  }
+};

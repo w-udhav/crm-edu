@@ -63,7 +63,7 @@ export default function MailList({ toMail, setToMail }) {
       const data = await getStudents();
       setData(data);
       setLoading(false);
-      console.log("running");
+      // console.log("running");
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -74,7 +74,7 @@ export default function MailList({ toMail, setToMail }) {
     fetchData();
   }, []);
 
-  console.log(data);
+  // console.log(data);
 
   const headings = ["Name", "Student's Email", "Parent's Email", "Status"];
 
