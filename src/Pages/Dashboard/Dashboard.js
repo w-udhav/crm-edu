@@ -70,8 +70,7 @@ export default function Dashboard() {
           <div>
             <h3 className="text-3xl font-semibold">Overview</h3>
           </div>
-
-          <Cards data={miscData} />
+          {loading ? <Loader /> : <Cards data={miscData} />}
         </div>
       </div>
 

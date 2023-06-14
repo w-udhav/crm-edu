@@ -44,7 +44,8 @@ export default function Cards({ data }) {
     },
   ];
 
-  const { active, inactive, offlinePayment, onlinePayment } = data;
+  const { active, inactive, offlinePayment, onlinePayment, dayWiseCount } =
+    data;
   // return card.map((item) => {
   //   return (
   //     <div
@@ -69,6 +70,44 @@ export default function Cards({ data }) {
   //     </div>
   //   );
   // });
+
+  function todayStudent() {
+    const date = new Date();
+    const daysArr = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+    const today = daysArr[date.getDay() - 1];
+    if (dayWiseCount && dayWiseCount.length > 0) {
+      const count = dayWiseCount.find((item) => item._id === today);
+      if (count) {
+        return count.count;
+      }
+    }
+
+    // Return 0 if no count is found
+    return 0;
+  }
+
+  function totalStudents() {
+    let total = 0;
+    if (dayWiseCount && dayWiseCount.length > 0) {
+      const count = dayWiseCount.map((item) => {
+        total += item.count;
+      });
+      if (count) {
+        return total;
+      }
+    }
+
+    return 0;
+  }
+
   return (
     <div className="flex xl:grid xl:grid-cols-2 xl:grid-flow-row gap-5">
       <div className="p-8 w-[11rem] h-[10rem] rounded-3xl shadow-md flex justify-center items-center bg-white-og text-charcoal">
@@ -80,7 +119,7 @@ export default function Cards({ data }) {
               <GroupUserIcon className="w-7 h-7" fill="#0873F7" />
             </div>
           </div>
-          <div className="text-3xl font-bold">500</div>
+          <div className="text-3xl font-bold">{totalStudents()}</div>
           <div className=" font-medium text-zinc-500 ">Total</div>
         </div>
       </div>
@@ -94,7 +133,7 @@ export default function Cards({ data }) {
               <CalIcon className="w-7 h-7" fill="#ffd300" />
             </div>
           </div>
-          <div className="text-3xl font-bold">50</div>
+          <div className="text-3xl font-bold">{todayStudent()}</div>
           <div className=" font-medium text-zinc-500 ">Today</div>
         </div>
       </div>
