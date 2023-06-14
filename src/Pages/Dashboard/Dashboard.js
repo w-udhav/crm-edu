@@ -50,6 +50,8 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
+  // console.log(data);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

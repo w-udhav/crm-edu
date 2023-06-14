@@ -74,6 +74,8 @@ export default function MailList({ toMail, setToMail }) {
     fetchData();
   }, []);
 
+  console.log(data);
+
   const headings = ["Name", "Student's Email", "Parent's Email", "Status"];
 
   return (
@@ -125,10 +127,20 @@ export default function MailList({ toMail, setToMail }) {
                   {row.parentEmail ? row.parentEmail : "NA"}
                 </td>
                 <td className="px-2 py-1">
-                  {row.status === "Active" ? (
-                    <span className="text-green-500 rounded-full">Active</span>
-                  ) : (
-                    <span className="text-red-500 rounded-full">Inactive</span>
+                  {row.status === "Active" && (
+                    <span className="text-green-500 rounded-full">
+                      {row.status}
+                    </span>
+                  )}
+                  {row.status === "Inactive" && (
+                    <span className="text-red-500 rounded-full">
+                      {row.status}
+                    </span>
+                  )}
+                  {row.status === "Pending" && (
+                    <span className="text-yellow-500 rounded-full">
+                      {row.status}
+                    </span>
                   )}
                 </td>
               </tr>

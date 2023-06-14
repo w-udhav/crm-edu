@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { DeleteIcon } from "../../../Components/Icons";
-import { getStudentById } from "../../../Utils/Api/Api";
+import { getStudentById, updateApprovedStatus } from "../../../Utils/Api/Api";
+import Loader from "../../../Components/Loader";
 
 export default function Modal({ id, modal, handleModal }) {
   const sections = [
@@ -47,6 +48,7 @@ export default function Modal({ id, modal, handleModal }) {
   const [data, setData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(false);
 
   const renderValue = (value) => {
     if (typeof value === "object") {
@@ -67,6 +69,19 @@ export default function Modal({ id, modal, handleModal }) {
     }
   };
 
+  //? Chaning Approval Status
+  const handleApprovalStatusChange = async (approvalStatus) => {
+    try {
+      const message = await updateApprovedStatus(id, approvalStatus);
+      console.log(message);
+      setStatus(true);
+      handleModal();
+    } catch (error) {
+      console.log(error);
+      setStatus(false);
+    }
+  };
+
   //?  Fetching current ID's Data
   const getData = async () => {
     setLoading(true);
@@ -84,17 +99,17 @@ export default function Modal({ id, modal, handleModal }) {
     getData();
   }, []);
 
-  if (data)
+  if (!loading) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center"
+        className="fixed  inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center z-30"
       >
-        <div className="flex flex-col gap-5 min-w-[35rem]">
+        <div className="flex flex-col gap-5 min-w-[35rem] max-h-[95vh]">
           <div className=" bg-white-og bg-opacity-80 rounded-xl flex flex-col overflow-hidden">
-            <div className="p-5">
+            <div className="p-5 overflow-hidden">
               <div className="flex gap-10 justify-between items-center">
                 <h1 className="text-2xl font-bold">Approve Student</h1>
                 <button className="p-1 rounded-full hover:bg-red-300 transition-all ease-in-out">
@@ -103,7 +118,7 @@ export default function Modal({ id, modal, handleModal }) {
               </div>
 
               {/* //? Content */}
-              <div className="flex flex-col gap-5 py-3">
+              <div className="flex flex-col gap-5 py-3 h-full overflow-y-auto">
                 {sections.map((section, index) => (
                   <div key={index}>
                     <h2 className="text-lg text-blue-600">{section.title}</h2>
@@ -134,7 +149,10 @@ export default function Modal({ id, modal, handleModal }) {
 
             <div className="border-b border-gray-300"></div>
             <div className="">
-              <button className="p-3 w-full hover:bg-white transition-all ease-in-out outline-none text-green-500 text-xl">
+              <button
+                onClick={() => handleApprovalStatusChange(true)}
+                className="p-3 w-full hover:bg-white transition-all ease-in-out outline-none text-green-500 text-xl"
+              >
                 Approve
               </button>
             </div>
@@ -150,4 +168,7 @@ export default function Modal({ id, modal, handleModal }) {
         </div>
       </motion.div>
     );
+  } else {
+    <Loader />;
+  }
 }

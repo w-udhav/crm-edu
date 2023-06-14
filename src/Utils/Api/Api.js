@@ -70,7 +70,7 @@ export const sendForm = async (data) => {
       paymentMethod: data.paymentMethod,
     },
     status: "Pending",
-    approved: true
+    approved: true,
   };
 
   const response = await fetch(`${BASE_URL}/student/save`, {
@@ -152,3 +152,27 @@ export const updateStudent = async (id, data) => {
   const responseData = await response.json();
   return responseData;
 };
+
+export const updateApprovedStatus = async (studentId, approvalStatus) => {
+  try {
+    const response = await fetch(`${BASE_URL}/student/${studentId}/approval`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ approvalStatus }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update approval status");
+    }
+
+    const data = await response.json();
+    return data.message; // Handle the response as needed
+  } catch (error) {
+    throw error; // Handle the error
+  }
+};
+
+// Usage
+// changeApprovalStatus('your-student-id', true);

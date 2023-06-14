@@ -32,7 +32,8 @@ export default function Approval() {
     setLoading(true);
     try {
       const data = await getStudents();
-      setData(data);
+      const filterData = data.filter((row) => row.status === "Pending");
+      setData(filterData);
       setLoading(false);
     } catch (error) {
       setError(error);
@@ -58,7 +59,7 @@ export default function Approval() {
       className="flex flex-col gap-5 w-full h-full overflow-hidden relative"
     >
       <div className="overflow-x-auto rounded-xl border">
-        <table className="w-full text-left rounded-xl table-fixed ">
+        <table className="w-full text-left rounded-xl table-auto ">
           <thead>
             <tr className="bg-gray-200">
               {headings.map((head, index) =>
@@ -76,7 +77,7 @@ export default function Approval() {
           </thead>
 
           <tbody>
-            {data ? (
+            {data && data.length > 0 ? (
               data.map((row) => (
                 <tr key={row._id}>
                   <td className=" px-2 py-1">{row.firstName}</td>
@@ -115,7 +116,15 @@ export default function Approval() {
             ) : (
               <tr>
                 <td colSpan="5" className="p-2">
-                  <Loader />
+                  {data ? (
+                    <div className="py-3 flex justify-center items-center">
+                      <p className="px-4 py-2 rounded-md text-yellow-500 bg-yellow-100">
+                        No data available!
+                      </p>
+                    </div>
+                  ) : (
+                    <Loader />
+                  )}
                 </td>
               </tr>
             )}

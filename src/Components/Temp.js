@@ -36,7 +36,7 @@ export default function Temp({ children }) {
     <div className="min-h-screen w-full bg-grayishBlue bg-opacity-[15%] overflow-y-auto">
       <div className="flex flex-row w-full h-full">
         {/* Left */}
-        <div className="w-[16rem] lg:w-[17rem] h-full p-2 fixed lg:relative flex flex-col bg-white-1 gap-9 lg:shadow-none shadow-md ">
+        <div className="w-[16rem] lg:w-[17rem] h-full p-2  flex flex-col bg-white-1 z-20 gap-9  ">
           {/* Title */}
           <h3 className="font-medium text-red-500 text-lg">
             High<span className="text-black-1">Hopes</span>
