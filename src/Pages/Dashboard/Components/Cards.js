@@ -94,20 +94,6 @@ export default function Cards({ data }) {
     return 0;
   }
 
-  function totalStudents() {
-    let total = 0;
-    if (dayWiseCount && dayWiseCount.length > 0) {
-      const count = dayWiseCount.map((item) => {
-        total += item.count;
-      });
-      if (count) {
-        return total;
-      }
-    }
-
-    return 0;
-  }
-
   return (
     <div className="flex xl:grid xl:grid-cols-2 xl:grid-flow-row gap-5">
       <div className="p-8 w-[11rem] h-[10rem] rounded-3xl shadow-md flex justify-center items-center bg-white-og text-charcoal">
@@ -119,8 +105,8 @@ export default function Cards({ data }) {
               <GroupUserIcon className="w-7 h-7" fill="#0873F7" />
             </div>
           </div>
-          <div className="text-3xl font-bold">{totalStudents()}</div>
-          <div className=" font-medium text-zinc-500 ">Total</div>
+          <div className="text-3xl font-bold">{active}</div>
+          <div className=" font-medium text-zinc-500 ">Total Active</div>
         </div>
       </div>
 

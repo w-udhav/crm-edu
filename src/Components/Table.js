@@ -11,8 +11,8 @@ export default function Table({ headings, data, loading, error, fetchData }) {
 
   const navigate = useNavigate();
 
-  const handlleRowClick = (id) => {
-    navigate(`./student/${id}`);
+  const handleRowClick = (id) => {
+    navigate(`/dashboard/student/${id}`);
   };
 
   const handleComment = (e, id) => {
@@ -46,25 +46,25 @@ export default function Table({ headings, data, loading, error, fetchData }) {
               >
                 <td
                   className=" px-2 py-1"
-                  onClick={() => handlleRowClick(row._id)}
+                  onClick={() => handleRowClick(row._id)}
                 >
                   {row.firstName}
                 </td>
                 <td
                   className=" px-2 py-1"
-                  onClick={() => handlleRowClick(row._id)}
+                  onClick={() => handleRowClick(row._id)}
                 >
                   {row.email}
                 </td>
                 <td
                   className=" px-2 py-1"
-                  onClick={() => handlleRowClick(row._id)}
+                  onClick={() => handleRowClick(row._id)}
                 >
                   {row.phone}
                 </td>
                 <td
                   className=" px-2 py-1"
-                  onClick={() => handlleRowClick(row._id)}
+                  onClick={() => handleRowClick(row._id)}
                 >
                   <SubjectList subs={row.tutoringDetail.subjects} />
                 </td>

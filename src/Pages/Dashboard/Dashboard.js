@@ -44,7 +44,7 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  console.log(miscData);
+  // console.log(miscData);
 
   return (
     <motion.div

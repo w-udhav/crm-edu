@@ -54,7 +54,7 @@ export default function Enrol({ user }) {
   // ? Handle the Form Change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (value === "") setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // ? Handle the Form Submit
@@ -72,13 +72,11 @@ export default function Enrol({ user }) {
     });
     setError(validation);
 
-
-    if(Object.keys(error).length !== 0){
+    if (Object.keys(error).length !== 0) {
       setSuccess(false);
       return;
     }
-    console.log("submitted")
-    
+
     setLoading(true);
     try {
       sendForm(formData).then((res) => {
@@ -145,12 +143,11 @@ export default function Enrol({ user }) {
 
         // * Terms
         terms: false,
-    
       });
     }
   };
 
-  console.log(formData)
+  console.log(formData);
 
   return (
     <div className="min-h-screen w-full bg-[#F6F3EE] flex flex-col items-center">
@@ -253,11 +250,24 @@ export default function Enrol({ user }) {
                                     type="radio"
                                     name={item.key}
                                     value={option}
-                                    onChange={() => {
+                                    onChange={(e) => {
                                       if (item.key === "frequency") {
                                         setFormData((prev) => ({
                                           ...prev,
                                           [item.key]: index + 1,
+                                        }));
+                                        return;
+                                      }
+                                      if (item.key === "paymentMethod") {
+                                        let value = option;
+                                        if (option === "Cash") {
+                                          value = "offline";
+                                        } else if (option === "Ezi-Debit") {
+                                          value = "online";
+                                        }
+                                        setFormData((prev) => ({
+                                          ...prev,
+                                          [item.key]: value,
                                         }));
                                         return;
                                       }
@@ -281,7 +291,11 @@ export default function Enrol({ user }) {
                                         className="border-b w-full outline-none focus:border-black-1 text-black"
                                         placeholder={item.placeholder}
                                         required={item.required}
-                                        disabled={ formData[item.key] === "No" || formData[item.key] === "Male" || formData[item.key] === "Female" }
+                                        disabled={
+                                          formData[item.key] === "No" ||
+                                          formData[item.key] === "Male" ||
+                                          formData[item.key] === "Female"
+                                        }
                                       />
                                     )
                                   }
@@ -336,11 +350,13 @@ export default function Enrol({ user }) {
                               const handleCheckboxChange = (e) => {
                                 const checked = e.target.checked;
                                 setFormData((prevFormData) => {
-                                  const subjects = prevFormData.subjects.slice();
+                                  const subjects =
+                                    prevFormData.subjects.slice();
                                   if (checked) {
                                     subjects.push(option);
                                   } else {
-                                    const indexToRemove = subjects.indexOf(option);
+                                    const indexToRemove =
+                                      subjects.indexOf(option);
                                     if (indexToRemove !== -1) {
                                       subjects.splice(indexToRemove, 1);
                                     }
