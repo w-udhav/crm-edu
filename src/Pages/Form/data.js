@@ -10,7 +10,6 @@ export const data = [
         key: "firstName",
         type: "text",
         placeholder: "Enter your first name",
-        value: "",
         required: true,
       },
       {
@@ -19,7 +18,6 @@ export const data = [
         type: "text",
         key: "lastName",
         placeholder: "Enter your last name",
-        value: "",
         required: true,
       },
       {
@@ -28,7 +26,6 @@ export const data = [
         key: "dob",
         type: "date",
         placeholder: "Enter your date of birth",
-        value: "",
         required: true,
       },
       {
@@ -37,7 +34,6 @@ export const data = [
         key: "gender",
         type: "radio",
         placeholder: "",
-        value: "",
         options: ["Male", "Female", "Other"],
         required: true,
       },
@@ -47,7 +43,6 @@ export const data = [
         key: "schoolYear",
         type: "number",
         placeholder: "Enter your year",
-        value: "",
         required: true,
       },
       {
@@ -56,7 +51,6 @@ export const data = [
         key: "schoolName",
         type: "text",
         placeholder: "Enter your school name",
-        value: "",
         required: true,
       },
 
@@ -66,7 +60,6 @@ export const data = [
         key: "email",
         type: "email",
         placeholder: "Enter your email",
-        value: "",
         required: true,
       },
       {
@@ -80,7 +73,6 @@ export const data = [
         key: "phone",
         type: "number",
         placeholder: "Enter your number",
-        value: "",
         required: false,
       },
     ],
@@ -97,7 +89,6 @@ export const data = [
         key: "addressStreet",
         type: "text",
         placeholder: "Enter your address",
-        value: "",
         required: true,
       },
       {
@@ -106,7 +97,6 @@ export const data = [
         key: "suburb",
         type: "text",
         placeholder: "Enter your Suburb",
-        value: "",
         required: true,
       },
       {
@@ -115,7 +105,6 @@ export const data = [
         key: "postCode",
         type: "number",
         placeholder: "Enter your postcode",
-        value: "",
         required: true,
       },
       {
@@ -124,7 +113,6 @@ export const data = [
         key: "parentsEmail",
         type: "email",
         placeholder: "Enter your email",
-        value: "",
         required: true,
       },
     ],
@@ -141,7 +129,6 @@ export const data = [
         key: "parentName",
         type: "text",
         placeholder: "Enter your first name",
-        value: "",
         required: true,
       },
       {
@@ -150,7 +137,6 @@ export const data = [
         key: "relation",
         type: "text",
         placeholder: "Who are you to the student?",
-        value: "",
         required: true,
       },
       {
@@ -159,7 +145,6 @@ export const data = [
         key: "parentPhone",
         type: "number",
         placeholder: "Enter your contact number",
-        value: "",
         required: true,
       },
     ],
@@ -176,17 +161,20 @@ export const data = [
         type: "radio",
         key: "frequency",
         placeholder: "",
-        value: "",
-        options: ["Once a week", "Twice a week", "Thrice a week"],
+        options: ["Once a week", "Twice a week"],
         required: true,
       },
       {
         id: 4,
-        name: "Preferred Days",
+        name: (
+          <p>
+            Preferred Days{" "}
+            <span className="text-sm text-gray-500 ">/Only 2</span>
+          </p>
+        ),
         type: "checkbox",
         key: "days",
         placeholder: "",
-        value: "",
         options: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
         required: true,
       },
@@ -196,7 +184,6 @@ export const data = [
         type: "checkbox",
         key: "subjects",
         placeholder: "",
-        value: "",
         options: ["Maths", "English", "Science", "Arts or painting"],
         required: true,
       },
@@ -206,7 +193,6 @@ export const data = [
         type: "radio",
         key: "paymentMethod",
         placeholder: "",
-        value: "",
         options: ["Cash", "Ezi-Debit"],
         required: true,
       },
@@ -224,7 +210,6 @@ export const data = [
         type: "radio",
         key: "allergicFood",
         placeholder: "",
-        value: "",
         options: ["No", "Other"],
         required: true,
       },
@@ -234,7 +219,6 @@ export const data = [
         type: "radio",
         key: "medications",
         placeholder: "",
-        value: "",
         options: ["No", "Other"],
         required: true,
       },
@@ -244,7 +228,6 @@ export const data = [
         type: "radio",
         key: "allergicMedication",
         placeholder: "",
-        value: "",
         options: ["No", "Other"],
         required: true,
       },
@@ -254,7 +237,6 @@ export const data = [
         type: "radio",
         key: "healthProblem",
         placeholder: "",
-        value: "",
         options: ["No", "Other"],
         required: true,
       },

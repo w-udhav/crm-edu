@@ -54,23 +54,30 @@ export default function Enrol({ user }) {
   // ? Handle the Form Change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (value === "") setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validation = () => {
+    const validation = {};
+    data.forEach((section) => {
+      section.questions.forEach((question) => {
+        // * Check if the field is required
+        if (!formData[question.key] && question.required) {
+          validation[question.key] = "This field is required";
+        }
+
+        if (formData[question.key] === "days") {
+          validation[question.key] = "Maximum of 2 selections allowed";
+        }
+      });
+    });
+    setError(validation);
   };
 
   // ? Handle the Form Submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validation = {};
-    data.forEach((section) => {
-      section.questions.forEach((question) => {
-        // * Check if the field is required
-
-        if (!formData[question.key] && question.required) {
-          validation[question.key] = "This field is required";
-        }
-      });
-    });
-    setError(validation);
+    validation();
 
     if (Object.keys(error).length !== 0) {
       setSuccess(false);
