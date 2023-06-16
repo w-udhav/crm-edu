@@ -2,8 +2,17 @@ export const BASE_URL = "http://localhost:4000";
 
 // ======================= GET =============================================================================
 //? Get all students
-export const getStudents = async () => {
-  const response = await fetch(`${BASE_URL}/student/list`);
+export const getStudents = async (dataBody) => {
+  var options = {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(dataBody || {} ),
+  }
+  const response = await fetch(`${BASE_URL}/student/list`, options);
+  console.log("Typical Response")
+  console.log(response)
   const data = await response.json();
   return data;
 };

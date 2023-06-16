@@ -31,8 +31,13 @@ export default function Approval() {
   const getData = async () => {
     setLoading(true);
     try {
-      const data = await getStudents();
-      const filterData = data.filter((row) => row.status === "Pending");
+      const data = await getStudents({"approved" : false});
+      const filterData = data.filter((row) => {
+        console.log(row.approved)
+        return row.approved === false;
+      });
+      console.log("Student data");
+      console.log(filterData);
       setData(filterData);
       setLoading(false);
     } catch (error) {
