@@ -79,19 +79,23 @@ export const sendForm = async (data) => {
       paymentMethod: data.paymentMethod,
     },
     status: "Pending",
-    approved: true,
+    approved: false,
   };
 
-  const response = await fetch(`${BASE_URL}/student/save`, {
-    method: "POST",
-    body: JSON.stringify(formData),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
+  try {
+    const response = await fetch(`${BASE_URL}/student/save`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
 
-  const responseData = await response.json();
-  return responseData;
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    return error.message;
+  }
 };
 
 //? Send email

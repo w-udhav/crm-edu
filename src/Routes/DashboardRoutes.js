@@ -8,7 +8,7 @@ import Approval from "../Pages/Approval/Approval";
 import Students from "../Pages/Students/Students";
 
 export default function DashboardRoutes({ user }) {
-  return user ? (
+  return (
     <Temp>
       <Routes>
         <Route path="/" element={<Dashboard />} />
@@ -19,8 +19,6 @@ export default function DashboardRoutes({ user }) {
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Temp>
-  ) : (
-    <Navigate to="/auth/login" />
   );
   // return user ? (
   //   <Temp>

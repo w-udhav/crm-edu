@@ -14,7 +14,7 @@ export default function CommentBox({ data, handleModal }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      className="fixed z-10 inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center"
+      className="fixed z-30 inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center"
     >
       <div className="flex flex-col gap-5 max-w-[35rem] w-[35rem] max-h-[80vh]">
         <div className=" bg-white-og bg-opacity-80 rounded-xl flex flex-col overflow-hidden">
@@ -32,21 +32,22 @@ export default function CommentBox({ data, handleModal }) {
             {/* //? Content */}
             <div className="h-full flex flex-col gap-2 py-3">
               <div className="h-full flex flex-col gap-3 overflow-y-auto ">
-                {data
-                  ? data.map((item) => (
-                      <div className="w-full p-2 rounded-xl bg-[#CFD0D0]">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Nisi ratione eum dolores accusantium nobis, maxime
-                        labore ipsum distinctio quasi nesciunt, minima quos
-                        mollitia cum itaque iure porro voluptates repellat
-                        fugit!
-                      </div>
-                    ))
-                  : 
-                    <div>
-                      <p className="text-center text-xl text-black-1">No comments yet</p>
+                {data ? (
+                  data.map((item) => (
+                    <div className="w-full p-2 rounded-xl bg-[#CFD0D0]">
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                      Nisi ratione eum dolores accusantium nobis, maxime labore
+                      ipsum distinctio quasi nesciunt, minima quos mollitia cum
+                      itaque iure porro voluptates repellat fugit!
                     </div>
-                  }
+                  ))
+                ) : (
+                  <div>
+                    <p className="text-center text-xl text-black-1">
+                      No comments yet
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="pb-5">

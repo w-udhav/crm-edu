@@ -45,7 +45,7 @@ export default function Temp({ children }) {
     const lastPart = pathParts[pathParts.length - 1];
 
     const currentRoute = location.pathname.split("/");
-    console.log(lastPart);
+    // console.log(lastPart);
     // console.log(currentRoute);
     for (var i = currentRoute.length - 1; i >= 0; i--) {
       if (lastPart === currentRoute[i]) {
