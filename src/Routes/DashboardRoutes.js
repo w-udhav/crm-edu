@@ -5,6 +5,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Student from "../Pages/Student/Student";
 import Mail from "../Pages/Mail/Mail";
 import Approval from "../Pages/Approval/Approval";
+import Students from "../Pages/Students/Students";
 
 export default function DashboardRoutes({ user }) {
   return user ? (
@@ -14,6 +15,7 @@ export default function DashboardRoutes({ user }) {
         <Route path="/student/:id" element={<Student />} />
         <Route path="/mail" element={<Mail />} />
         <Route path="/approvals" element={<Approval />} />
+        <Route path="/students" element={<Students />} />
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Temp>

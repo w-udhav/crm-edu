@@ -47,15 +47,9 @@ export default function Approval() {
 
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
       className="flex flex-col gap-5 w-full h-full overflow-hidden relative"
     >
       <div className="overflow-x-auto rounded-xl border">

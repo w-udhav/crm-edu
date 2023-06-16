@@ -6,6 +6,7 @@ import FormIcon, {
   DashboardIcon,
   MailIcon,
   NewLinkIcon,
+  StudentIcon,
 } from "./Icons";
 
 export default function Temp({ children }) {
@@ -27,6 +28,12 @@ export default function Temp({ children }) {
       name: "Mail",
       route: "./mail",
       icon: <MailIcon />,
+    },
+    {
+      id: 4,
+      name: "Students",
+      route: "./students",
+      icon: <StudentIcon />,
     },
   ];
 
