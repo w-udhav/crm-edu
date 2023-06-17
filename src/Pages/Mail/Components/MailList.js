@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getStudents } from "../../../Utils/Api/Api";
+import Loader from "../../../Components/Loader";
 
 export default function MailList({ toMail, setToMail }) {
   const [selectAll, setSelectAll] = useState(false);
@@ -38,18 +39,22 @@ export default function MailList({ toMail, setToMail }) {
   };
 
   //? handle select all
-  const handleSelectAll = () => {
+  const handleSelectAll = (e) => {
     if (selectAll) {
       setSelectedEmails({});
       setToMail([]);
     } else {
       const allEmails = data.map((item) => item.email);
-      setToMail(allEmails);
       const selectedEmails = allEmails.reduce((acc, email) => {
         acc[email] = true;
         return acc;
       }, {});
       setSelectedEmails(selectedEmails);
+      let arr = [];
+      for (var key in selectedEmails) {
+        arr.push(key);
+      }
+      setToMail(arr);
     }
     setSelectAll(!selectAll);
   };
@@ -63,7 +68,6 @@ export default function MailList({ toMail, setToMail }) {
       const data = await getStudents();
       setData(data);
       setLoading(false);
-      // console.log("running");
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -74,12 +78,10 @@ export default function MailList({ toMail, setToMail }) {
     fetchData();
   }, []);
 
-  // console.log(data);
-
   const headings = ["Name", "Student's Email", "Parent's Email", "Status"];
 
   return (
-    <div className="border rounded-xl overflow-hidden">
+    <div className="border rounded-xl">
       <div className="overflow-x-auto rounded-xl ">
         <table className="w-full text-left rounded-xl">
           <thead>
@@ -105,46 +107,54 @@ export default function MailList({ toMail, setToMail }) {
             </tr>
           </thead>
           <tbody>
-            {data.map((row, index) => (
-              <tr
-                key={row._id}
-                className="hover:bg-blue-50 transition-all ease-in-out"
-              >
-                <td className="w-1 py-1 px-4">
-                  <input
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    className="w-4 h-4 cursor-pointer"
-                    value={row.email}
-                    checked={!!selectedEmails[row.email]}
-                    onChange={(e) => handleEmailSelection(e, row.email)}
-                  />
-                </td>
-                <td className="px-2 py-1">{row.firstName}</td>
-                <td className="px-2 py-1">{row.email}</td>
-                <td className="px-2 py-1">
-                  {row.parentEmail ? row.parentEmail : "NA"}
-                </td>
-                <td className="px-2 py-1">
-                  {row.status === "Active" && (
-                    <span className="text-green-500 rounded-full">
-                      {row.status}
-                    </span>
-                  )}
-                  {row.status === "Inactive" && (
-                    <span className="text-red-500 rounded-full">
-                      {row.status}
-                    </span>
-                  )}
-                  {row.status === "Pending" && (
-                    <span className="text-yellow-500 rounded-full">
-                      {row.status}
-                    </span>
-                  )}
+            {loading ? (
+              <tr>
+                <td colSpan={5}>
+                  <Loader />
                 </td>
               </tr>
-            ))}
+            ) : (
+              data.map((row, index) => (
+                <tr
+                  key={row._id}
+                  className="hover:bg-blue-50 transition-all ease-in-out"
+                >
+                  <td className="w-1 py-1 px-4">
+                    <input
+                      type="checkbox"
+                      name="selectAll"
+                      id="selectAll"
+                      className="w-4 h-4 cursor-pointer"
+                      value={row.email}
+                      checked={!!selectedEmails[row.email]}
+                      onChange={(e) => handleEmailSelection(e, row.email)}
+                    />
+                  </td>
+                  <td className="px-2 py-1">{row.firstName}</td>
+                  <td className="px-2 py-1">{row.email}</td>
+                  <td className="px-2 py-1">
+                    {row.parentEmail ? row.parentEmail : "NA"}
+                  </td>
+                  <td className="px-2 py-1">
+                    {row.status === "Active" && (
+                      <span className="text-green-500 rounded-full">
+                        {row.status}
+                      </span>
+                    )}
+                    {row.status === "Inactive" && (
+                      <span className="text-red-500 rounded-full">
+                        {row.status}
+                      </span>
+                    )}
+                    {row.status === "Pending" && (
+                      <span className="text-yellow-500 rounded-full">
+                        {row.status}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

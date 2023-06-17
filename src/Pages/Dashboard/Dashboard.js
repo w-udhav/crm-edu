@@ -51,7 +51,7 @@ export default function Dashboard() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      className="w-full h-full flex flex-col gap-5 overflow-y-auto overflow-x-hidden "
+      className="w-full h-full flex flex-col gap-5 overflow-y-auto overflow-x-hidden"
     >
       {/* Section 1 - Display */}
       <div className="max-h-[min-content] flex flex-col xl:flex-row gap-5">

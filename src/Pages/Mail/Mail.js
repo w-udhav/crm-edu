@@ -111,11 +111,11 @@ export default function Mail() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      className=" h-full flex flex-col gap-5"
+      className="h-full flex flex-col gap-5 overflow-y-auto"
     >
-      <div className="relative rounded-xl overflow-hidden border shadow-md">
+      <div className="relative rounded-xl border shadow-md">
         {/* Head */}
-        <div className="p-3 flex justify-between items-center bg-gray-300 rounded-t-xl">
+        <div className="px-3 py-1 flex justify-between items-center bg-gray-300 rounded-t-xl">
           <h1>New Message</h1>
           <button
             onClick={() => handleModal(true)}
@@ -177,7 +177,7 @@ export default function Mail() {
         </div>
 
         {/* Buttons */}
-        <div className="p-3 border-t border-gray-300 ">
+        <div className="p-3 border-t border-gray-300">
           <div className="flex justify-between items-center">
             <button
               onClick={handleSend}
@@ -202,7 +202,7 @@ export default function Mail() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="w-full h-full bg-black bg-opacity-40 flex justify-center items-center absolute top-0 left-0 backdrop-blur-[2px]"
+              className="w-full h-full bg-black bg-opacity-30 flex justify-center items-center absolute top-0 left-0"
             >
               <motion.div
                 initial={{ y: 100 }}
@@ -249,6 +249,16 @@ export default function Mail() {
               className="w-full h-full bg-black bg-opacity-40 flex justify-center items-center absolute top-0 left-0 backdrop-blur-[2px]"
             >
               <Success />
+            </motion.div>
+          )}
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="w-full h-full bg-black bg-opacity-40 flex justify-center items-center absolute top-0 left-0 backdrop-blur-[2px]"
+            >
+              <Loader />
             </motion.div>
           )}
         </AnimatePresence>

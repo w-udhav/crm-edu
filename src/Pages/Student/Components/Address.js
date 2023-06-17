@@ -26,8 +26,8 @@ export default function Address({ isEdit, data }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 flex-col xl:flex-row gap-10">
-      <div className="flex-1 flex flex-col gap-3 rounded-xl border border-zinc-300 p-5">
+    <div className="flex flex-col xl:flex-row gap-10">
+      <div className="min-w-[45rem] max-w-full flex flex-col gap-3 rounded-2xl border border-zinc-300 p-5">
         <h3 className="capitalize text-gray-400 text-sm">
           Address Inforamtion
         </h3>
@@ -44,7 +44,7 @@ export default function Address({ isEdit, data }) {
                 <p className="flex-1 text-gray-600 "> {item.name} </p>
                 {isEdit ? (
                   <input
-                  className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
+                    className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
                     type="text"
                     value={item.value}
                   />
