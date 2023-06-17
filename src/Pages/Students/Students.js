@@ -38,22 +38,22 @@ export default function Students() {
       <div className="overflow- flex flex-col gap-3">
         {/* Filter */}
         <div className="flex justify-between">
-          <div className="flex gap-1 items-center">
-            <h3 className="text-xl ">Students</h3>
-            <button onClick={fetchData}>
+          <h3 className="text-xl ">Students</h3>
+          <div className="flex gap-2 items-center ">
+            <button onClick={fetchData} className="mt-1">
               <ReloadIcon />
             </button>
+            <select
+              name=""
+              id=""
+              className="border border-zinc-400 rounded-md bg-white "
+            >
+              <option value="">All Students</option>
+              <option value="">Today</option>
+              <option value="">Active</option>
+              <option value="">Non-Active</option>
+            </select>
           </div>
-          <select
-            name=""
-            id=""
-            className="border border-zinc-400 rounded-md bg-white "
-          >
-            <option value="">All Students</option>
-            <option value="">Today</option>
-            <option value="">Active</option>
-            <option value="">Non-Active</option>
-          </select>
         </div>
 
         {/* table */}

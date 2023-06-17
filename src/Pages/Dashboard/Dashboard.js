@@ -24,13 +24,12 @@ export default function Dashboard() {
   //!     "status": "Inactive"
   //! }
 
-  const [data, setData] = useState([]);
-  const [miscData, setMiscData] = useState([]);
+  const [miscData, setMiscData] = useState({});
 
   const fetchData = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      setError(null);
       const miscData = await getMiscData();
       setMiscData(miscData);
       setLoading(false);
@@ -44,7 +43,8 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  // console.log(miscData);
+  console.log(miscData);
+  console.log(error);
 
   return (
     <motion.div
@@ -59,14 +59,24 @@ export default function Dashboard() {
         <div className="flex-1 flex flex-col rounded-3xl p-3 shadow-md shadow-[#b8b8d470] bg-paleLavender">
           <h1 className="text-4xl font-semibold  "> Chart Overview </h1>
           <div className="h-full min-h-[20rem]">
-            {miscData ? (
-              loading ? (
-                <Loader />
-              ) : (
-                <WeekChart data={miscData.dayWiseCount} />
-              )
+            {loading ? (
+              <Loader />
+            ) : Object.keys(miscData).length > 0 ? (
+              <WeekChart data={miscData.dayWiseCount} />
             ) : (
-              <div>No data available!</div>
+              <div className="w-full h-full flex items-center justify-center">
+                <p className="px-2 py-1 rounded-md bg-yellow-100 text-yellow-500 shadow">
+                  "No data available!"
+                </p>
+              </div>
+            )}
+
+            {error && (
+              <div className="w-full h-full flex items-center justify-center">
+                <p className="px-2 py-1 rounded-md bg-red-100 text-red-500 shadow">
+                  {error ? error : "No data available!"}
+                </p>
+              </div>
             )}
           </div>
         </div>

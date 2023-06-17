@@ -21,13 +21,14 @@ export default function Modal({ id, modal, handleModal }) {
       key: ["Address Street", "Suburb", "PostCode"],
     },
     {
-      title: "Tutoring Details",
+      title: "Acadamic Details",
       fields: [
         "tutoringDetail.subjects",
         "tutoringDetail.frequency",
+        "tutoringDetail.days",
         "tutoringDetail.paymentMethod",
       ],
-      key: ["Subjects", "Frequency", "Payment Method"],
+      key: ["Subjects", "Frequency", "Preferred Days", "Payment Method"],
     },
     {
       title: "Health Details",
@@ -107,7 +108,7 @@ export default function Modal({ id, modal, handleModal }) {
         exit={{ opacity: 0 }}
         className="fixed  inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center z-30"
       >
-        <div className="flex flex-col gap-5 min-w-[35rem] max-h-[95vh]">
+        <div className="flex flex-col gap-5 w-[95vw] max-h-[95vh]">
           <div className=" bg-white-og bg-opacity-80 rounded-xl flex flex-col overflow-hidden">
             <div className="p-5 overflow-hidden">
               <div className="flex gap-10 justify-between items-center">
@@ -118,32 +119,65 @@ export default function Modal({ id, modal, handleModal }) {
               </div>
 
               {/* //? Content */}
-              <div className="flex flex-col gap-5 py-3 h-full overflow-y-auto">
-                {sections.map((section, index) => (
-                  <div key={index}>
-                    <h2 className="text-lg text-blue-600">{section.title}</h2>
+              <div className="w-full h-full flex gap-4">
+                <div className="flex-1 flex flex-col gap-5 py-3 h-full overflow-y-auto">
+                  {sections.map((section, index) => (
+                    <div key={index}>
+                      <h2 className="text-lg text-blue-600">{section.title}</h2>
 
-                    <div className="border-b border-gray-300 py-2">
-                      {section.fields.map((field, fieldIndex) => {
-                        const value = field
-                          .split(".")
-                          .reduce((obj, key) => (obj ? obj[key] : ""), data);
+                      <div className="border-b border-gray-300 py-2">
+                        {section.fields.map((field, fieldIndex) => {
+                          const value = field
+                            .split(".")
+                            .reduce((obj, key) => (obj ? obj[key] : ""), data);
 
-                        const key = section.key[fieldIndex];
+                          const key = section.key[fieldIndex];
 
-                        return (
-                          <div key={fieldIndex} className="flex gap-2">
-                            <div className="flex-1 font-medium">
-                              {/* {field.split(".").pop()}:{" "} */}
-                              {key}
+                          return (
+                            <div key={fieldIndex} className="flex gap-2">
+                              <div className="flex-1 font-medium">
+                                {/* {field.split(".").pop()}:{" "} */}
+                                {key}
+                              </div>
+                              <div className="flex-1">{renderValue(value)}</div>
                             </div>
-                            <div className="flex-1">{renderValue(value)}</div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex-1 flex flex-col gap-3">
+                  <h2 className="text-lg text-blue-600">Time Slots</h2>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-1">
+                      <h3 className="flex-1 font-medium">Preferred Days</h3>
+                      <div className="flex gap-2">
+                        {data &&
+                          data.tutoringDetail?.days.map((day, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className="px-2 py-1 text-sm rounded-md shadow-xl bg-white"
+                              >
+                                {day}
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="flex-1 font-medium">
+                        Allot Time
+                        <span className="text-sm text-gray-500">/Day</span>
+                      </h3>
+
+                      <div></div>
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
             </div>
 

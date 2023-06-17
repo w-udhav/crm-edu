@@ -35,7 +35,7 @@ export const getMiscData = async () => {
     const data = await response.json();
     return data;
   } catch (err) {
-    return err;
+    throw err;
   }
 };
 
@@ -93,7 +93,7 @@ export const sendForm = async (data) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    return error.message;
+    throw error.message;
   }
 };
 
