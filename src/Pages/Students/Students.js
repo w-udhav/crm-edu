@@ -15,7 +15,7 @@ export default function Students() {
       setLoading(true);
       setError(null);
       setData([]);
-      const data = await getStudents();
+      const data = await getStudents({"approved" : true});
       setData(data);
       setLoading(false);
     } catch (err) {
