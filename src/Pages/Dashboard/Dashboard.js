@@ -63,18 +63,16 @@ export default function Dashboard() {
               <Loader />
             ) : Object.keys(miscData).length > 0 ? (
               <WeekChart data={miscData.dayWiseCount} />
+            ) : error ? (
+              <div className="w-full h-full flex items-center justify-center">
+                <p className="px-2 py-1 rounded-md bg-red-100 text-red-500 shadow">
+                  {error ? error : "No data available!"}
+                </p>
+              </div>
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <p className="px-2 py-1 rounded-md bg-yellow-100 text-yellow-500 shadow">
                   "No data available!"
-                </p>
-              </div>
-            )}
-
-            {error && (
-              <div className="w-full h-full flex items-center justify-center">
-                <p className="px-2 py-1 rounded-md bg-red-100 text-red-500 shadow">
-                  {error ? error : "No data available!"}
                 </p>
               </div>
             )}

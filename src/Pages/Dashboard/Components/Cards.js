@@ -46,7 +46,7 @@ export default function Cards({ data }) {
               <GroupUserIcon className="w-7 h-7" fill="#0873F7" />
             </div>
           </div>
-          <div className="text-3xl font-bold">{active}</div>
+          <div className="text-3xl font-bold">{active ? active : "--"}</div>
           <div className=" font-medium text-zinc-500 ">Total Active</div>
         </div>
       </div>

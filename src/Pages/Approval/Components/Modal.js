@@ -46,10 +46,25 @@ export default function Modal({ id, modal, handleModal }) {
       ],
     },
   ];
+
+  const daysArr = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
   const [data, setData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(false);
+  const [slots, setSlots] = useState([]);
+
+  // HandleCheck
+  const handleCheckbox = (e) => {};
 
   const renderValue = (value) => {
     if (typeof value === "object") {
@@ -151,30 +166,49 @@ export default function Modal({ id, modal, handleModal }) {
                 <div className="flex-1 flex flex-col gap-3">
                   <h2 className="text-lg text-blue-600">Time Slots</h2>
                   <div className="flex flex-col gap-3">
-                    <div className="flex flex-col gap-1">
+                    <div className="flex  gap-1">
                       <h3 className="flex-1 font-medium">Preferred Days</h3>
-                      <div className="flex gap-2">
+                      <div className="flex-1 flex flex-col gap-1">
                         {data &&
                           data.tutoringDetail?.days.map((day, index) => {
                             return (
-                              <div
-                                key={index}
-                                className="px-2 py-1 text-sm rounded-md shadow-xl bg-white"
-                              >
-                                {day}
+                              <div key={index} className="flex">
+                                <div className="w-32 text-center p-2 text-sm rounded-md shadow-xl bg-blue-500 text-white-og ">
+                                  {day}
+                                </div>
                               </div>
                             );
                           })}
                       </div>
                     </div>
 
-                    <div>
+                    <div className="flex flex-col gap-1">
                       <h3 className="flex-1 font-medium">
                         Allot Time
                         <span className="text-sm text-gray-500">/Day</span>
                       </h3>
 
-                      <div></div>
+                      <div className="flex flex-col gap-2">
+                        {daysArr.map((day, index) => {
+                          return (
+                            <div key={index} className="flex gap-3">
+                              <input
+                                type="checkbox"
+                                id=""
+                                value={day}
+                                className=""
+                              />
+                              <div className="flex-1">{day}</div>
+                              <div className="flex-1">
+                                <select>
+                                  <option value={1}>1hr</option>
+                                  <option value={2}>2</option>
+                                </select>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
