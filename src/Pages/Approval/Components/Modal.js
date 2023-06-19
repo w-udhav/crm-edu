@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { DeleteIcon } from "../../../Components/Icons";
-import { getStudentById, updateApprovedStatus } from "../../../Utils/Api/Api";
+import {
+  getStudentById,
+  updateApprovedStatus,
+  updateStudent,
+} from "../../../Utils/Api/Api";
 import Loader from "../../../Components/Loader";
 
 export default function Modal({ id, modal, handleModal }) {
@@ -47,24 +51,11 @@ export default function Modal({ id, modal, handleModal }) {
     },
   ];
 
-  const daysArr = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-
   const [data, setData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(false);
-  const [slots, setSlots] = useState([]);
-
-  // HandleCheck
-  const handleCheckbox = (e) => {};
+  const [timeSlots, setTimeSlots] = useState([]);
 
   const renderValue = (value) => {
     if (typeof value === "object") {
@@ -78,17 +69,45 @@ export default function Modal({ id, modal, handleModal }) {
     }
   };
 
+  const handleTimeSlotChange = (index, field, value) => {
+    const updatedTimeSlots = [...timeSlots];
+    updatedTimeSlots[index][field] = value;
+    setTimeSlots(updatedTimeSlots);
+  };
+
+  //? for the add button
+  const handleAddTimeSlot = () => {
+    setTimeSlots([...timeSlots, { day: "", hours: 0 }]);
+  };
+
+  const handleRemoveSlot = (index) => {
+    const updatedTimeSlots = [...timeSlots];
+    updatedTimeSlots.splice(index, 1);
+    setTimeSlots(updatedTimeSlots);
+  };
+
   const closeModal = () => {
     if (window.confirm("Are you sure you want to close this modal?")) {
       handleModal(false);
       setData({});
     }
   };
+  // console.log(data);
 
   //? Chaning Approval Status
-  const handleApprovalStatusChange = async (approvalStatus) => {
+  const handleApprovalStatusChange = async () => {
+    const newData = {
+      aprroved: true,
+      status: "Active",
+      tutoringDetail: {
+        subjects: data.tutoringDetail.subjects,
+        frequency: data.tutoringDetail.frequency,
+        paymentMethod: data.tutoringDetail.paymentMethod,
+        timeSlots: timeSlots,
+      },
+    };
     try {
-      const message = await updateApprovedStatus(id, approvalStatus);
+      const message = await updateStudent(id, newData);
       console.log(message);
       setStatus(true);
       handleModal();
@@ -106,7 +125,7 @@ export default function Modal({ id, modal, handleModal }) {
       setData(data);
       setLoading(false);
     } catch (error) {
-      setError(error);
+      setError(error.message);
       setLoading(false);
     }
   };
@@ -182,32 +201,86 @@ export default function Modal({ id, modal, handleModal }) {
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-1">
-                      <h3 className="flex-1 font-medium">
-                        Allot Time
-                        <span className="text-sm text-gray-500">/Day</span>
-                      </h3>
+                    <div className="flex flex-col gap-3">
+                      <div className="flex justify-between items-center gap-1">
+                        <h3 className="flex-1 font-medium">
+                          Allot Time
+                          <span className="text-sm text-gray-500">/Day</span>
+                        </h3>
+                        <div className="flex justify-between">
+                          <button
+                            onClick={handleAddTimeSlot}
+                            className="px-4 py-1 text-sm rounded-md bg-sky-500 hover:shadow-xl"
+                          >
+                            Add
+                          </button>
+                        </div>
+                      </div>
 
                       <div className="flex flex-col gap-2">
-                        {daysArr.map((day, index) => {
-                          return (
-                            <div key={index} className="flex gap-3">
-                              <input
-                                type="checkbox"
-                                id=""
-                                value={day}
-                                className=""
-                              />
-                              <div className="flex-1">{day}</div>
-                              <div className="flex-1">
-                                <select>
-                                  <option value={1}>1hr</option>
-                                  <option value={2}>2</option>
-                                </select>
-                              </div>
-                            </div>
-                          );
-                        })}
+                        <table className="table-fixed text-center">
+                          <tr>
+                            <th>Day</th>
+                            <th>
+                              Time
+                              <span className="text-sm text-gray-500">
+                                (hours)
+                              </span>
+                            </th>
+                            <th>Action</th>
+                          </tr>
+                          {timeSlots.map((timeSlot, index) => {
+                            return (
+                              <tr>
+                                <td>
+                                  <select
+                                    name={`timeSlots[${index}].day`}
+                                    value={timeSlot.day}
+                                    onChange={(e) =>
+                                      handleTimeSlotChange(
+                                        index,
+                                        "day",
+                                        e.target.value
+                                      )
+                                    }
+                                    className="w-28 rounded-md outline-none"
+                                  >
+                                    <option value=""> Select </option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
+                                  </select>
+                                </td>
+                                <td>
+                                  <input
+                                    type="number"
+                                    name={`timeSlots[${index}].hours`}
+                                    value={timeSlot.hours}
+                                    onChange={(e) =>
+                                      handleTimeSlotChange(
+                                        index,
+                                        "hours",
+                                        e.target.value
+                                      )
+                                    }
+                                    className="px-1 w-24 rounded-md outline-none"
+                                  />
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() => handleRemoveSlot(index)}
+                                  >
+                                    <DeleteIcon className="w-5 h-5" />
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </table>
                       </div>
                     </div>
                   </div>

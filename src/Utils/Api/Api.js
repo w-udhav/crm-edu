@@ -139,68 +139,68 @@ export const addComment = async (id, author, text) => {
 
 // ======================= UPDATE =============================================================================
 //? Update Student
-export const updateStudent = async (id, data) => {
-  const formData = {
-    firstName: data.firstName,
-    lastName: data.lastName,
-    dob: data.dob,
-    gender: data.gender,
-    schoolName: data.schoolName,
-    schoolYear: data.schoolYear,
-    email: data.parentsEmail,
-    phone: data.parentPhone,
-    addressDetail: {
-      addressStreet: data.addressStreet,
-      suburb: data.suburb,
-      postCode: data.postCode,
-      parentsEmail: data.parentsEmail,
-    },
-    parentDetail: [
-      {
-        name: data.parentName,
-        relation: data.relation,
-        phone: data.parentPhone,
-      },
-    ],
-    healthDetail: {
-      allergicFood: data.allergicFood,
-      medications: data.medications,
-      allergicMedication: data.allergicMedication,
-      healthProblem: data.healthProblem,
-    },
-    tutoringDetail: {
-      subjects: data.subjects,
-      frequency: 2,
-      paymentMethod: data.paymentMethod,
-    },
-  };
-  const response = await fetch(`${BASE_URL}/student/update`, {
-    method: "PUT",
-    body: JSON.stringify(formData),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
-  const responseData = await response.json();
-  return responseData;
-};
+// export const updateStudent = async (id, data) => {
+//   const formData = {
+//     firstName: data.firstName,
+//     lastName: data.lastName,
+//     dob: data.dob,
+//     gender: data.gender,
+//     schoolName: data.schoolName,
+//     schoolYear: data.schoolYear,
+//     email: data.parentsEmail,
+//     phone: data.parentPhone,
+//     addressDetail: {
+//       addressStreet: data.addressStreet,
+//       suburb: data.suburb,
+//       postCode: data.postCode,
+//       parentsEmail: data.parentsEmail,
+//     },
+//     parentDetail: [
+//       {
+//         name: data.parentName,
+//         relation: data.relation,
+//         phone: data.parentPhone,
+//       },
+//     ],
+//     healthDetail: {
+//       allergicFood: data.allergicFood,
+//       medications: data.medications,
+//       allergicMedication: data.allergicMedication,
+//       healthProblem: data.healthProblem,
+//     },
+//     tutoringDetail: {
+//       subjects: data.subjects,
+//       frequency: 2,
+//       paymentMethod: data.paymentMethod,
+//     },
+//   };
+//   const response = await fetch(`${BASE_URL}/student/update`, {
+//     method: "PUT",
+//     body: JSON.stringify(formData),
+//     headers: {
+//       "Content-type": "application/json; charset=UTF-8",
+//     },
+//   });
+//   const responseData = await response.json();
+//   return responseData;
+// };
 
-export const updateApprovedStatus = async (studentId, approvalStatus) => {
+export const updateStudent = async (studentId, data) => {
   try {
-    const response = await fetch(`${BASE_URL}/student/${studentId}/approval`, {
+    const response = await fetch(`${BASE_URL}/student/${studentId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ approvalStatus }),
+      body: JSON.stringify(data),
     });
 
     if (!response.ok) {
       throw new Error("Failed to update approval status");
     }
 
-    const data = await response.json();
-    return data.message; // Handle the response as needed
+    const responseData = await response.json();
+    return responseData.message; // Handle the response as needed
   } catch (error) {
     throw error; // Handle the error
   }
