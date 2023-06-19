@@ -7,22 +7,27 @@ import CommentBox from "./CommentBox";
 
 export default function Table({ headings, data, loading, error, fetchData }) {
   const [modal, setModal] = useState(false); //? To show the modal of comment
-  const [comment, setComment] = useState(null); //? To store the comment of the student to be deleted or edited
-
+  const [boxData, setBoxData] = useState({});
   const navigate = useNavigate();
 
   const handleRowClick = (id) => {
     navigate(`/dashboard/student/${id}`);
   };
 
-  const handleComment = (e, id) => {
-    setModal(true);
-    setComment(id);
-  };
-
   const handleModal = (props) => {
     setModal(props);
   };
+
+  const handleComment = (id, comments) => {
+    console.log(comments);
+    setBoxData({
+      id: id,
+      comments: comments,
+    });
+    handleModal(true);
+  };
+
+  // console.log(data);
 
   return (
     <div className="overflow-x-auto rounded-xl border">
@@ -76,7 +81,7 @@ export default function Table({ headings, data, loading, error, fetchData }) {
                   )}
                 </td>
                 <td>
-                  <button onClick={() => handleComment()}>
+                  <button onClick={() => handleComment(row._id, row.comments)}>
                     <CommentIcon />
                   </button>
                 </td>
@@ -126,7 +131,7 @@ export default function Table({ headings, data, loading, error, fetchData }) {
       </table>
 
       {/* //? This is the comment modal */}
-      {modal && <CommentBox handleModal={handleModal} />}
+      {modal && <CommentBox handleModal={handleModal} data={boxData} />}
     </div>
   );
 }

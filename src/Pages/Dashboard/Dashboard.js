@@ -43,9 +43,6 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  console.log(miscData);
-  console.log(error);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

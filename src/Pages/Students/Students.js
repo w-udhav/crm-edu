@@ -15,7 +15,7 @@ export default function Students() {
       setLoading(true);
       setError(null);
       setData([]);
-      const data = await getStudents({"approved" : true});
+      const data = await getStudents({ approved: true });
       setData(data);
       setLoading(false);
     } catch (err) {
@@ -46,17 +46,17 @@ export default function Students() {
             <select
               name=""
               id=""
-              className="border border-zinc-400 rounded-md bg-white "
+              className="border border-zinc-400 rounded-md bg-white outline-none"
             >
-              <option value="">All Students</option>
+              <option value="">All</option>
               <option value="">Today</option>
               <option value="">Active</option>
-              <option value="">Non-Active</option>
+              <option value="">Inactive</option>
             </select>
           </div>
         </div>
 
-        {/* table */}
+        {/* Table */}
 
         <Table
           headings={headings}

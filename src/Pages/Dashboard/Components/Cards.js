@@ -142,23 +142,21 @@ export default function Cards({ data }) {
                 <div className="flex items-center w-full justify-between">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-3 h-3 rounded-full flex justify-center items-center bg-green-500`}
+                      className={`w-3 h-3 rounded-full flex justify-center items-center bg-yellow-500`}
                     >
                       {/* <CashIcon className="w-7 h-7" fill="#00e038" /> */}
                     </div>
 
                     <div>
                       <div className="text-zinc-500 text-lg font-medium">
-                        Active
+                        Pending
                       </div>
                     </div>
                   </div>
 
                   {/* //*  number */}
                   <div>
-                    <div className="text-3xl text-green-500 font-bold">
-                      {active}
-                    </div>
+                    <div className="text-3xl text-yellow-500 font-bold">--</div>
                   </div>
                 </div>
 
@@ -183,7 +181,7 @@ export default function Cards({ data }) {
                   {/* //*  number */}
                   <div>
                     <div className="text-3xl text-red-500 font-bold">
-                      {inactive}
+                      {inactive ? inactive : "--"}
                     </div>
                   </div>
                 </div>

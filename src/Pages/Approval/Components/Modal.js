@@ -97,7 +97,7 @@ export default function Modal({ id, modal, handleModal }) {
   //? Chaning Approval Status
   const handleApprovalStatusChange = async () => {
     const newData = {
-      aprroved: true,
+      approved: true,
       status: "Active",
       tutoringDetail: {
         subjects: data.tutoringDetail.subjects,
@@ -132,7 +132,7 @@ export default function Modal({ id, modal, handleModal }) {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [modal]);
 
   if (!loading) {
     return (
