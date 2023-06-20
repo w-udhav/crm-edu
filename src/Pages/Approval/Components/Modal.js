@@ -103,6 +103,7 @@ export default function Modal({ id, modal, handleModal }) {
         subjects: data.tutoringDetail.subjects,
         frequency: data.tutoringDetail.frequency,
         paymentMethod: data.tutoringDetail.paymentMethod,
+        days : data.tutoringDetail.days,
         timeSlots: timeSlots,
       },
     };

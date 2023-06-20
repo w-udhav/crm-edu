@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:4000";
+export const BASE_URL = "https://crm-backend-tiix.vercel.app";
 
 // ======================= GET =============================================================================
 //? Get all students
