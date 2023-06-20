@@ -6,6 +6,7 @@ import { ReloadIcon } from "../../Components/Icons";
 
 export default function Students() {
   const headings = ["Name", "Email", "Phone", "Subject", "Status", "Action"];
+  const [modal, setModal] = useState(false); //? To show the modal of comment
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -26,7 +27,7 @@ export default function Students() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [modal]);
 
   return (
     <motion.div
@@ -64,6 +65,8 @@ export default function Students() {
           loading={loading}
           error={error}
           fetchData={fetchData}
+          modal={modal}
+          setModal={setModal}
         />
       </div>
     </motion.div>

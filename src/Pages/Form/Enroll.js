@@ -58,22 +58,36 @@ export default function Enrol({ user }) {
   };
 
   const validation = () => {
-    const validation = {};
+    const validationErrors = {};
     data.forEach((section) => {
       section.questions.forEach((question) => {
-        // * Check if the field is required
-        if (!formData[question.key] && question.required) {
-          validation[question.key] = "This field is required";
+        const { key, required } = question;
+        const value = formData[key];
+
+        // Check if the field is required
+        if (required && !value) {
+          validationErrors[key] = "This field is required";
         }
 
-        if (formData[question.key] === "days") {
-          validation[question.key] = "Maximum of 2 selections allowed";
+        // additional validations
+        if (key === "days" && value.length > 2) {
+          validationErrors[key] = "Maximum of 2 selections allowed";
         }
       });
     });
-    setError(validation);
+    setError(validationErrors);
   };
 
+  const isFormEmpty = (formData) => {
+    for (const key in formData) {
+      if (formData[key] !== false && !formData[key]) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  console.log(error);
   // ? Handle the Form Submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,7 +98,14 @@ export default function Enrol({ user }) {
       return;
     }
 
+    if (isFormEmpty(formData)) {
+      setError({ form: "The form is empty" });
+      setSuccess(false);
+      return;
+    }
+
     setLoading(true);
+    setError({});
     try {
       sendForm(formData).then((res) => {
         console.log(res);
@@ -153,8 +174,6 @@ export default function Enrol({ user }) {
       });
     }
   };
-
-  console.log(formData);
 
   return (
     <div className="min-h-screen w-full bg-[#F6F3EE] flex flex-col items-center">

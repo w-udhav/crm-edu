@@ -5,8 +5,16 @@ import { CommentIcon, ReloadIcon } from "./Icons";
 import Loader from "./Loader";
 import CommentBox from "./CommentBox";
 
-export default function Table({ headings, data, loading, error, fetchData }) {
-  const [modal, setModal] = useState(false); //? To show the modal of comment
+export default function Table({
+  modal,
+  setModal,
+  headings,
+  data,
+  loading,
+  error,
+  fetchData,
+}) {
+  // const [modal, setModal] = useState(false); //? To show the modal of comment
   const [boxData, setBoxData] = useState({});
   const navigate = useNavigate();
 

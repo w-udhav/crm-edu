@@ -12,6 +12,7 @@ export default function Cards({ data }) {
 
   const { active, inactive, offlinePayment, onlinePayment, dayWiseCount } =
     data;
+
   function todayStudent() {
     const date = new Date();
     const daysArr = [
@@ -181,7 +182,7 @@ export default function Cards({ data }) {
                   {/* //*  number */}
                   <div>
                     <div className="text-3xl text-red-500 font-bold">
-                      {inactive ? inactive : "--"}
+                      {inactive >= 0 ? inactive : "--"}
                     </div>
                   </div>
                 </div>
