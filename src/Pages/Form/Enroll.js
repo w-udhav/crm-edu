@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { data } from "./data";
 import Number from "./Components/Number";
 import { sendForm } from "../../Utils/Api/Api";
 import Loader from "../../Components/Loader";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Success from "../../Components/Success";
+import ErrorModal from "./Components/ErrorModal";
+import { AnimatePresence } from "framer-motion";
 
 export default function Enrol({ user }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState({});
+  const [errorModal, setErrorModal] = useState(null);
+  const [showPopUp, setShowPopUp] = useState(false);
   const [formData, setFormData] = useState({
     // * Student
     firstName: "",
@@ -49,12 +53,28 @@ export default function Enrol({ user }) {
     terms: false,
   });
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopUp(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [showPopUp]);
+
+  let popup = null;
+  if (showPopUp) {
+    popup = <ErrorModal message={errorModal} />;
+  }
+
   const navigate = useNavigate();
 
   // ? Handle the Form Change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // validation();
   };
 
   const validation = () => {
@@ -64,14 +84,29 @@ export default function Enrol({ user }) {
         const { key, required } = question;
         const value = formData[key];
 
+        // console.log(key + " " + value + "\n");
+        // console.log(key + " " + required + " " + value + "\n");
+
+        if (required && value.length === 0) {
+          validationErrors[key] = "This field is required";
+          setErrorModal("One or more fields are empty!");
+          setShowPopUp(true);
+        }
+
         // Check if the field is required
         if (required && !value) {
           validationErrors[key] = "This field is required";
+          setErrorModal("One or more fields are empty!");
+          setShowPopUp(true);
+
+          // console.log(key);
         }
 
         // additional validations
         if (key === "days" && value.length > 2) {
-          validationErrors[key] = "Maximum of 2 selections allowed";
+          validationErrors["days"] = "Maximum of 2 selections allowed";
+          setErrorModal("Caution: maximum of 2 selections allowed!");
+          setShowPopUp(true);
         }
       });
     });
@@ -87,7 +122,6 @@ export default function Enrol({ user }) {
     return false;
   };
 
-  console.log(error);
   // ? Handle the Form Submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -100,12 +134,14 @@ export default function Enrol({ user }) {
 
     if (isFormEmpty(formData)) {
       setError({ form: "The form is empty" });
+      setErrorModal("The form is empty");
       setSuccess(false);
       return;
     }
 
     setLoading(true);
     setError({});
+    setErrorModal(null);
     try {
       sendForm(formData).then((res) => {
         console.log(res);
@@ -180,17 +216,21 @@ export default function Enrol({ user }) {
       {/* Navigation */}
       <div className="bg-white-og w-full z-10 py-2 px-4 shadow-sm border-b border-zinc-200 fixed">
         <div className="flex justify-between items-baseline">
-          <div>Navigation</div>
+          <div className="text-red-500">HighHopes</div>
           <div>
-            <button className="px-2 py-1 text-[14px] text-black-1 border border-blue-300 bg-blue-200  hover:shadow-md rounded-md">
+            <Link
+              to="/dashboard"
+              className="px-2 py-1 text-[14px] text-black border border-blue-500 bg-sky-50 hover:bg-sky-200 rounded-md"
+            >
               Go back
-            </button>
+            </Link>
           </div>
         </div>
       </div>
 
       {/* Form */}
-      <div className="w-[45rem] p-2 mt-14 flex flex-col gap-5">
+      <div className="w-full md:w-[35rem] lg:w-[45rem] p-2 mt-14 flex flex-col gap-5">
+        <AnimatePresence>{popup}</AnimatePresence>
         <div className="rounded-xl pt-12 pb-6 px-4 bg-paleBlue">
           <h1 className="font-bold text-4xl drop-shadow-xl flex flex-col gap-2">
             <span className="text-5xl">Enrolment Form</span>
@@ -222,7 +262,8 @@ export default function Enrol({ user }) {
                         <div
                           key={item.id}
                           style={{
-                            borderColor: error[item.key] && "red",
+                            borderColor:
+                              (error[item.key] || error["form"]) && "red",
                           }}
                           className="rounded-lg bg-white-og border shadow-md p-7 flex flex-col gap-7"
                         >
@@ -253,20 +294,6 @@ export default function Enrol({ user }) {
                           <div>{item.name}</div>
                           <div className="flex flex-col gap-2">
                             {item.options.map((option, index) => {
-                              const handleRadioChange = (e) => {
-                                const value = e.target.value;
-                                if (item.key === "frequency") {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    [item.key]: index + 1,
-                                  }));
-                                } else {
-                                  setFormData((prev) => ({
-                                    ...prev,
-                                    [item.key]: value,
-                                  }));
-                                }
-                              };
                               return (
                                 <div
                                   key={index}
@@ -275,6 +302,7 @@ export default function Enrol({ user }) {
                                   <input
                                     type="radio"
                                     name={item.key}
+                                    id={option}
                                     value={option}
                                     onChange={(e) => {
                                       if (item.key === "frequency") {
@@ -288,7 +316,9 @@ export default function Enrol({ user }) {
                                         let value = option;
                                         if (option === "Cash") {
                                           value = "offline";
-                                        } else if (option === "Ezi-Debit") {
+                                        } else if (
+                                          option === "Ezi-Debit /weekly"
+                                        ) {
                                           value = "online";
                                         }
                                         setFormData((prev) => ({
@@ -305,7 +335,7 @@ export default function Enrol({ user }) {
                                     className="border-b outline-none focus:border-black-1 text-black"
                                     required={item.required}
                                   />
-                                  <label htmlFor="">{option}</label>
+                                  <label htmlFor={option}>{option}</label>
                                   {
                                     // * If the option is "Other", show the input
                                     option === "Other" && (
@@ -484,6 +514,7 @@ export default function Enrol({ user }) {
                             <input
                               type={item.type}
                               name={item.key}
+                              id={item.options}
                               value={formData[item.key]}
                               onChange={() => {
                                 setFormData((prev) => ({
@@ -494,7 +525,7 @@ export default function Enrol({ user }) {
                               className="border-b outline-none focus:border-black-1 text-black"
                               placeholder={item.placeholder}
                             />
-                            <label htmlFor="">{item.options}</label>
+                            <label htmlFor={item.options}>{item.options}</label>
                           </div>
                         </div>
                       );
@@ -507,18 +538,18 @@ export default function Enrol({ user }) {
         </form>
       </div>
       <div className="sticky bottom-0 backdrop-blur-sm bg-white-og bg-opacity-80 shadow-md py-1 w-full flex justify-center">
-        <div className="w-[45rem] p-1 flex justify-between items-center">
+        <div className="w-full md:w-[35rem] lg:w-[45rem] p-1 flex justify-between items-center">
           <button
             onClick={handleClear}
-            className="py-2 rounded-md transition-all text-red-500"
+            className="py-2 text-sm rounded-md transition-all text-red-500"
           >
             Clear
           </button>
 
           <button
-            disabled={formData.terms ? false : true}
+            disabled={loading || success || !formData.terms}
             onClick={handleSubmit}
-            className="px-5 py-2 text-white  bg-blue-600 disabled:bg-gray-500 transition-all ease-linear rounded-md"
+            className="px-5 py-2 text-white text-sm bg-blue-600 disabled:bg-gray-500 transition-all ease-linear rounded-md"
           >
             Submit
           </button>

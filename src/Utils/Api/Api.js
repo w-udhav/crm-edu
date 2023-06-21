@@ -88,7 +88,8 @@ export const sendForm = async (data) => {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
     });
 

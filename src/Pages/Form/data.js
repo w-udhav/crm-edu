@@ -153,7 +153,7 @@ export const data = [
   // ? Preferred Days
   {
     id: 60,
-    name: "Academics Details",
+    name: "Tutoring Classes",
     questions: [
       {
         id: 1,
@@ -169,7 +169,7 @@ export const data = [
         name: (
           <p>
             Preferred Days{" "}
-            <span className="text-sm text-gray-500 ">/Only 2</span>
+            <span className="text-sm text-gray-500 ">(Only 2)</span>
           </p>
         ),
         type: "checkbox",
@@ -180,7 +180,12 @@ export const data = [
       },
       {
         id: 2,
-        name: "Subjects",
+        name: (
+          <p>
+            Subjects
+            <span className="text-sm text-gray-500 ">(Choose 1 or more)</span>
+          </p>
+        ),
         type: "checkbox",
         key: "subjects",
         placeholder: "",
@@ -193,7 +198,7 @@ export const data = [
         type: "radio",
         key: "paymentMethod",
         placeholder: "",
-        options: ["Cash", "Ezi-Debit"],
+        options: ["Cash", "Ezi-Debit /weekly"],
         required: true,
       },
     ],

@@ -103,7 +103,7 @@ export default function Modal({ id, modal, handleModal }) {
         subjects: data.tutoringDetail.subjects,
         frequency: data.tutoringDetail.frequency,
         paymentMethod: data.tutoringDetail.paymentMethod,
-        days : data.tutoringDetail.days,
+        days: data.tutoringDetail.days,
         timeSlots: timeSlots,
       },
     };
@@ -220,67 +220,73 @@ export default function Modal({ id, modal, handleModal }) {
 
                       <div className="flex flex-col gap-2">
                         <table className="table-fixed text-center">
-                          <tr>
-                            <th>Day</th>
-                            <th>
-                              Time
-                              <span className="text-sm text-gray-500">
-                                (hours)
-                              </span>
-                            </th>
-                            <th>Action</th>
-                          </tr>
-                          {timeSlots.map((timeSlot, index) => {
-                            return (
-                              <tr>
-                                <td>
-                                  <select
-                                    name={`timeSlots[${index}].day`}
-                                    value={timeSlot.day}
-                                    onChange={(e) =>
-                                      handleTimeSlotChange(
-                                        index,
-                                        "day",
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-28 rounded-md outline-none"
-                                  >
-                                    <option value=""> Select </option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wednesday">Wednesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                    <option value="Saturday">Saturday</option>
-                                    <option value="Sunday">Sunday</option>
-                                  </select>
-                                </td>
-                                <td>
-                                  <input
-                                    type="number"
-                                    name={`timeSlots[${index}].hours`}
-                                    value={timeSlot.hours}
-                                    onChange={(e) =>
-                                      handleTimeSlotChange(
-                                        index,
-                                        "hours",
-                                        e.target.value
-                                      )
-                                    }
-                                    className="px-1 w-24 rounded-md outline-none"
-                                  />
-                                </td>
-                                <td>
-                                  <button
-                                    onClick={() => handleRemoveSlot(index)}
-                                  >
-                                    <DeleteIcon className="w-5 h-5" />
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })}
+                          <thead>
+                            <tr>
+                              <th>Day</th>
+                              <th>
+                                Time
+                                <span className="text-sm text-gray-500">
+                                  (hours)
+                                </span>
+                              </th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {timeSlots.map((timeSlot, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td>
+                                    <select
+                                      name={`timeSlots[${index}].day`}
+                                      value={timeSlot.day}
+                                      onChange={(e) =>
+                                        handleTimeSlotChange(
+                                          index,
+                                          "day",
+                                          e.target.value
+                                        )
+                                      }
+                                      className="w-28 rounded-md outline-none"
+                                    >
+                                      <option value=""> Select </option>
+                                      <option value="Monday">Monday</option>
+                                      <option value="Tuesday">Tuesday</option>
+                                      <option value="Wednesday">
+                                        Wednesday
+                                      </option>
+                                      <option value="Thursday">Thursday</option>
+                                      <option value="Friday">Friday</option>
+                                      <option value="Saturday">Saturday</option>
+                                      <option value="Sunday">Sunday</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="number"
+                                      name={`timeSlots[${index}].hours`}
+                                      value={timeSlot.hours}
+                                      onChange={(e) =>
+                                        handleTimeSlotChange(
+                                          index,
+                                          "hours",
+                                          e.target.value
+                                        )
+                                      }
+                                      className="px-1 w-24 rounded-md outline-none"
+                                    />
+                                  </td>
+                                  <td>
+                                    <button
+                                      onClick={() => handleRemoveSlot(index)}
+                                    >
+                                      <DeleteIcon className="w-5 h-5" />
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
                         </table>
                       </div>
                     </div>
