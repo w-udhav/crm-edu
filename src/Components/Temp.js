@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 import { Link, useLocation } from "react-router-dom";
-import FormIcon, {
+import {
   ApprovalIcon,
   DashboardIcon,
   MailIcon,
@@ -39,23 +39,15 @@ export default function Temp({ children }) {
 
   const location = useLocation();
 
+  const segments = location.pathname.split("/").filter(Boolean);
+  const currentPath = segments[1] || "dashboard";
+
   const getNav = (route) => {
-    const path = route;
-    const pathParts = path.split("/");
-    const lastPart = pathParts[pathParts.length - 1];
+    const pathParts = route.split("/");
+    let lastPart = pathParts[pathParts.length - 1];
+    lastPart = lastPart === "" ? "dashboard" : lastPart;
 
-    const currentRoute = location.pathname.split("/");
-    // console.log(lastPart);
-    // console.log(currentRoute);
-    for (var i = currentRoute.length - 1; i >= 0; i--) {
-      if (lastPart === currentRoute[i]) {
-        // console.log(currentRoute[i]);
-        // console.log(lastPart);
-        return "bg-blue-200";
-      }
-    }
-
-    // return currentRoute ? "bg-blue-200" : "";
+    return currentPath === lastPart ? "bg-blue-200" : "";
   };
 
   return (
@@ -98,7 +90,7 @@ export default function Temp({ children }) {
 
         {/* Right */}
         <div className="w-full max-h-[100vh] overflow-hidden">
-          <Navbar location={location} />
+          <Navbar location={currentPath} />
           <div className="h-[92vh] p-2 overflow-y-auto">
             <div className="w-full h-full rounded-2xl">{children}</div>
           </div>

@@ -1,11 +1,11 @@
 export default function SubjectList({ subs }) {
   const sub = {
-    Maths: "blue",
-    English: "yellow",
-    Science: "green",
-    Arts: "orange",
-    Painting: "purple",
-    Gymnastics: "pink",
+    Maths: "#64CCC5",
+    English: "#FFA41B",
+    Science: "#8EAC50",
+    Arts: "#F29727",
+    Painting: "#E4A5FF",
+    Gymnastics: "#FF78C4",
   };
   // All subjects are predefined      !noted
   // Maths | English | Science | Arts | Painting | Gymnastics
@@ -16,14 +16,11 @@ export default function SubjectList({ subs }) {
         return (
           <div
             key={index}
-            className="px-2 py-1 text-[13px] rounded-full border capitalize flex items-center gap-2"
+            style={{
+              color: sub[subject],
+            }}
+            className="px-2 py-1 text-[13px] bg-white shadow-md rounded-md capitalize flex items-center gap-2"
           >
-            <span
-              style={{
-                backgroundColor: sub[subject],
-              }}
-              className={`w-[5px] h-[5px] rounded-full `}
-            ></span>
             <h1>{subject}</h1>
           </div>
         );

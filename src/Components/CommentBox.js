@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { DeleteIcon } from "./Icons";
 import { addComment, removeComment } from "../Utils/Api/Api";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-export default function CommentBox({ data, handleModal }) {
+export default function CommentBox({ data, handleModal, setReload }) {
   const { id, comments } = data;
-  const [commentsList, setCommentList] = useState(comments)
+  const [commentsList, setCommentList] = useState(comments);
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,32 +22,34 @@ export default function CommentBox({ data, handleModal }) {
     }
     if (window.confirm("Are you sure you want to close this modal?")) {
       handleModal(false);
+      setReload(true);
     }
   };
 
   const deleteSpecificComment = async (commentId) => {
     try {
-      var tempList = []
-      for(var i = 0; i<commentsList.length; i++){
-        if(commentsList[i]["_id"] != commentId){
+      var tempList = [];
+      for (var i = 0; i < commentsList.length; i++) {
+        if (commentsList[i]["_id"] != commentId) {
           tempList.push(commentsList[i]);
         }
-      } 
-      setCommentList(tempList)
-      console.log(commentsList)
+      }
+      setCommentList(tempList);
       await removeComment(id, commentId);
-      console.log("here")
+      console.log("here");
+      setReload(true);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const tempComment = {"text" : newComment}
+      const tempComment = { text: newComment };
       await addComment(id, tempComment);
       setNewComment("");
+      setReload(true);
       setLoading(false);
       handleModal(false);
     } catch (error) {
@@ -59,12 +61,18 @@ export default function CommentBox({ data, handleModal }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ type: "tween" }}
       className="fixed z-30 inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center"
     >
-      <div className="flex flex-col gap-5 max-w-[35rem] w-[30rem] max-h-[80vh]">
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        exit={{ y: 100 }}
+        className="flex flex-col gap-5 max-w-[35rem] w-[30rem] max-h-[80vh]"
+      >
         <div className=" bg-white-og bg-opacity-80 rounded-xl flex flex-col overflow-hidden">
           <div className="p-5 overflow-hidden">
             <div className="flex gap-10 justify-between items-start">
@@ -134,7 +142,7 @@ export default function CommentBox({ data, handleModal }) {
             Close
           </button>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

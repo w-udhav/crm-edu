@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CommentIcon, ReloadIcon } from "./Icons";
 import Loader from "./Loader";
 import CommentBox from "./CommentBox";
+import { AnimatePresence } from "framer-motion";
 
 export default function Table({
   modal,
@@ -13,6 +14,7 @@ export default function Table({
   loading,
   error,
   fetchData,
+  setReload,
 }) {
   // const [modal, setModal] = useState(false); //? To show the modal of comment
   const [boxData, setBoxData] = useState({});
@@ -55,7 +57,7 @@ export default function Table({
             data.map((row) => (
               <tr
                 key={row._id}
-                className="hover:bg-blue-50 transition-all ease-in-out cursor-pointer"
+                className="hover:bg-green-100 text-[15px] cursor-pointer"
               >
                 <td
                   className=" px-2 py-1"
@@ -139,7 +141,15 @@ export default function Table({
       </table>
 
       {/* //? This is the comment modal */}
-      {modal && <CommentBox handleModal={handleModal} data={boxData} />}
+      <AnimatePresence>
+        {modal && (
+          <CommentBox
+            handleModal={handleModal}
+            setReload={setReload}
+            data={boxData}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Table from "../../Components/Table";
 import { getStudents } from "../../Utils/Api/Api";
 import { ReloadIcon } from "../../Components/Icons";
@@ -7,6 +7,7 @@ import { ReloadIcon } from "../../Components/Icons";
 export default function Students() {
   const headings = ["Name", "Email", "Phone", "Subject", "Status", "Action"];
   const [modal, setModal] = useState(false); //? To show the modal of comment
+  const [reload, setReload] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -27,7 +28,7 @@ export default function Students() {
 
   useEffect(() => {
     fetchData();
-  }, [modal]);
+  }, [reload]);
 
   return (
     <motion.div
@@ -67,6 +68,7 @@ export default function Students() {
           fetchData={fetchData}
           modal={modal}
           setModal={setModal}
+          setReload={setReload}
         />
       </div>
     </motion.div>

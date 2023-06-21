@@ -73,7 +73,7 @@ export default function Approval() {
           <tbody>
             {data && data.length > 0 ? (
               data.map((row) => (
-                <tr key={row._id}>
+                <tr key={row._id} className="text-[15px]">
                   <td className=" px-2 py-1">{row.firstName}</td>
                   <td className=" px-2 py-1">{row.email}</td>
                   <td className=" px-2 py-1">
@@ -86,16 +86,13 @@ export default function Approval() {
                         onClick={() => handleEdit(row._id)}
                         className="px-[6px] rounded-full hover:bg-blue-400 transition-all ease-in-out"
                       >
-                        <EditIcon className="w-5 h-5" />
+                        <EditIcon className="w-[17px] h-[17px]" />
                       </button>
                       <button
                         onClick={handleDelete}
                         className="p-1 rounded-full hover:bg-red-400 transition-all ease-in-out"
                       >
-                        <DeleteIcon className="w-6 h-6 " />
-                      </button>
-                      <button className="px-[6px] rounded-full hover:bg-green-400 transition-all ease-in-out">
-                        <TickIcon className="w-5 h-5 " />
+                        <DeleteIcon className="w-5 h-5 " />
                       </button>
                     </div>
                   </td>
