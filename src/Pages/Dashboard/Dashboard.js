@@ -75,7 +75,7 @@ export default function Dashboard() {
             )}
           </div>
         </div>
-        <div className="w-[max-content] flex flex-col gap-2">
+        <div className="w-[max-content] min-w-[25rem] flex flex-col gap-2">
           <div>
             <h3 className="text-3xl font-semibold">Overview</h3>
           </div>

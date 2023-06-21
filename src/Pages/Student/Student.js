@@ -4,14 +4,13 @@ import About from "./Components/About";
 import Parents from "./Components/Parents";
 import Medical from "./Components/Medical";
 import Address from "./Components/Address";
-import user from "../../Assets/User/user.jpg";
 import {
   AboutIcon,
   AddressIcon,
   EditIcon,
-  LeftArrowHead,
   MedicalIcon,
   ParentsIcon,
+  UserIcon,
 } from "../../Components/Icons";
 import { useParams } from "react-router-dom";
 import { getStudentById } from "../../Utils/Api/Api";
@@ -38,20 +37,20 @@ export default function Student() {
       id: 2,
       name: "Address",
       component: "/address",
-      icon: <AddressIcon className="w-6 h-6" />,
+      icon: <AddressIcon className="w-5 h-5" />,
     },
     {
       id: 3,
       name: "Parents",
       component: "/parents",
-      icon: <ParentsIcon className="w-6 h-6" />,
+      icon: <ParentsIcon className="w-5 h-5" />,
     },
 
     {
       id: 4,
       name: "Medical",
       component: "/medical",
-      icon: <MedicalIcon className="w-6 h-6" />,
+      icon: <MedicalIcon className="w-5 h-5" />,
     },
   ];
 
@@ -86,7 +85,7 @@ export default function Student() {
         exit={{
           opacity: 0,
         }}
-        className="w-full h-full border"
+        className="w-full h-full"
       >
         <Loader />
       </motion.div>
@@ -106,17 +105,24 @@ export default function Student() {
         }}
         className="flex flex-col gap-5 h-full overflow-hidden"
       >
-        <div className="bg-zinc-200 py-8 rounded-t-3xl">
+        <div className="">
           {/* Header */}
-          <div className="flex justify-between items-center px-8">
-            <div className="flex gap-5 items-center">
-              <div className="w-20 h-20 rounded-full">
-                <img src={user} className="rounded-full object-cover" />
-              </div>
+          <div className="flex justify-between items-center">
+            <div className="flex gap-2 items-center">
+              <UserIcon className="w-12 h-12" />
               <div className="flex flex-col">
-                <h3 className="text-3xl">
-                  {studentData.firstName} {studentData.lastName}
-                </h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl font-semibold text-black-1">
+                    {studentData.firstName} {studentData.lastName}
+                  </h3>
+                  <div
+                    className={`w-2 h-2 rounded-full
+                    ${studentData.status === "Active" && "bg-green-500"}
+                    ${studentData.status === "Inactive" && "bg-red-500"}
+                    ${studentData.status === "Pending" && "bg-yellow-500"}
+                  `}
+                  ></div>
+                </div>
                 <p className="text-sm">Student</p>
               </div>
             </div>
@@ -124,17 +130,12 @@ export default function Student() {
             <div>
               <button
                 onClick={handleEdit}
-                className={`${
-                  !isEdit && "hover:bg-blue-200"
-                }  transition-all ease-in-out rounded-full p-2`}
+                className={`${!isEdit && "hover:bg-blue-200"}  
+                transition-all ease-in-out rounded-md px-2 py-1 flex items-center gap-1 text-sm border border-zinc-500
+                `}
               >
-                {isEdit ? (
-                  <span className="bg-red-500 hover:bg-red-600 transition-all ease-linear text-white rounded-md px-4 py-2">
-                    Cancel
-                  </span>
-                ) : (
-                  <EditIcon className="w-6 h-6" />
-                )}
+                <EditIcon className="w-4 h-4" />
+                <span>Edit</span>
               </button>
             </div>
           </div>
@@ -144,29 +145,31 @@ export default function Student() {
           // ! This is the main content
         }
         <div className="w-full h-full flex flex-row gap-8 overflow-y-auto">
-          <div className=" pr  min-w-[max-content]">
-            <div className=" flex flex-col gap-5">
+          <div className="min-w-[max-content] w-[12rem] pl-2">
+            <div className=" flex flex-col gap-">
               {links.map((item) => {
                 return (
                   <button
                     onClick={() => setActive(item.id)}
                     key={item.id}
-                    className={`flex gap-5 items-center justify-between rounded-full outline-none px-3 transition-all ease-in-out
+                    className={`relative flex gap-5 items-center justify-between rounded-md outline-none px-2 text-[15px] 
                     ${
                       active === item.id
-                        ? "bg-p1 bg-opacity-70 border border-p1"
-                        : "hover:bg-p1 hover:bg-opacity-20"
+                        ? "bg-[#C4DFDF] bg-opacity-30  font-medium"
+                        : "hover:bg-[#ECF9FF] "
                     }`}
                   >
-                    <div className="flex gap-3 items-center">
-                      <div className="w-10 h-10 flex items-center justify-center rounded-full">
+                    <div className="flex py-[6px] gap-2 items-center text-black-1">
+                      <div className="w-5 flex items-center justify-center rounded-full">
                         {item.icon}
                       </div>
                       <p>{item.name}</p>
                     </div>
-                    <div className="text-black-1">
-                      <LeftArrowHead className="rotate-180" />
-                    </div>
+                    {active === item.id && (
+                      <div className="absolute top-0 -left-[7px] h-full w-1 py-[3px]">
+                        <div className="bg-sky-500 rounded-2xl h-full w-full"></div>
+                      </div>
+                    )}
                   </button>
                 );
               })}
