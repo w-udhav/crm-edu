@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { DeleteIcon } from "./Icons";
 import { addComment, removeComment } from "../Utils/Api/Api";
+import {v4 as uuidv4} from 'uuid';
 
 export default function CommentBox({ data, handleModal }) {
   const { id, comments } = data;
-
+  const [commentsList, setCommentList] = useState(comments)
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,24 +27,33 @@ export default function CommentBox({ data, handleModal }) {
 
   const deleteSpecificComment = async (commentId) => {
     try {
-      const responseData = await removeComment(id, commentId);
-      console.log(responseData);
+      var tempList = []
+      for(var i = 0; i<commentsList.length; i++){
+        if(commentsList[i]["_id"] != commentId){
+          tempList.push(commentsList[i]);
+        }
+      } 
+      setCommentList(tempList)
+      console.log(commentsList)
+      await removeComment(id, commentId);
+      console.log("here")
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   };
 
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const responseData = await addComment(id, newComment);
-      console.log(responseData);
+      const tempComment = {"text" : newComment}
+      await addComment(id, tempComment);
       setNewComment("");
       setLoading(false);
+      handleModal(false);
     } catch (error) {
       setError(error.message);
-      console.log(error);
       setLoading(false);
+      handleModal(false);
     }
   };
 
@@ -70,8 +80,8 @@ export default function CommentBox({ data, handleModal }) {
             {/* //? Content */}
             <div className="h-full flex flex-col gap-2 py-3">
               <div className="h-full flex flex-col gap-3 overflow-y-auto ">
-                {comments && comments.length > 0 ? (
-                  comments.map((item) => (
+                {commentsList && commentsList.length > 0 ? (
+                  commentsList.map((item) => (
                     <div key={item._id} className="flex items-end gap-1">
                       <div className="w-10/12 p-2 rounded-xl bg-[#CFD0D0] shadow-inner">
                         {item.text}
@@ -121,7 +131,7 @@ export default function CommentBox({ data, handleModal }) {
             className="p-3 w-full text-xl text-blue-600 font-medium outline-none"
             onClick={closeModal}
           >
-            Cancel
+            Close
           </button>
         </div>
       </div>
