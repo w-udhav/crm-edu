@@ -39,7 +39,7 @@ export const data = [
       },
       {
         id: 6,
-        name: "Year",
+        name: "School Year",
         key: "schoolYear",
         type: "number",
         placeholder: "Enter your year",
@@ -52,28 +52,6 @@ export const data = [
         type: "text",
         placeholder: "Enter your school name",
         required: true,
-      },
-
-      {
-        id: 7,
-        name: "Student Email",
-        key: "email",
-        type: "email",
-        placeholder: "Enter your email",
-        required: true,
-      },
-      {
-        id: 8,
-        name: (
-          <p>
-            Student Phone No{" "}
-            <span className="text-sm text-gray-500">(Optional)</span>
-          </p>
-        ),
-        key: "phone",
-        type: "number",
-        placeholder: "Enter your number",
-        required: false,
       },
     ],
   },
@@ -175,7 +153,15 @@ export const data = [
         type: "checkbox",
         key: "days",
         placeholder: "",
-        options: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        options: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
         required: true,
       },
       {
@@ -198,7 +184,7 @@ export const data = [
         type: "radio",
         key: "paymentMethod",
         placeholder: "",
-        options: ["Cash", "Ezi-Debit /weekly"],
+        options: ["Full amount", "Ezi-debit /Pay Weekly"],
         required: true,
       },
     ],

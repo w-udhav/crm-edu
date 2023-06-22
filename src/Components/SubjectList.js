@@ -3,8 +3,7 @@ export default function SubjectList({ subs }) {
     Maths: "#64CCC5",
     English: "#FFA41B",
     Science: "#8EAC50",
-    Arts: "#F29727",
-    Painting: "#E4A5FF",
+    "Arts or painting": "#FF2171",
     Gymnastics: "#FF78C4",
   };
   // All subjects are predefined      !noted

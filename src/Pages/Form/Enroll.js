@@ -22,8 +22,6 @@ export default function Enrol({ user }) {
     gender: "",
     schoolName: "",
     schoolYear: "",
-    email: "",
-    phone: "",
 
     // * Address
     addressStreet: "",
@@ -211,6 +209,8 @@ export default function Enrol({ user }) {
     }
   };
 
+  console.log(formData);
+
   return (
     <div className="min-h-screen w-full bg-[#F6F3EE] flex flex-col items-center">
       {/* Navigation */}
@@ -312,21 +312,21 @@ export default function Enrol({ user }) {
                                         }));
                                         return;
                                       }
-                                      if (item.key === "paymentMethod") {
-                                        let value = option;
-                                        if (option === "Cash") {
-                                          value = "offline";
-                                        } else if (
-                                          option === "Ezi-Debit /weekly"
-                                        ) {
-                                          value = "online";
-                                        }
-                                        setFormData((prev) => ({
-                                          ...prev,
-                                          [item.key]: value,
-                                        }));
-                                        return;
-                                      }
+                                      // if (item.key === "paymentMethod") {
+                                      //   let value = option;
+                                      //   if (option === "Cash") {
+                                      //     value = "offline";
+                                      //   } else if (
+                                      //     option === "Ezi-Debit /weekly"
+                                      //   ) {
+                                      //     value = "online";
+                                      //   }
+                                      //   setFormData((prev) => ({
+                                      //     ...prev,
+                                      //     [item.key]: value,
+                                      //   }));
+                                      //   return;
+                                      // }
                                       setFormData((prev) => ({
                                         ...prev,
                                         [item.key]: option,
@@ -558,7 +558,7 @@ export default function Enrol({ user }) {
 
       {/* Loader */}
       {(loading || success) && (
-        <div className="fixed bg-black bg-opacity-80 w-full h-full top-0 left-0">
+        <div className="fixed bg-black bg-opacity-50 z-40 w-full h-full top-0 left-0">
           {loading && <Loader />}
           {success && <Success />}
         </div>

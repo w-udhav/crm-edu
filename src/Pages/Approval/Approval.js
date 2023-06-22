@@ -43,7 +43,7 @@ export default function Approval() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [modal]);
 
   return (
     <motion.div

@@ -105,7 +105,7 @@ export default function Student() {
         }}
         className="flex flex-col gap-5 h-full overflow-hidden"
       >
-        <div className="">
+        <div className="bg-black bg-opacity-5 rounded-2xl  px-3 py-4">
           {/* Header */}
           <div className="flex justify-between items-center">
             <div className="flex gap-2 items-center">

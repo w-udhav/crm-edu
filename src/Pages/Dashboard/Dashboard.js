@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cards from "./Components/Cards";
-import Table from "../../Components/Table";
-import { getMiscData, getStudents } from "../../Utils/Api/Api";
+import { getMiscData } from "../../Utils/Api/Api";
 import { motion } from "framer-motion";
 import WeekChart from "./Components/WeekChart";
 import Loader from "../../Components/Loader";
@@ -9,21 +8,6 @@ import Loader from "../../Components/Loader";
 export default function Dashboard() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  //? Data from API   {
-  //!     "_id": "646b062195c8ade227e4222d",
-  //!     "firstName": "Ujjwal",
-  //!     "email": "ujjwal@gmail.com",
-  //!     "phone": 9559971272,
-  //!     "tutoringDetail": {
-  //!         "subjects": [
-  //!             "Maths",
-  //!             "Science"
-  //!         ]
-  //!     },
-  //!     "status": "Inactive"
-  //! }
-
   const [miscData, setMiscData] = useState({});
 
   const fetchData = async () => {

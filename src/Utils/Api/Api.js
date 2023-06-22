@@ -52,8 +52,6 @@ export const sendForm = async (data) => {
     gender: data.gender,
     schoolName: data.schoolName,
     schoolYear: data.schoolYear,
-    email: data.email,
-    phone: data.parentPhone,
     addressDetail: {
       addressStreet: data.addressStreet,
       suburb: data.suburb,

@@ -44,7 +44,7 @@ export default function MailList({ toMail, setToMail }) {
       setSelectedEmails({});
       setToMail([]);
     } else {
-      const allEmails = data.map((item) => item.email);
+      const allEmails = data.map((item) => item.addressDetail.parentsEmail);
       const selectedEmails = allEmails.reduce((acc, email) => {
         acc[email] = true;
         return acc;
@@ -78,86 +78,94 @@ export default function MailList({ toMail, setToMail }) {
     fetchData();
   }, []);
 
-  const headings = ["Name", "Student's Email", "Parent's Email", "Status"];
+  const headings = ["Name", "Parent's Email", "Status"];
 
-  return (
-    <div className="border rounded-xl">
-      <div className="overflow-x-auto rounded-xl ">
-        <table className="w-full text-left rounded-xl">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="py-2 px-4">
-                <div className="relative flex justify-center items-center">
-                  <input
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    className="z-10 cursor-pointer w-4 h-4"
-                    onChange={handleSelectAll}
-                    checked={selectAll}
-                  />
-                  {/* <div className="bg-blue-100 absolute w-6 h-6 p-4 z-0 rounded-full"></div> */}
-                </div>
-              </th>
-              {headings.map((head, index) => (
-                <th key={index} className="p-2">
-                  {head}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={5}>
-                  <Loader />
-                </td>
-              </tr>
-            ) : (
-              data.map((row, index) => (
-                <tr
-                  key={row._id}
-                  className="hover:bg-blue-50 transition-all ease-in-out"
-                >
-                  <td className="w-1 py-1 px-4">
+  if (loading) return <Loader />;
+
+  if (data)
+    return (
+      <div className="border rounded-xl">
+        <div className="overflow-x-auto rounded-xl ">
+          <table className="w-full text-left rounded-xl">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="py-2 px-4">
+                  <div className="relative flex justify-center items-center">
                     <input
                       type="checkbox"
                       name="selectAll"
                       id="selectAll"
-                      className="w-4 h-4 cursor-pointer"
-                      value={row.email}
-                      checked={!!selectedEmails[row.email]}
-                      onChange={(e) => handleEmailSelection(e, row.email)}
+                      className="z-10 cursor-pointer w-4 h-4"
+                      onChange={handleSelectAll}
+                      checked={selectAll}
                     />
-                  </td>
-                  <td className="px-2 py-1">{row.firstName}</td>
-                  <td className="px-2 py-1">{row.email}</td>
-                  <td className="px-2 py-1">
-                    {row.parentEmail ? row.parentEmail : "NA"}
-                  </td>
-                  <td className="px-2 py-1">
-                    {row.status === "Active" && (
-                      <span className="text-green-500 rounded-full">
-                        {row.status}
-                      </span>
-                    )}
-                    {row.status === "Inactive" && (
-                      <span className="text-red-500 rounded-full">
-                        {row.status}
-                      </span>
-                    )}
-                    {row.status === "Pending" && (
-                      <span className="text-yellow-500 rounded-full">
-                        {row.status}
-                      </span>
-                    )}
+                    {/* <div className="bg-blue-100 absolute w-6 h-6 p-4 z-0 rounded-full"></div> */}
+                  </div>
+                </th>
+                {headings.map((head, index) => (
+                  <th key={index} className="p-2">
+                    {head}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={5}>
+                    <Loader />
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                data.map((row) => (
+                  <tr key={row._id} className="">
+                    <td className="w-1 py-1 px-4">
+                      <input
+                        type="checkbox"
+                        name="selectAll"
+                        id="selectAll"
+                        className="w-4 h-4 cursor-pointer"
+                        value={row.email}
+                        checked={
+                          !!selectedEmails[row.addressDetail.parentsEmail]
+                        }
+                        onChange={(e) =>
+                          handleEmailSelection(
+                            e,
+                            row.addressDetail.parentsEmail
+                          )
+                        }
+                      />
+                    </td>
+                    <td className="px-2 py-1">{row.firstName}</td>
+                    <td className="px-2 py-1">
+                      {row.addressDetail.parentsEmail
+                        ? row.addressDetail.parentsEmail
+                        : "--"}
+                    </td>
+                    <td className="px-2 py-1">
+                      {row.status === "Active" && (
+                        <span className="text-green-500 rounded-full">
+                          {row.status}
+                        </span>
+                      )}
+                      {row.status === "Inactive" && (
+                        <span className="text-red-500 rounded-full">
+                          {row.status}
+                        </span>
+                      )}
+                      {row.status === "Pending" && (
+                        <span className="text-yellow-500 rounded-full">
+                          {row.status}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  );
+    );
 }

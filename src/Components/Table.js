@@ -29,7 +29,6 @@ export default function Table({
   };
 
   const handleComment = (id, comments) => {
-    console.log(comments);
     setBoxData({
       id: id,
       comments: comments,
@@ -69,7 +68,7 @@ export default function Table({
                   className=" px-2 py-1"
                   onClick={() => handleRowClick(row._id)}
                 >
-                  {row.email}
+                  {row.addressDetail.parentsEmail}
                 </td>
                 <td
                   className=" px-2 py-1"

@@ -10,8 +10,14 @@ import { AnimatePresence, motion } from "framer-motion";
 export default function Cards({ data }) {
   const [isChange, setIsChange] = useState(true);
 
-  const { active, inactive, offlinePayment, onlinePayment, dayWiseCount } =
-    data;
+  const {
+    active,
+    inactive,
+    pending,
+    offlinePayment,
+    onlinePayment,
+    dayWiseCount,
+  } = data;
 
   function todayStudent() {
     const date = new Date();
@@ -157,7 +163,9 @@ export default function Cards({ data }) {
 
                   {/* //*  number */}
                   <div>
-                    <div className="text-3xl text-yellow-500 font-bold">--</div>
+                    <div className="text-3xl text-yellow-500 font-bold">
+                      {pending >= 0 ? pending : "--"}
+                    </div>
                   </div>
                 </div>
 
