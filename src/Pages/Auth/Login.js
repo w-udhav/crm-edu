@@ -23,19 +23,31 @@ export default function Login() {
     setShowPass(!showPass);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      login(credentials.email, credentials.pass);
-      console.log(credentials);
-      setLoading(false);
+    setLoading(true);
 
+    try {
+      const user = await login(credentials.email, credentials.pass);
+      console.log(user);
+      setLoading(false);
       navigate("/dashboard");
     } catch (err) {
       setLoading(false);
-      setError(err.message);
-      console.error(err);
+      console.error(err.code);
+      const errorCode = err.code;
+      if (errorCode === "auth/wrong-password") {
+        setError("Wrong password.");
+      }
+      if (errorCode === "auth/user-not-found") {
+        setError("User not found.");
+      }
+      if (errorCode === "auth/invalid-email") {
+        setError("Invalid email.");
+      }
+      if (errorCode === "auth/too-many-requests") {
+        setError("Too many attempts.");
+      }
     }
   };
 
@@ -90,6 +102,7 @@ export default function Login() {
                     />
                     <button
                       onClick={handleShowPass}
+                      type="button"
                       className="text-blue-400 hover:text-blue-500 outline-none text-sm"
                     >
                       {showPass ? (
@@ -110,10 +123,19 @@ export default function Login() {
               </div>
             </div>
 
+            {/* Error */}
+            {error && (
+              <div className="flex gap-2 text-red-500 text-[12px] font-semibold">
+                <div>X</div>
+                <div>{error}</div>
+              </div>
+            )}
+
             {/* Submit */}
             <div>
               <button
                 onClick={handleSubmit}
+                type="submit"
                 disabled={loading}
                 className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-inner rounded-md text-white text-[15px] font-semibold py-2"
               >
