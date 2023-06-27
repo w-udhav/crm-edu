@@ -5,13 +5,13 @@ export const BASE_URL = "https://crm-backend-tiix.vercel.app";
 
 // ======================= GET =============================================================================
 //? Get all students
-export const getStudents = async (dataBody) => {
+export const getStudents = async (filters) => {
   var options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(dataBody || {}),
+    body: JSON.stringify(filters || {}),
   };
   const response = await fetch(`${BASE_URL}/student/list`, options);
   const data = await response.json();

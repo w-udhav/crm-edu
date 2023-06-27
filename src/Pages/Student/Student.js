@@ -7,19 +7,17 @@ import Address from "./Components/Address";
 import {
   AboutIcon,
   AddressIcon,
-  EditIcon,
   MedicalIcon,
   ParentsIcon,
   UserIcon,
 } from "../../Components/Icons";
 import { useParams } from "react-router-dom";
-import { getStudentById } from "../../Utils/Api/Api";
+import { getStudentById, updateStudent } from "../../Utils/Api/Api";
 import Loader from "../../Components/Loader";
 
 export default function Student() {
-  const [isEdit, setIsEdit] = useState(false);
   const [active, setActive] = useState(1);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   // ? Data segregration
   const [studentData, setStudentData] = useState({});
@@ -55,16 +53,27 @@ export default function Student() {
   ];
 
   // ? Handle Edit
-  const handleStatusChange = (e) => {
+  const handleStatusChange = async (e) => {
+    const value = e.target.value;
+    const sendingData = {
+      status: value,
+    };
+
+    setLoading(true);
+    setError("");
+    try {
+      const response = await updateStudent(params.id, sendingData);
+      fetchData();
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+      setLoading(false);
+    }
     setStatus(e.target.value);
-    console.log(e.target.value);
   };
 
-  const handleEdit = () => {
-    setIsEdit(!isEdit);
-  };
-
-  useEffect(() => {
+  const fetchData = () => {
     getStudentById(params.id)
       .then((data) => {
         setStudentData(data);
@@ -76,6 +85,10 @@ export default function Student() {
         setError(err);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   if (error) return <div>Something went wrong</div>;
@@ -138,21 +151,13 @@ export default function Student() {
                   <select
                     name="status"
                     id=""
-                    defaultValue={studentData.status}
+                    value={studentData.status}
                     onChange={handleStatusChange}
                     className="border-none outline-none rounded-md shadow-md bg-white-og p-1 text-sm"
                   >
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
                   </select>
-
-                  {status !== studentData.status && (
-                    <div>
-                      <button className="flex justify-center items-center gap-2 bg-green-500 text-white-og font-medium text-[14px] px-2 py-1 rounded-md">
-                        Update
-                      </button>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -183,8 +188,8 @@ export default function Student() {
         {
           // ! This is the main content
         }
-        <div className="w-full h-full flex flex-row gap-8">
-          <div className="min-w-[max-content] w-[12rem] pl-2">
+        <div className="w-full h-full flex flex-row gap-5">
+          <div className="w-[12rem] pl-2">
             <div className=" flex flex-col gap-">
               {links.map((item) => {
                 return (
@@ -213,19 +218,36 @@ export default function Student() {
                 );
               })}
             </div>
+            <div className="py-2 text-[14px] text-gray-700 flex flex-col gap-2">
+              <p>Some changes will be reflected after the reload.</p>
+              <div>
+                <button
+                  onClick={fetchData}
+                  className="text-orange-600 px-2 py-[1px] bg-orange-100 rounded-md"
+                >
+                  Reload
+                </button>
+              </div>
+            </div>
           </div>
           {/* Main */}
           <div className="w-full h-full scrollbar-hide">
             <div className="rounded-2xl flex flex-col gap-12">
-              {active === 1 && <About data={studentData} isEdit={isEdit} />}
+              {active === 1 && <About data={studentData} />}
               {active === 2 && (
-                <Address data={studentData.addressDetail} isEdit={isEdit} />
+                <Address
+                  data={studentData.addressDetail}
+                  id={studentData._id}
+                />
               )}
               {active === 3 && (
-                <Parents data={studentData.parentDetail[0]} isEdit={isEdit} />
+                <Parents
+                  data={studentData.parentDetail[0]}
+                  id={studentData._id}
+                />
               )}
               {active === 4 && (
-                <Medical data={studentData.healthDetail} isEdit={isEdit} />
+                <Medical data={studentData.healthDetail} id={studentData._id} />
               )}
             </div>
           </div>

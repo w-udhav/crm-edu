@@ -6,7 +6,7 @@ import Loader from "../../Components/Loader";
 import Modal from "./Components/Modal";
 
 export default function Approval() {
-  const headings = ["Name", "Email", "Parent Email", "Phone No", "Actions"];
+  const headings = ["Name", "Parent Email", "Phone No", "Actions"];
   const [data, setData] = useState(null);
   const [modal, setModal] = useState(false);
   const [currId, setCurrId] = useState(null); //? To store the id of the student to be deleted or edited
@@ -76,18 +76,17 @@ export default function Approval() {
               data.map((row) => (
                 <tr key={row._id} className="text-[15px]">
                   <td className=" px-2 py-1">{row.firstName}</td>
-                  <td className=" px-2 py-1">{row.email}</td>
                   <td className=" px-2 py-1">
-                    {row.parentEmail ? row.parentEmail : "N/A"}
+                    {row.addressDetail ? row.addressDetail.parentsEmail : "N/A"}
                   </td>
-                  <td className=" px-2 py-1">{row.phone}</td>
+                  <td className=" px-2 py-1">{row.parentDetail[0].phone}</td>
                   <td className=" px-2 py-1">
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEdit(row._id)}
-                        className="px-[6px] rounded-full hover:bg-blue-400 transition-all ease-in-out"
+                        className="px-[4px] rounded-full hover:bg-blue-400 transition-all ease-in-out"
                       >
-                        <EditIcon className="w-[17px] h-[17px]" />
+                        <EditIcon className="w-5 h-5" />
                       </button>
                       <button
                         onClick={handleDelete}

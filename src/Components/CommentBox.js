@@ -29,7 +29,7 @@ export default function CommentBox({ data, handleModal, setReload }) {
     try {
       var tempList = [];
       for (var i = 0; i < commentsList.length; i++) {
-        if (commentsList[i]["_id"] != commentId) {
+        if (commentsList[i]["_id"] !== commentId) {
           tempList.push(commentsList[i]);
         }
       }

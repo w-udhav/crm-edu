@@ -1,14 +1,27 @@
-import React, { useState } from "react";
-import SubjectCard from "../../../Components/SubjectCard";
+import React, { useEffect, useState } from "react";
 import { DeleteIcon, EditIcon } from "../../../Components/Icons";
-import { addComment, removeComment } from "../../../Utils/Api/Api";
+import {
+  addComment,
+  removeComment,
+  updateStudent,
+} from "../../../Utils/Api/Api";
 
 export default function About({ data }) {
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEditPersonal, setIsEditPersonal] = useState(false);
+  const [isEditSubjects, setIsEditSubjects] = useState(false);
+
+  // Comment States
   const [newComment, setNewComment] = useState("");
   const [commentsList, setCommentList] = useState(data.comments);
   const [errorComment, setErrorComment] = useState("");
   const [loadingComment, setLoadingComment] = useState(false);
+
+  // Form States
+  const [loadingForm, setLoadingForm] = useState(false);
+  const [statusForm, setStatusForm] = useState({
+    status: false,
+    message: "",
+  });
 
   const [subjects, setSubjects] = useState(
     data.tutoringDetail.subjects ? data.tutoringDetail.subjects : false
@@ -18,17 +31,18 @@ export default function About({ data }) {
     return formatedDate;
   };
 
-  const defaultForm = {
+  const [defaultForm, setDefaultForm] = useState({
     firstName: data.firstName,
     lastName: data.lastName,
     dob: formatDate(data.dob),
     gender: data.gender,
     schoolName: data.schoolName,
     schoolYear: data.schoolYear,
-  };
+  });
 
   const [form, setForm] = useState(defaultForm);
 
+  // Form functions
   const handleChange = (e, field) => {
     setForm((prevForm) => ({
       ...prevForm,
@@ -36,9 +50,52 @@ export default function About({ data }) {
     }));
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log(form);
+    const newData = {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      dob: form.dob,
+      gender: form.gender,
+      schoolName: form.schoolName,
+      schoolYear: form.schoolYear,
+    };
+    setLoadingForm(true);
+    setStatusForm({
+      status: false,
+      message: "",
+    });
+    try {
+      const response = await updateStudent(data._id, newData);
+      console.log(response);
+      setDefaultForm(newData);
+      setStatusForm({
+        status: true,
+        message: response,
+      });
+      setIsEditPersonal(false);
+      setLoadingForm(false);
+    } catch (error) {
+      console.log(error);
+      setStatusForm({
+        status: false,
+        message: error.message,
+      });
+      setLoadingForm(false);
+    }
+  };
+
+  const handleCancel = (which) => {
+    if (window.confirm("Are you sure you want to cancel?")) {
+      if (which === "personal") {
+        setForm(defaultForm);
+        setIsEditPersonal(false);
+      } else if (which === "subjects") {
+        setIsEditSubjects(false);
+      }
+    } else {
+      return;
+    }
   };
 
   const dataFields = [
@@ -64,7 +121,7 @@ export default function About({ data }) {
       id: 4,
       name: "Gender",
       fieldName: "gender",
-      type: "text",
+      type: "select",
       options: ["Male", "Female", "Other"],
     },
     {
@@ -121,20 +178,31 @@ export default function About({ data }) {
     }
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrorComment("");
+      setStatusForm({
+        status: false,
+        message: "",
+      });
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [errorComment, statusForm]);
+
   return (
     <div className="flex flex-wrap gap-x-7 gap-y-12 pr-2 w-[28rem] xl:w-full">
       <div className="flex-1 flex flex-col gap-3">
         <div className="pb-1 border-b border-zinc-300 flex gap-1 items-center justify-between">
           <h1 className="text-2xl">Personal Information</h1>
-          {isEdit ? (
+          {isEditPersonal ? (
             <button
-              onClick={() => setIsEdit(false)}
+              onClick={() => handleCancel("personal")}
               className="px-2 py-1 rounded-md bg-red-500 text-white text-sm font-medium"
             >
               Cancel
             </button>
           ) : (
-            <button onClick={() => setIsEdit(true)}>
+            <button onClick={() => setIsEditPersonal(true)}>
               <EditIcon className="w-6 h-6" />
             </button>
           )}
@@ -143,21 +211,40 @@ export default function About({ data }) {
           {dataFields.map((item) => {
             return (
               <div key={item.id} className="flex flex-col gap-1 text-[14px]">
-                <h2 className=" font-semibold">{item.name}</h2>
-                <div className="flex items-center gap-2">
-                  <input
-                    type={item.type}
-                    disabled={!isEdit}
-                    value={form[item.fieldName]}
-                    onChange={(e) => handleChange(e, item.fieldName)}
-                    className="text-[15px] focus:outline-2 focus:outline-offset-1 focus:outline-blue-600 focus:bg-blue-50  border border-zinc-400 bg-zinc-100 rounded-md w-[28rem] px-2 py-1"
-                  />
-                  {isEdit && (
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className=" font-semibold">{item.name}</h2>
+                  {isEditPersonal && (
                     <h3 className="text-amber-700">
                       {defaultForm[item.fieldName]}
                     </h3>
                   )}
                 </div>
+                {item.type === "select" ? (
+                  <div className="flex flex-col gap-3">
+                    <select
+                      onChange={(e) => handleChange(e, item.fieldName)}
+                      value={form[item.fieldName]}
+                      disabled={!isEditPersonal || loadingForm}
+                      className="outline-none w-[28rem] bg-zinc-100 border border-zinc-400  rounded-md px-2 py-1"
+                    >
+                      {item.options.map((option) => {
+                        return (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                ) : (
+                  <input
+                    type={item.type}
+                    disabled={!isEditPersonal || loadingForm}
+                    value={form[item.fieldName]}
+                    onChange={(e) => handleChange(e, item.fieldName)}
+                    className="text-[15px] focus:outline-2 focus:outline-offset-1 focus:outline-blue-600 focus:bg-blue-50  border border-zinc-400 bg-zinc-100 rounded-md w-[28rem] px-2 pt-1 pb-[3px]"
+                  />
+                )}
               </div>
             );
           })}
@@ -165,12 +252,21 @@ export default function About({ data }) {
           <button
             type="submit"
             onClick={handleUpdate}
-            disabled={!isEdit}
-            className="max-w-md py-1 px-2 rounded-md text-white text-[15px] font-semibold bg-green-600 hover:bg-green-500 disabled:bg-gray-500"
+            disabled={!isEditPersonal}
+            className="max-w-md py-1 px-2 rounded-md text-white text-[15px] font-semibold bg-green-600 hover:bg-green-500 disabled:pointer-events-none"
           >
-            <h1>Save Changes</h1>
+            <h1>{loadingForm ? "Saving" : "Save Changes"}</h1>
           </button>
         </form>
+        {statusForm.message && statusForm.status === true ? (
+          <div className="text-green-600 text-sm font-semibold">
+            {statusForm.message}
+          </div>
+        ) : (
+          <div className="text-red-600 text-sm font-semibold">
+            {statusForm.message}
+          </div>
+        )}
       </div>
 
       <div className="flex-1 flex flex-col gap-5 min-w-[25rem]">
@@ -218,7 +314,7 @@ export default function About({ data }) {
               <button
                 onClick={handleSubmitComment}
                 disabled={loadingComment || newComment === ""}
-                className="py-1 px-3 rounded-md text-white font-semibold bg-green-600 hover:bg-green-500 disabled:bg-gray-500"
+                className="py-1 px-4 rounded-md text-white text-[15px] font-semibold bg-green-600 hover:bg-green-500 disabled:bg-gray-500"
               >
                 {loadingComment ? "Sending..." : "Add Comment"}
               </button>
@@ -235,75 +331,23 @@ export default function About({ data }) {
         </div>
       </div>
 
-      {/* <div className="flex-col gap-5">
-        <div className="max-w-[45rem] flex flex-col gap-3 rounded-2xl border border-zinc-300 p-5">
-          <h3 className="capitalize text-gray-400 text-sm">
-            Student's personal information
-          </h3>
-
-          <div className="flex flex-col transition-all ease-linear">
-            {dataFields.map((item) => {
-              return (
-                <div
-                  key={item.id}
-                  className="borde hover:bg-blue-100 border-gray-300 hover:scale-[1.04] hover:px-2 py-3 hover:rounded-t-md transition-all ease-linear flex gap-3"
-                >
-                  <p className="flex-1 text-gray-600"> {item.name} </p>
-                  {isEdit ? (
-                    item.ref2 ? (
-                      <div className="flex-1 flex gap-3">
-                        <input
-                          type={item.type}
-                          className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
-                          defaultValue={form[item.ref]}
-                          onChange={(e) =>
-                            setForm({ ...form, [item.ref]: e.target.value })
-                          }
-                        />
-                        <input
-                          type={item.type}
-                          className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
-                          defaultValue={form[item.ref2]}
-                          onChange={(e) =>
-                            setForm({ ...form, [item.ref2]: e.target.value })
-                          }
-                        />
-                      </div>
-                    ) : item.options ? (
-                      <select
-                        className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
-                        defaultValue={form[item.ref]}
-                        onChange={(e) =>
-                          setForm({ ...form, [item.ref]: e.target.value })
-                        }
-                      >
-                        {item.options.map((option, index) => {
-                          return (
-                            <option key={index} value={option}>
-                              {option}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    ) : (
-                      <input
-                        type={item.type}
-                        className="flex-1 border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-zinc-300"
-                        defaultValue={form[item.ref]}
-                        onChange={(e) =>
-                          setForm({ ...form, [item.ref]: e.target.value })
-                        }
-                      />
-                    )
-                  ) : (
-                    <p className="flex-1"> {item.value} </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+      <div className="w-1/2 flex flex-col gap-5 min-w-[25rem]">
+        <div className="flex gap-2 justify-between items-center border-b border-zinc-300">
+          <h1 className="text-2xl pb-1 ">Academic</h1>
+          {isEditSubjects ? (
+            <button
+              onClick={() => handleCancel('subjects')}
+              className="px-2 py-1 rounded-md bg-red-500 text-white text-sm font-medium"
+            >
+              Cancel
+            </button>
+          ) : (
+            <button onClick={() => setIsEditSubjects(true)}>
+              <EditIcon className="w-6 h-6" />
+            </button>
+          )}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

@@ -36,8 +36,6 @@ export default function Table({
     handleModal(true);
   };
 
-  // console.log(data);
-
   return (
     <div className="overflow-x-auto rounded-xl border">
       <table className="w-full text-left rounded-xl">
@@ -74,7 +72,7 @@ export default function Table({
                   className=" px-2 py-1"
                   onClick={() => handleRowClick(row._id)}
                 >
-                  {row.phone}
+                  {row.parentDetail[0].phone}
                 </td>
                 <td
                   className=" px-2 py-1"
