@@ -8,7 +8,7 @@ import Approval from "../Pages/Approval/Approval";
 import Students from "../Pages/Students/Students";
 
 export default function DashboardRoutes({ user }) {
-  if (user === null) return <Navigate to="/auth/login" />;
+  // if (user === null) return <Navigate to="/auth/login" />;
   return (
     <Temp>
       <Routes>

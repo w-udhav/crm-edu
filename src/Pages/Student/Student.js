@@ -21,9 +21,9 @@ export default function Student() {
   const [active, setActive] = useState(1);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
   // ? Data segregration
   const [studentData, setStudentData] = useState({});
+  const [status, setStatus] = useState("");
 
   const params = useParams();
   const links = [
@@ -54,6 +54,12 @@ export default function Student() {
     },
   ];
 
+  // ? Handle Edit
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+    console.log(e.target.value);
+  };
+
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
@@ -62,6 +68,7 @@ export default function Student() {
     getStudentById(params.id)
       .then((data) => {
         setStudentData(data);
+        setStatus(data.status);
         setLoading(false);
       })
       .catch((err) => {
@@ -103,16 +110,19 @@ export default function Student() {
         exit={{
           opacity: 0,
         }}
-        className="flex flex-col gap-5 h-full overflow-hidden"
+        className="flex flex-col gap-5 h-full overflow-y-auto"
       >
-        <div className="bg-black bg-opacity-5 rounded-2xl  px-3 py-4">
+        <div className="bg-sky-200 rounded-3xl flex flex-col gap-4 px-3 py-4">
           {/* Header */}
-          <div className="flex justify-between items-center">
-            <div className="flex gap-2 items-center">
-              <UserIcon className="w-12 h-12" />
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xl font-semibold text-black-1">
+          <div className="w-full flex gap-4">
+            <div>
+              <UserIcon className="w-24 h-24" />
+            </div>
+
+            <div className="flex-1 flex flex-col gap-6">
+              <div className="flex justify-between gap-2">
+                <div className="flex items-center gap-2 ">
+                  <h3 className="text-2xl font-semibold text-black-1">
                     {studentData.firstName} {studentData.lastName}
                   </h3>
                   <div
@@ -123,20 +133,49 @@ export default function Student() {
                   `}
                   ></div>
                 </div>
-                <p className="text-sm">Student</p>
-              </div>
-            </div>
 
-            <div>
-              <button
-                onClick={handleEdit}
-                className={`${!isEdit && "hover:bg-blue-200"}  
-                transition-all ease-in-out rounded-md px-2 py-1 flex items-center gap-1 text-sm border border-zinc-500
-                `}
-              >
-                <EditIcon className="w-4 h-4" />
-                <span>Edit</span>
-              </button>
+                <div className="flex gap-2 items-center">
+                  <select
+                    name="status"
+                    id=""
+                    defaultValue={studentData.status}
+                    onChange={handleStatusChange}
+                    className="border-none outline-none rounded-md shadow-md bg-white-og p-1 text-sm"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+
+                  {status !== studentData.status && (
+                    <div>
+                      <button className="flex justify-center items-center gap-2 bg-green-500 text-white-og font-medium text-[14px] px-2 py-1 rounded-md">
+                        Update
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex gap-12">
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-[14px] text-gray-700">Year</h3>
+                  <p className="text-[16px] font-medium">
+                    {studentData.schoolYear}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-[14px] text-gray-700">Phone Number</h3>
+                  <p className="text-[16px] font-medium">
+                    +61 {studentData.parentDetail[0].phone}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-[14px] text-gray-700">Email Address</h3>
+                  <p className="text-[16px] font-medium">
+                    {studentData.addressDetail.parentsEmail}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -144,7 +183,7 @@ export default function Student() {
         {
           // ! This is the main content
         }
-        <div className="w-full h-full flex flex-row gap-8 overflow-y-auto">
+        <div className="w-full h-full flex flex-row gap-8">
           <div className="min-w-[max-content] w-[12rem] pl-2">
             <div className=" flex flex-col gap-">
               {links.map((item) => {
@@ -176,7 +215,7 @@ export default function Student() {
             </div>
           </div>
           {/* Main */}
-          <div className="overflow-y-auto rounded-xl w-full h-full scrollbar-hide">
+          <div className="w-full h-full scrollbar-hide">
             <div className="rounded-2xl flex flex-col gap-12">
               {active === 1 && <About data={studentData} isEdit={isEdit} />}
               {active === 2 && (

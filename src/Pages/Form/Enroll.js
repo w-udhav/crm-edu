@@ -109,6 +109,7 @@ export default function Enrol({ user }) {
       });
     });
     setError(validationErrors);
+    return validationErrors;
   };
 
   const isFormEmpty = (formData) => {
@@ -123,7 +124,7 @@ export default function Enrol({ user }) {
   // ? Handle the Form Submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    validation();
+    const error = validation();
 
     if (Object.keys(error).length !== 0) {
       setSuccess(false);
@@ -154,6 +155,7 @@ export default function Enrol({ user }) {
           navigate("auth/login");
         }
       }, 2000);
+      console.log("submitted");
     } catch (error) {
       setError(error);
       setLoading(false);
@@ -208,8 +210,6 @@ export default function Enrol({ user }) {
       });
     }
   };
-
-  console.log(formData);
 
   return (
     <div className="min-h-screen w-full bg-[#F6F3EE] flex flex-col items-center">

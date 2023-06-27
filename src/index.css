@@ -19,7 +19,8 @@ body {
 
 /* background of the scrollbar except button or resizer */
 ::-webkit-scrollbar-track {
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: transparent;
 }
 ::-webkit-scrollbar-track:hover {
   background-color: #f4f4f4;

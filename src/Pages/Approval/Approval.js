@@ -23,8 +23,9 @@ export default function Approval() {
   };
 
   const handleEdit = (id) => {
+    setModal(true);
     setCurrId(id);
-    handleModal();
+    console.log("running");
   };
 
   //! Data fetching
@@ -125,7 +126,7 @@ export default function Approval() {
 
       {/* Modal */}
       <AnimatePresence>
-        {modal && <Modal id={currId} handleModal={handleModal} />}
+        <Modal open={modal} id={currId} handleModal={handleModal} />
       </AnimatePresence>
     </motion.div>
   );

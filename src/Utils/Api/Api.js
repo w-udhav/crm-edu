@@ -1,4 +1,5 @@
 export const BASE_URL = "https://crm-backend-tiix.vercel.app";
+// export const BASE_URL = "http://localhost:4000";
 
 // export const BASE_URL = "http://127.0.0.1:4000";
 
@@ -13,7 +14,6 @@ export const getStudents = async (dataBody) => {
     body: JSON.stringify(dataBody || {}),
   };
   const response = await fetch(`${BASE_URL}/student/list`, options);
-  console.log("Typical Response");
   const data = await response.json();
   return data;
 };
@@ -197,7 +197,7 @@ export const updateStudent = async (studentId, data) => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to update approval status");
+      throw new Error("Failed to update student");
     }
 
     const responseData = await response.json();

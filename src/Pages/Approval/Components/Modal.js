@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { DeleteIcon } from "../../../Components/Icons";
-import {
-  getStudentById,
-  updateApprovedStatus,
-  updateStudent,
-} from "../../../Utils/Api/Api";
+import { getStudentById, updateStudent } from "../../../Utils/Api/Api";
 import Loader from "../../../Components/Loader";
 
-export default function Modal({ id, modal, handleModal }) {
+export default function Modal({ open, id, modal, handleModal }) {
   const sections = [
     {
       title: "Personal Details",
@@ -77,7 +73,8 @@ export default function Modal({ id, modal, handleModal }) {
 
   //? for the add button
   const handleAddTimeSlot = () => {
-    setTimeSlots([...timeSlots, { day: "", hours: 0 }]);
+    // setTimeSlots([...timeSlots, { day: "", hours: 0 }]);
+    setTimeSlots([...timeSlots, { day: "", startAt: "", endAt: "" }]);
   };
 
   const handleRemoveSlot = (index) => {
@@ -87,12 +84,16 @@ export default function Modal({ id, modal, handleModal }) {
   };
 
   const closeModal = () => {
+    if (timeSlots.length <= 0) {
+      handleModal(false);
+      return;
+    }
+
     if (window.confirm("Are you sure you want to close this modal?")) {
       handleModal(false);
       setData({});
     }
   };
-  // console.log(data);
 
   //? Chaning Approval Status
   const handleApprovalStatusChange = async () => {
@@ -108,12 +109,14 @@ export default function Modal({ id, modal, handleModal }) {
       },
     };
     try {
+      console.log(id);
       const message = await updateStudent(id, newData);
       console.log(message);
       setStatus(true);
       handleModal();
     } catch (error) {
       console.log(error);
+      setError(error.message);
       setStatus(false);
     }
   };
@@ -126,6 +129,7 @@ export default function Modal({ id, modal, handleModal }) {
       setData(data);
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setError(error.message);
       setLoading(false);
     }
@@ -133,9 +137,11 @@ export default function Modal({ id, modal, handleModal }) {
 
   useEffect(() => {
     getData();
-  }, [modal]);
+    setError(null);
+    setTimeSlots([]);
+  }, [id]);
 
-  if (!loading) {
+  if (open) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -145,155 +151,193 @@ export default function Modal({ id, modal, handleModal }) {
       >
         <div className="flex flex-col gap-5 w-[95vw] max-h-[95vh]">
           <div className=" bg-white-og bg-opacity-80 rounded-xl flex flex-col overflow-hidden">
-            <div className="p-5 overflow-hidden">
-              <div className="flex gap-10 justify-between items-center">
-                <h1 className="text-2xl font-bold">Approve Student</h1>
-                <button className="p-1 rounded-full hover:bg-red-300 transition-all ease-in-out">
-                  <DeleteIcon className="w-6 h-6 " />
-                </button>
+            {loading ? (
+              <div className="h-[95vh]">
+                <Loader />
               </div>
-
-              {/* //? Content */}
-              <div className="w-full h-full flex gap-4">
-                <div className="flex-1 flex flex-col gap-5 py-3 h-full overflow-y-auto">
-                  {sections.map((section, index) => (
-                    <div key={index}>
-                      <h2 className="text-lg text-blue-600">{section.title}</h2>
-
-                      <div className="border-b border-gray-300 py-2">
-                        {section.fields.map((field, fieldIndex) => {
-                          const value = field
-                            .split(".")
-                            .reduce((obj, key) => (obj ? obj[key] : ""), data);
-
-                          const key = section.key[fieldIndex];
-
-                          return (
-                            <div key={fieldIndex} className="flex gap-2">
-                              <div className="flex-1 font-medium">
-                                {/* {field.split(".").pop()}:{" "} */}
-                                {key}
-                              </div>
-                              <div className="flex-1">{renderValue(value)}</div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
+            ) : (
+              <div className="p-5 overflow-hidden">
+                <div className="flex gap-10 justify-between items-center">
+                  <h1 className="text-2xl font-bold">Approve Student</h1>
+                  <button className="px-2 py-1 rounded-lg text-white bg-red-500 transition-all ease-in-out">
+                    Delete
+                  </button>
                 </div>
 
-                <div className="flex-1 flex flex-col gap-3">
-                  <h2 className="text-lg text-blue-600">Time Slots</h2>
-                  <div className="flex flex-col gap-3">
-                    <div className="flex  gap-1">
-                      <h3 className="flex-1 font-medium">Preferred Days</h3>
-                      <div className="flex-1 flex flex-col gap-1">
-                        {data &&
-                          data.tutoringDetail?.days.map((day, index) => {
+                {/* //? Content */}
+                <div className="w-full h-full flex gap-4">
+                  <div className="flex-1 flex flex-col gap-5 py-3 h-full overflow-y-auto">
+                    {sections.map((section, index) => (
+                      <div key={index}>
+                        <h2 className="text-lg text-blue-600">
+                          {section.title}
+                        </h2>
+
+                        <div className="border-b border-gray-300 py-2">
+                          {section.fields.map((field, fieldIndex) => {
+                            const value = field
+                              .split(".")
+                              .reduce(
+                                (obj, key) => (obj ? obj[key] : ""),
+                                data
+                              );
+
+                            const key = section.key[fieldIndex];
+
                             return (
-                              <div key={index} className="flex">
-                                <div className="w-32 text-center p-2 text-sm rounded-md shadow-xl bg-blue-500 text-white-og ">
-                                  {day}
+                              <div key={fieldIndex} className="flex gap-2">
+                                <div className="flex-1 font-medium">
+                                  {/* {field.split(".").pop()}:{" "} */}
+                                  {key}
+                                </div>
+                                <div className="flex-1">
+                                  {renderValue(value)}
                                 </div>
                               </div>
                             );
                           })}
+                        </div>
                       </div>
-                    </div>
+                    ))}
+                  </div>
 
+                  <div className="flex-1 flex flex-col gap-3">
+                    <h2 className="text-lg text-blue-600">Time Slots</h2>
                     <div className="flex flex-col gap-3">
-                      <div className="flex justify-between items-center gap-1">
-                        <h3 className="flex-1 font-medium">
-                          Allot Time
-                          <span className="text-sm text-gray-500">/Day</span>
-                        </h3>
-                        <div className="flex justify-between">
-                          <button
-                            onClick={handleAddTimeSlot}
-                            className="px-4 py-1 text-sm rounded-md bg-sky-500 hover:shadow-xl"
-                          >
-                            Add
-                          </button>
+                      <div className="flex  gap-1">
+                        <h3 className="flex-1 font-medium">Preferred Days</h3>
+                        <div className="flex-1 flex flex-col gap-1">
+                          {data &&
+                            data.tutoringDetail?.days.map((day, index) => {
+                              return (
+                                <div key={index} className="flex">
+                                  <div className="w-32 text-center p-2 text-sm rounded-md shadow-xl bg-blue-500 text-white-og ">
+                                    {day}
+                                  </div>
+                                </div>
+                              );
+                            })}
                         </div>
                       </div>
 
-                      <div className="flex flex-col gap-2">
-                        <table className="table-fixed text-center">
-                          <thead>
-                            <tr>
-                              <th>Day</th>
-                              <th>
-                                Time
-                                <span className="text-sm text-gray-500">
-                                  (hours)
-                                </span>
-                              </th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {timeSlots.map((timeSlot, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td>
-                                    <select
-                                      name={`timeSlots[${index}].day`}
-                                      value={timeSlot.day}
-                                      onChange={(e) =>
-                                        handleTimeSlotChange(
-                                          index,
-                                          "day",
-                                          e.target.value
-                                        )
-                                      }
-                                      className="w-28 rounded-md outline-none"
-                                    >
-                                      <option value=""> Select </option>
-                                      <option value="Monday">Monday</option>
-                                      <option value="Tuesday">Tuesday</option>
-                                      <option value="Wednesday">
-                                        Wednesday
-                                      </option>
-                                      <option value="Thursday">Thursday</option>
-                                      <option value="Friday">Friday</option>
-                                      <option value="Saturday">Saturday</option>
-                                      <option value="Sunday">Sunday</option>
-                                    </select>
-                                  </td>
-                                  <td>
-                                    <input
-                                      type="number"
-                                      name={`timeSlots[${index}].hours`}
-                                      value={timeSlot.hours}
-                                      onChange={(e) =>
-                                        handleTimeSlotChange(
-                                          index,
-                                          "hours",
-                                          e.target.value
-                                        )
-                                      }
-                                      className="px-1 w-24 rounded-md outline-none"
-                                    />
-                                  </td>
-                                  <td>
-                                    <button
-                                      onClick={() => handleRemoveSlot(index)}
-                                    >
-                                      <DeleteIcon className="w-5 h-5" />
-                                    </button>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
+                      <div className="flex flex-col gap-3">
+                        <div className="flex justify-between items-center gap-1">
+                          <h3 className="flex-1 font-medium">
+                            Allot Time
+                            <span className="text-sm text-gray-500">/Day</span>
+                          </h3>
+                          <div className="flex justify-between">
+                            <button
+                              onClick={handleAddTimeSlot}
+                              className="px-4 py-1 text-sm rounded-md bg-sky-500 hover:shadow-xl"
+                            >
+                              Add
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2">
+                          <table className="table-fixed text-center">
+                            <thead>
+                              <tr>
+                                <th className="w-36">Day</th>
+                                <th className="w-32">Start Time</th>
+                                <th className="w-32">End Time</th>
+                                <th className="w-32">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {timeSlots.map((timeSlot, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td>
+                                      <select
+                                        name={`timeSlots[${index}].day`}
+                                        value={timeSlot.day}
+                                        onChange={(e) =>
+                                          handleTimeSlotChange(
+                                            index,
+                                            "day",
+                                            e.target.value
+                                          )
+                                        }
+                                        className="w-36 rounded-md outline-none"
+                                      >
+                                        <option value=""> Select </option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">
+                                          Wednesday
+                                        </option>
+                                        <option value="Thursday">
+                                          Thursday
+                                        </option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">
+                                          Saturday
+                                        </option>
+                                        <option value="Sunday">Sunday</option>
+                                      </select>
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="time"
+                                        placeholder="hrs:mins"
+                                        name={`timeSlots[${index}].startAt`}
+                                        value={timeSlot.startAt}
+                                        onChange={(e) =>
+                                          handleTimeSlotChange(
+                                            index,
+                                            "startAt",
+                                            e.target.value
+                                          )
+                                        }
+                                        className="px-1 w-32 flex-1 rounded-md outline-none"
+                                      />
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="time"
+                                        placeholder="hrs:mins"
+                                        name={`timeSlots[${index}].endAt`}
+                                        value={timeSlot.endAt}
+                                        onChange={(e) =>
+                                          handleTimeSlotChange(
+                                            index,
+                                            "endAt",
+                                            e.target.value
+                                          )
+                                        }
+                                        className="px-1 w-32 flex-1 rounded-md outline-none"
+                                      />
+                                    </td>
+                                    <td>
+                                      <button
+                                        onClick={() => handleRemoveSlot(index)}
+                                      >
+                                        <DeleteIcon className="w-5 h-5" />
+                                      </button>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
+
+                    {/* Error */}
+                    {error && (
+                      <div className="text-red-500 p-2 rounded-md flex gap-2">
+                        <span className="font-medium">X</span>
+                        {error}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <div className="border-b border-gray-300"></div>
             <div className="">
@@ -316,7 +360,5 @@ export default function Modal({ id, modal, handleModal }) {
         </div>
       </motion.div>
     );
-  } else {
-    <Loader />;
   }
 }

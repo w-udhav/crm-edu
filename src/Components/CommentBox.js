@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { DeleteIcon } from "./Icons";
 import { addComment, removeComment } from "../Utils/Api/Api";
-import { v4 as uuidv4 } from "uuid";
 
 export default function CommentBox({ data, handleModal, setReload }) {
   const { id, comments } = data;
