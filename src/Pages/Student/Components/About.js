@@ -8,7 +8,6 @@ import {
 
 export default function About({ data }) {
   const [isEditPersonal, setIsEditPersonal] = useState(false);
-  const [isEditSubjects, setIsEditSubjects] = useState(false);
 
   // Comment States
   const [newComment, setNewComment] = useState("");
@@ -17,20 +16,15 @@ export default function About({ data }) {
   const [loadingComment, setLoadingComment] = useState(false);
 
   // Form States
+  const formatDate = (date) => {
+    const formatedDate = new Date(date).toISOString().split("T")[0];
+    return formatedDate;
+  };
   const [loadingForm, setLoadingForm] = useState(false);
   const [statusForm, setStatusForm] = useState({
     status: false,
     message: "",
   });
-
-  const [subjects, setSubjects] = useState(
-    data.tutoringDetail.subjects ? data.tutoringDetail.subjects : false
-  );
-  const formatDate = (date) => {
-    const formatedDate = new Date(date).toISOString().split("T")[0];
-    return formatedDate;
-  };
-
   const [defaultForm, setDefaultForm] = useState({
     firstName: data.firstName,
     lastName: data.lastName,
@@ -39,7 +33,6 @@ export default function About({ data }) {
     schoolName: data.schoolName,
     schoolYear: data.schoolYear,
   });
-
   const [form, setForm] = useState(defaultForm);
 
   // Form functions
@@ -90,8 +83,6 @@ export default function About({ data }) {
       if (which === "personal") {
         setForm(defaultForm);
         setIsEditPersonal(false);
-      } else if (which === "subjects") {
-        setIsEditSubjects(false);
       }
     } else {
       return;
@@ -328,24 +319,6 @@ export default function About({ data }) {
               <p>Changes here will be immediately reflected on the student's</p>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="w-1/2 flex flex-col gap-5 min-w-[25rem]">
-        <div className="flex gap-2 justify-between items-center border-b border-zinc-300">
-          <h1 className="text-2xl pb-1 ">Academic</h1>
-          {isEditSubjects ? (
-            <button
-              onClick={() => handleCancel('subjects')}
-              className="px-2 py-1 rounded-md bg-red-500 text-white text-sm font-medium"
-            >
-              Cancel
-            </button>
-          ) : (
-            <button onClick={() => setIsEditSubjects(true)}>
-              <EditIcon className="w-6 h-6" />
-            </button>
-          )}
         </div>
       </div>
     </div>

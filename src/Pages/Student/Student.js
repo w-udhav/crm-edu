@@ -7,6 +7,7 @@ import Address from "./Components/Address";
 import {
   AboutIcon,
   AddressIcon,
+  AcademicIcon,
   MedicalIcon,
   ParentsIcon,
   UserIcon,
@@ -14,6 +15,7 @@ import {
 import { useParams } from "react-router-dom";
 import { getStudentById, updateStudent } from "../../Utils/Api/Api";
 import Loader from "../../Components/Loader";
+import Academic from "./Components/Academic";
 
 export default function Student() {
   const [active, setActive] = useState(1);
@@ -33,19 +35,25 @@ export default function Student() {
     },
     {
       id: 2,
+      name: "Academic",
+      component: "/academic",
+      icon: <AcademicIcon className="w-5 h-5" />,
+    },
+    {
+      id: 3,
       name: "Address",
       component: "/address",
       icon: <AddressIcon className="w-5 h-5" />,
     },
     {
-      id: 3,
+      id: 4,
       name: "Parents",
       component: "/parents",
       icon: <ParentsIcon className="w-5 h-5" />,
     },
 
     {
-      id: 4,
+      id: 5,
       name: "Medical",
       component: "/medical",
       icon: <MedicalIcon className="w-5 h-5" />,
@@ -235,18 +243,24 @@ export default function Student() {
             <div className="rounded-2xl flex flex-col gap-12">
               {active === 1 && <About data={studentData} />}
               {active === 2 && (
+                <Academic
+                  data={studentData.tutoringDetail}
+                  id={studentData._id}
+                />
+              )}
+              {active === 3 && (
                 <Address
                   data={studentData.addressDetail}
                   id={studentData._id}
                 />
               )}
-              {active === 3 && (
+              {active === 4 && (
                 <Parents
                   data={studentData.parentDetail[0]}
                   id={studentData._id}
                 />
               )}
-              {active === 4 && (
+              {active === 5 && (
                 <Medical data={studentData.healthDetail} id={studentData._id} />
               )}
             </div>

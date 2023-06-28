@@ -672,6 +672,65 @@ export function AddressIcon({ className }) {
   );
 }
 
+export function AcademicIcon({ className }) {
+  return (
+    <svg
+      viewBox="0 -8.14 62.451 62.451"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="#000000"
+      className={className}
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {" "}
+        <g
+          id="Group_35"
+          data-name="Group 35"
+          transform="translate(-782.964 -1356.609)"
+        >
+          {" "}
+          <path
+            id="Path_92"
+            data-name="Path 92"
+            d="M798.022,1369.359v23.226h.034c.353,4.555,7.685,8.2,16.7,8.2s16.347-3.641,16.7-8.2h.033v-23.226Z"
+            fill="#d1d3d4"
+            stroke="#4f4f4f"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="4"
+          ></path>{" "}
+          <path
+            id="Path_93"
+            data-name="Path 93"
+            d="M843.415,1373.207l-29.225,14.6-29.227-14.6,29.227-14.6Z"
+            fill="#ffffff"
+            stroke="#4f4f4f"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="4"
+          ></path>{" "}
+          <line
+            id="Line_40"
+            data-name="Line 40"
+            y1="19.235"
+            transform="translate(784.964 1374.361)"
+            fill="#ffffff"
+            stroke="#4f4f4f"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="4"
+          ></line>{" "}
+        </g>{" "}
+      </g>
+    </svg>
+  );
+}
+
 export function MedicalIcon({ className }) {
   return (
     <svg
@@ -968,6 +1027,31 @@ export function CommentIcon({ className }) {
         {" "}
         <title>comment</title>{" "}
         <path d="M7.28 24.2c-1.12 0-1.72-1.12-2.2-2-0.2-0.32-0.48-0.92-0.64-1-0.12-0.040-0.32-0.080-0.56-0.080-0.68-0.040-1.68-0.16-2.56-1.44-0.8-1.12-1.68-4.16-1.2-6.84 0.28-1.64 1.040-2.88 2.16-3.64 1.8-1.24 5.080-1.4 6.4-1.4 2.36 0 5.64 0.4 7 1.56 1.36 1.12 1.96 4.040 1.84 6.32-0.080 2.080-0.72 3.64-1.76 4.36-0.64 0.44-1.56 0.68-3 0.68-0.6 0-1.16-0.040-1.76-0.080-0.52-0.040-1-0.040-1.44-0.040-0.8 0-1 0.12-1.040 0.12-0.040 0.12 0.040 0.64 0.12 0.88 0.16 0.68 0.44 2.16-0.96 2.52-0.12 0.040-0.24 0.080-0.4 0.080zM8.68 9.48c-2.44 0-4.48 0.4-5.44 1.080-0.76 0.52-1.24 1.36-1.44 2.52-0.4 2.12 0.28 4.72 0.88 5.6 0.48 0.64 0.8 0.68 1.36 0.72 0.32 0.040 0.68 0.040 1.040 0.2 0.68 0.28 1.12 1.040 1.52 1.76 0.12 0.24 0.36 0.64 0.52 0.88-0.040-0.12-0.040-0.24-0.080-0.32-0.16-0.72-0.4-1.84 0.48-2.56 0.52-0.44 1.36-0.48 2.080-0.48 0.48 0 0.96 0.040 1.52 0.040 0.56 0.040 1.12 0.080 1.64 0.080 1 0 1.68-0.12 2.040-0.36 0.6-0.4 1-1.56 1.040-3.080 0.080-2.28-0.56-4.4-1.24-4.96-0.68-0.52-3-1.12-5.92-1.12z"></path>{" "}
+      </g>
+    </svg>
+  );
+}
+
+export function ClockIcon({ className }) {
+  return (
+    <svg
+      fill="#323232"
+      viewBox="0 0 32 32"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      stroke="#323232"
+      className={className}
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {" "}
+        <title>time1</title>{" "}
+        <path d="M16 3.5c-7.181 0-13 5.82-13 13s5.819 13 13 13c7.179 0 13-5.82 13-13s-5.82-13-13-13zM15.895 27.027c-5.799 0-10.5-4.701-10.5-10.5s4.701-10.5 10.5-10.5c5.798 0 10.5 4.701 10.5 10.5s-4.702 10.5-10.5 10.5zM18.93 17.131h-2.98v-5.032c0-0.546-0.443-0.99-0.989-0.99s-0.99 0.443-0.99 0.99v6.021c0 0.547 0.443 0.989 0.99 0.989h3.969c0.547 0 0.99-0.442 0.99-0.989 0-0.546-0.443-0.989-0.99-0.989z"></path>{" "}
       </g>
     </svg>
   );
