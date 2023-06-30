@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ClockIcon } from "../../../Components/Icons";
 import { addAppointment } from "../../../Utils/Api/Api";
+import Loader from "../../../Components/Loader";
+import { set } from "date-fns";
+import Success from "../../../Components/Success";
 
 export default function CreateEvent({ handleEventModal }) {
   // Datafields
@@ -58,6 +61,7 @@ export default function CreateEvent({ handleEventModal }) {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const closeModal = () => {
     handleEventModal();
@@ -74,9 +78,10 @@ export default function CreateEvent({ handleEventModal }) {
     setLoading(true);
     try {
       const response = await addAppointment(form);
-      console.log(response);
       setLoading(false);
-      // closeModal();
+      setSuccess(true);
+
+      closeModal();
     } catch (error) {
       setError(error.message || "An error occurred");
       setLoading(false);
@@ -99,7 +104,7 @@ export default function CreateEvent({ handleEventModal }) {
       className="fixed  inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center z-30"
     >
       <div className="flex flex-col gap-5 w-[25rem] max-h-[95vh]">
-        <div className=" bg-white-og bg-opacity-80 rounded-xl flex flex-col overflow-hidden">
+        <div className=" bg-white-og bg-opacity-80 rounded-xl flex flex-col overflow-hidden relative">
           <div className="p-4">
             <div className="flex items-center gap-2 border-b border-zinc-400">
               <ClockIcon className="w-6 h-6 " />
@@ -131,11 +136,23 @@ export default function CreateEvent({ handleEventModal }) {
           <div>
             <button
               onClick={handleSubmit}
+              disabled={loading || success}
               className="w-full outline-none text-green-500 bg-green-100 bg-opacity-80 p-3 text-lg font-medium"
             >
               Create
             </button>
           </div>
+
+          {loading && (
+            <div className="fixed bg-black bg-opacity-50 z-40 w-full h-full top-0 left-0">
+              <Loader />
+            </div>
+          )}
+          {success && (
+            <div className="fixed bg-black bg-opacity-50 z-40 w-full h-full top-0 left-0">
+              <Success />
+            </div>
+          )}
         </div>
         <div className="bg-white rounded-xl">
           <button

@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://crm-backend-tiix.vercel.app";
-export const BASE_URL = "http://localhost:4000";
+export const BASE_URL = "https://crm-backend-tiix.vercel.app";
+// export const BASE_URL = "http://localhost:4000";
 
 // export const BASE_URL = "http://127.0.0.1:4000";
 
@@ -224,6 +224,26 @@ export const removeComment = async (id, commentId) => {
       return responseData.message;
     } else {
       throw new Error("Failed to update comment status");
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteAppointment = async (appointmentId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/student/appointment/${appointmentId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    } else {
+      throw new Error("Failed to delete appointment");
     }
   } catch (error) {
     throw error;
