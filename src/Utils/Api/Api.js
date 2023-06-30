@@ -1,5 +1,5 @@
-export const BASE_URL = "https://crm-backend-tiix.vercel.app";
-// export const BASE_URL = "http://localhost:4000";
+// export const BASE_URL = "https://crm-backend-tiix.vercel.app";
+export const BASE_URL = "http://localhost:4000";
 
 // export const BASE_URL = "http://127.0.0.1:4000";
 
@@ -38,6 +38,29 @@ export const getMiscData = async () => {
     return data;
   } catch (err) {
     throw err;
+  }
+};
+
+export const getAppointments = async (filter) => {
+  var options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    const response = await fetch(
+      `${BASE_URL}/student/getappointment?filter=${filter}`, // Update the URL here
+      options
+    );
+    const data = await response.json();
+
+    if (data.error) {
+      throw data.error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -138,53 +161,31 @@ export const addComment = async (id, text) => {
   }
 };
 
-// ======================= UPDATE =============================================================================
-//? Update Student
-// export const updateStudent = async (id, data) => {
-//   const formData = {
-//     firstName: data.firstName,
-//     lastName: data.lastName,
-//     dob: data.dob,
-//     gender: data.gender,
-//     schoolName: data.schoolName,
-//     schoolYear: data.schoolYear,
-//     email: data.parentsEmail,
-//     phone: data.parentPhone,
-//     addressDetail: {
-//       addressStreet: data.addressStreet,
-//       suburb: data.suburb,
-//       postCode: data.postCode,
-//       parentsEmail: data.parentsEmail,
-//     },
-//     parentDetail: [
-//       {
-//         name: data.parentName,
-//         relation: data.relation,
-//         phone: data.parentPhone,
-//       },
-//     ],
-//     healthDetail: {
-//       allergicFood: data.allergicFood,
-//       medications: data.medications,
-//       allergicMedication: data.allergicMedication,
-//       healthProblem: data.healthProblem,
-//     },
-//     tutoringDetail: {
-//       subjects: data.subjects,
-//       frequency: 2,
-//       paymentMethod: data.paymentMethod,
-//     },
-//   };
-//   const response = await fetch(`${BASE_URL}/student/update`, {
-//     method: "PUT",
-//     body: JSON.stringify(formData),
-//     headers: {
-//       "Content-type": "application/json; charset=UTF-8",
-//     },
-//   });
-//   const responseData = await response.json();
-//   return responseData;
-// };
+//? Add Appointment
+export const addAppointment = async (data) => {
+  try {
+    const response = await fetch(`${BASE_URL}/student/saveappointment`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.error || "Failed to add appointment");
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ======================= PUT =============================================================================
 
 export const updateStudent = async (studentId, data) => {
   try {
