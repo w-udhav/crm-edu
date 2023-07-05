@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { ClockIcon } from "../../../Components/Icons";
 import { addAppointment } from "../../../Utils/Api/Api";
 import Loader from "../../../Components/Loader";
-import { set } from "date-fns";
 import Success from "../../../Components/Success";
 
 export default function CreateEvent({ handleEventModal }) {
