@@ -89,6 +89,8 @@ export default function Dashboard() {
     }
   };
 
+  // console.log(appointments)
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -233,6 +235,8 @@ export default function Dashboard() {
                     let endMinutesFormatted =
                       endMinutes < 10 ? `0${endMinutes}` : endMinutes;
 
+                    // console.log(appointment.startTime)
+
                     return (
                       <div
                         key={appointment._id}
@@ -287,7 +291,6 @@ export default function Dashboard() {
               />
             </div>
           </div>
-          <div className="border-l"></div>
           
         </div>
       </div>

@@ -36,6 +36,8 @@ export default function Table({
     handleModal(true);
   };
 
+  // console.log(data)
+
   return (
     <div className="overflow-x-auto rounded-xl border">
       <table className="w-full text-left rounded-xl">
@@ -81,11 +83,21 @@ export default function Table({
                   <SubjectList subs={row.tutoringDetail.subjects} />
                 </td>
                 <td className=" px-2 py-1">
-                  {row.status ? (
-                    <span className="text-green-500 rounded-full">Active</span>
-                  ) : (
-                    <span className="text-red-500 rounded-full">Inactive</span>
-                  )}
+                {row.status === "Active" && (
+                        <span className="text-green-500 rounded-full">
+                          {row.status}
+                        </span>
+                      )}
+                      {row.status === "Inactive" && (
+                        <span className="text-red-500 rounded-full">
+                          {row.status}
+                        </span>
+                      )}
+                      {row.status === "Pending" && (
+                        <span className="text-yellow-500 rounded-full">
+                          {row.status}
+                        </span>
+                      )}
                 </td>
                 <td>
                   <button onClick={() => handleComment(row._id, row.comments)}>
