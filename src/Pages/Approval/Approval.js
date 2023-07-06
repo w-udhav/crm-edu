@@ -12,6 +12,15 @@ export default function Approval() {
   const [currId, setCurrId] = useState(null); //? To store the id of the student to be deleted or edited
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [pageNo, setPageNo] = useState(0);
+
+  const handlePrev = () => {
+    if (pageNo > 0) setPageNo(pageNo - 1);
+  };
+
+  const handleNext = () => {
+    setPageNo(pageNo + 1);
+  };
 
   const handleModal = () => {
     setModal(!modal);
@@ -32,7 +41,7 @@ export default function Approval() {
   const getData = async () => {
     setLoading(true);
     try {
-      const data = await getStudents({ approved: false });
+      const data = await getStudents({ approved: false }, pageNo);
       const filterData = data.filter((row) => row.approved === false);
       setData(filterData);
       setLoading(false);
@@ -44,7 +53,7 @@ export default function Approval() {
 
   useEffect(() => {
     getData();
-  }, [modal]);
+  }, [modal, pageNo]);
 
   return (
     <motion.div
@@ -122,6 +131,28 @@ export default function Approval() {
           </tbody>
         </table>
       </div>
+
+      <div className="flex gap-2 justify-between items-center">
+          <div>
+            <button
+              onClick={handlePrev}
+              disabled={pageNo === 0}
+              className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
+            >
+              Prev
+            </button>
+          </div>
+
+          <div>
+            <button
+              onClick={handleNext}
+              disabled={data.length < 10}
+              className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </div>
 
       {/* Modal */}
       <AnimatePresence>
