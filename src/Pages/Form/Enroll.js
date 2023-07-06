@@ -216,15 +216,15 @@ export default function Enrol({ user }) {
       {/* Navigation */}
       <div className="bg-white-og w-full z-10 py-2 px-4 shadow-sm border-b border-zinc-200 fixed">
         <div className="flex justify-between items-baseline">
-          <div className="text-red-500">HighHopes</div>
-          <div>
+          <h2 className="text-red-500 text-center w-full">High Hopes Tutoring Center</h2>
+          {/* <div>
             <Link
               to="/dashboard"
               className="px-2 py-1 text-[14px] text-black border border-blue-500 bg-sky-50 hover:bg-sky-200 rounded-md"
             >
               Go back
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
 
