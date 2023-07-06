@@ -73,7 +73,6 @@ export default function Modal({ open, id, modal, handleModal }) {
 
   //? for the add button
   const handleAddTimeSlot = () => {
-    // setTimeSlots([...timeSlots, { day: "", hours: 0 }]);
     setTimeSlots([...timeSlots, { day: "", startAt: "", endAt: "" }]);
   };
 
@@ -109,7 +108,6 @@ export default function Modal({ open, id, modal, handleModal }) {
       },
     };
 
-    console.log(newData)
     try {
       console.log(id);
       const message = await updateStudent(id, newData);
@@ -125,15 +123,17 @@ export default function Modal({ open, id, modal, handleModal }) {
 
   //?  Fetching current ID's Data
   const getData = async () => {
-    setLoading(true);
-    try {
-      const data = await getStudentById(id);
-      setData(data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setError(error.message);
-      setLoading(false);
+    if (id) {
+      setLoading(true);
+      try {
+        const data = await getStudentById(id);
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setError(error.message);
+        setLoading(false);
+      }
     }
   };
 

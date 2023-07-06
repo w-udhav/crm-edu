@@ -34,7 +34,6 @@ export default function Approval() {
   const handleEdit = (id) => {
     setModal(true);
     setCurrId(id);
-    console.log("running");
   };
 
   //! Data fetching
@@ -133,26 +132,26 @@ export default function Approval() {
       </div>
 
       <div className="flex gap-2 justify-between items-center">
-          <div>
-            <button
-              onClick={handlePrev}
-              disabled={pageNo === 0}
-              className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
-            >
-              Prev
-            </button>
-          </div>
-
-          <div>
-            <button
-              onClick={handleNext}
-              disabled={data.length < 10}
-              className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
+        <div>
+          <button
+            onClick={handlePrev}
+            disabled={pageNo === 0}
+            className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
+          >
+            Prev
+          </button>
         </div>
+
+        <div>
+          <button
+            onClick={handleNext}
+            disabled={data && data.length < 10}
+            className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      </div>
 
       {/* Modal */}
       <AnimatePresence>

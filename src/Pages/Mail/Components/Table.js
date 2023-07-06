@@ -11,7 +11,6 @@ export default function Table({
   selectedEmails,
   error,
 }) {
-  console.log(data);
   return (
     <table className="w-full text-left rounded-xl">
       <thead>

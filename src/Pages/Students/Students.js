@@ -21,7 +21,7 @@ export default function Students() {
 
     try {
       let filters = {};
-      if (selectedFilters === "All") filters = {};
+      if (selectedFilters === "All") filters = { approved: true };
       else if (selectedFilters === "Active") filters = { status: "Active" };
       else if (selectedFilters === "Inactive") filters = { status: "Inactive" };
 
