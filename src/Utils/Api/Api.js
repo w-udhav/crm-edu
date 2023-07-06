@@ -5,7 +5,7 @@ export const BASE_URL = "https://crm-backend-tiix.vercel.app";
 
 // ======================= GET =============================================================================
 //? Get all students
-export const getStudents = async (filters) => {
+export const getStudents = async (filters, pageNo) => {
   var options = {
     method: "POST",
     headers: {
@@ -13,7 +13,7 @@ export const getStudents = async (filters) => {
     },
     body: JSON.stringify(filters || {}),
   };
-  const response = await fetch(`${BASE_URL}/student/list`, options);
+  const response = await fetch(`${BASE_URL}/student/list?p=${pageNo}`, options);
   const data = await response.json();
   return data;
 };
@@ -232,12 +232,15 @@ export const removeComment = async (id, commentId) => {
 
 export const deleteAppointment = async (appointmentId) => {
   try {
-    const response = await fetch(`${BASE_URL}/student/appointment/${appointmentId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${BASE_URL}/student/appointment/${appointmentId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.ok) {
       const responseData = await response.json();

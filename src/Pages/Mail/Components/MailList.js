@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getStudents } from "../../../Utils/Api/Api";
 import Loader from "../../../Components/Loader";
+import { ReloadIcon } from "../../../Components/Icons";
+import Table from "./Table";
 
 export default function MailList({ toMail, setToMail }) {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedEmails, setSelectedEmails] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedFilters, setSelectedFilters] = useState("All");
+  const [pageNo, setPageNo] = useState(0);
 
   const [data, setData] = useState([]);
 
@@ -59,13 +63,28 @@ export default function MailList({ toMail, setToMail }) {
     setSelectAll(!selectAll);
   };
 
+  // handle page change
+  const handlePrev = () => {
+    if (pageNo > 0) setPageNo(pageNo - 1);
+  };
+
+  const handleNext = () => {
+    setPageNo(pageNo + 1);
+  };
+
   //? fetch data
   const fetchData = async () => {
     try {
       setLoading(true);
       setError(null);
       setData([]);
-      const data = await getStudents();
+
+      let filters = {};
+      if (selectedFilters === "All") filters = {};
+      else if (selectedFilters === "Active") filters = { status: "Active" };
+      else if (selectedFilters === "Inactive") filters = { status: "Inactive" };
+
+      const data = await getStudents(filters, pageNo);
       setData(data);
       setLoading(false);
     } catch (err) {
@@ -76,7 +95,7 @@ export default function MailList({ toMail, setToMail }) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [pageNo, selectedFilters]);
 
   const headings = ["Name", "Parent's Email", "Status"];
 
@@ -84,87 +103,58 @@ export default function MailList({ toMail, setToMail }) {
 
   if (data)
     return (
-      <div className="border rounded-xl">
-        <div className="overflow-x-auto rounded-xl ">
-          <table className="w-full text-left rounded-xl">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="py-2 px-4">
-                  <div className="relative flex justify-center items-center">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="selectAll"
-                      className="z-10 cursor-pointer w-4 h-4"
-                      onChange={handleSelectAll}
-                      checked={selectAll}
-                    />
-                    {/* <div className="bg-blue-100 absolute w-6 h-6 p-4 z-0 rounded-full"></div> */}
-                  </div>
-                </th>
-                {headings.map((head, index) => (
-                  <th key={index} className="p-2">
-                    {head}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={5}>
-                    <Loader />
-                  </td>
-                </tr>
-              ) : (
-                data.map((row) => (
-                  <tr key={row._id} className="">
-                    <td className="w-1 py-1 px-4">
-                      <input
-                        type="checkbox"
-                        name="selectAll"
-                        id="selectAll"
-                        className="w-4 h-4 cursor-pointer"
-                        value={row.email}
-                        checked={
-                          !!selectedEmails[row.addressDetail.parentsEmail]
-                        }
-                        onChange={(e) =>
-                          handleEmailSelection(
-                            e,
-                            row.addressDetail.parentsEmail
-                          )
-                        }
-                      />
-                    </td>
-                    <td className="px-2 py-1">{row.firstName}</td>
-                    <td className="px-2 py-1">
-                      {row.addressDetail.parentsEmail
-                        ? row.addressDetail.parentsEmail
-                        : "--"}
-                    </td>
-                    <td className="px-2 py-1">
-                      {row.status === "Active" && (
-                        <span className="text-green-500 rounded-full">
-                          {row.status}
-                        </span>
-                      )}
-                      {row.status === "Inactive" && (
-                        <span className="text-red-500 rounded-full">
-                          {row.status}
-                        </span>
-                      )}
-                      {row.status === "Pending" && (
-                        <span className="text-yellow-500 rounded-full">
-                          {row.status}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between">
+          <h3 className="text-xl ">{selectedFilters} Students</h3>
+          <div className="flex gap-2 items-center ">
+            <button onClick={fetchData} className="mt-1">
+              <ReloadIcon />
+            </button>
+            <select
+              name=""
+              id=""
+              value={selectedFilters}
+              onChange={(e) => setSelectedFilters(e.target.value)}
+              className="border border-zinc-400 rounded-md bg-white outline-none"
+            >
+              <option value="">All</option>
+              <option value="">Today</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div className="flex gap-2 justify-between items-center">
+          <div>
+            <button
+              onClick={handlePrev}
+              disabled={pageNo === 0}
+              className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
+            >
+              Prev
+            </button>
+          </div>
+
+          <div>
+            <button
+              onClick={handleNext}
+              disabled={data.length < 10}
+              className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+        <div className="border overflow-x-auto rounded-xl min-h-[32rem]">
+          <Table
+            headings={headings}
+            data={data}
+            handleEmailSelection={handleEmailSelection}
+            selectedEmails={selectedEmails}
+            selectAll={selectAll}
+            handleSelectAll={handleSelectAll}
+            error={error}
+          />
         </div>
       </div>
     );

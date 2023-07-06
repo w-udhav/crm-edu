@@ -108,6 +108,8 @@ export default function Modal({ open, id, modal, handleModal }) {
         timeSlots: timeSlots,
       },
     };
+
+    console.log(newData)
     try {
       console.log(id);
       const message = await updateStudent(id, newData);

@@ -20,6 +20,7 @@ export default function Mail() {
   const [loading, setLoading] = useState(false);
   const [isDis, setIsDis] = useState(true);
   const [success, setSuccess] = useState(false);
+  
 
   //? handle modal
   const handleModal = (res) => {
@@ -105,6 +106,11 @@ export default function Mail() {
       setLoading(false);
     }
   };
+
+  
+
+
+
 
   return (
     <motion.div

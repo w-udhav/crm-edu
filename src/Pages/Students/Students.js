@@ -11,6 +11,7 @@ export default function Students() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [pageNo, setPageNo] = useState(0);
   const [selectedFilters, setSelectedFilters] = useState("All");
 
   const fetchData = async () => {
@@ -24,13 +25,21 @@ export default function Students() {
       else if (selectedFilters === "Active") filters = { status: "Active" };
       else if (selectedFilters === "Inactive") filters = { status: "Inactive" };
 
-      const data = await getStudents(filters);
+      const data = await getStudents(filters, pageNo);
       setData(data);
       setLoading(false);
     } catch (err) {
       setError(err.message);
       setLoading(false);
     }
+  };
+
+  const handlePrev = () => {
+    if (pageNo > 0) setPageNo(pageNo - 1);
+  };
+
+  const handleNext = () => {
+    setPageNo(pageNo + 1);
   };
 
   useEffect(() => {
@@ -41,14 +50,14 @@ export default function Students() {
       setLoading(true);
       setData([]);
     };
-  }, [reload, selectedFilters]);
+  }, [reload, selectedFilters, pageNo]);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      className="flex flex-col gap-5 w-full h-full overflow-hidden relative"
+      className="flex flex-col gap-5 w-full h-full relative"
     >
       <div className="overflow- flex flex-col gap-3">
         {/* Filter */}
@@ -75,16 +84,39 @@ export default function Students() {
 
         {/* Table */}
 
-        <Table
-          headings={headings}
-          data={data}
-          loading={loading}
-          error={error}
-          fetchData={fetchData}
-          modal={modal}
-          setModal={setModal}
-          setReload={setReload}
-        />
+        <div className="min-h-[41.5rem]">
+          <Table
+            headings={headings}
+            data={data}
+            loading={loading}
+            error={error}
+            fetchData={fetchData}
+            modal={modal}
+            setModal={setModal}
+            setReload={setReload}
+          />
+        </div>
+        <div className="flex gap-2 justify-between items-center">
+          <div>
+            <button
+              onClick={handlePrev}
+              disabled={pageNo === 0}
+              className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
+            >
+              Prev
+            </button>
+          </div>
+
+          <div>
+            <button
+              onClick={handleNext}
+              disabled={data.length < 10}
+              className="px-2 py-1 text-sm text-black-1 rounded-md bg-black bg-opacity-10 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </motion.div>
   );
