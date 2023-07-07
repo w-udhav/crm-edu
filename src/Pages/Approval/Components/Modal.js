@@ -96,6 +96,10 @@ export default function Modal({ open, id, modal, handleModal }) {
 
   //? Chaning Approval Status
   const handleApprovalStatusChange = async () => {
+    var daysList = []
+    for(var i in timeSlots){
+      daysList.push(timeSlots[i]["day"])
+    }
     const newData = {
       approved: true,
       status: "Active",
@@ -103,7 +107,7 @@ export default function Modal({ open, id, modal, handleModal }) {
         subjects: data.tutoringDetail.subjects,
         frequency: data.tutoringDetail.frequency,
         paymentMethod: data.tutoringDetail.paymentMethod,
-        days: data.tutoringDetail.days,
+        days: daysList,
         timeSlots: timeSlots,
       },
     };
