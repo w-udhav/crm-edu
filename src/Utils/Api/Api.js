@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://crm-backend-tiix.vercel.app";
-export const BASE_URL = "http://localhost:4000";
+export const BASE_URL = "https://crm-backend-tiix.vercel.app";
+// export const BASE_URL = "http://localhost:4000";
 
 // export const BASE_URL = "http://127.0.0.1:4000";
 
@@ -95,12 +95,14 @@ export const getMiscReviews = async () => {
   };
   try {
     const response = await fetch(`${BASE_URL}/site/misc`, options);
-    const data = await response.json();
-
-    if (data.error) {
-      throw data.error;
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else if (response.status === 404) {
+      throw new Error("No reviews found");
+    } else {
+      throw new Error("Error retrieving review data");
     }
-    return data;
   } catch (err) {
     throw err;
   }
@@ -289,6 +291,24 @@ export const deleteAppointment = async (appointmentId) => {
       return responseData;
     } else {
       throw new Error("Failed to delete appointment");
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteReview = async (reviewId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/site/delete-review/${reviewId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
     }
   } catch (error) {
     throw error;

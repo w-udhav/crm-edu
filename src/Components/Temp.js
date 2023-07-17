@@ -6,6 +6,7 @@ import FormIcon, {
   DashboardIcon,
   MailIcon,
   NewLinkIcon,
+  SiteIcon,
   StudentIcon,
 } from "./Icons";
 
@@ -84,14 +85,16 @@ export default function Temp({ children }) {
                 </Link>
               );
             })}
-            <div className="flex flex-col">
-              <button className="flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none hover:bg-zinc-200">
+            <div className="flex flex-col relative">
+              <button className="flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none ">
                 <div className="w-5">
-                  <FormIcon />
+                  <SiteIcon />
                 </div>
                 <p>Site Manager</p>
               </button>
-              <div className="pl-5">
+
+              <div className="pl-9 relative">
+                <div className="absolute h-full w-1 top-0 left-6 bg-zinc-200"></div>
                 {siteLinks.map((item) => {
                   return (
                     <Link
