@@ -10,7 +10,7 @@ import FormIcon, {
 } from "./Icons";
 
 export default function Temp({ children }) {
-  const links = [
+  const mainLinks = [
     {
       id: 1,
       name: "Dashboard",
@@ -37,6 +37,15 @@ export default function Temp({ children }) {
     },
   ];
 
+  const siteLinks = [
+    {
+      id: 1,
+      name: "Reviews",
+      route: "./reviews",
+      icon: <FormIcon />,
+    },
+  ];
+
   const location = useLocation();
 
   const segments = location.pathname.split("/").filter(Boolean);
@@ -58,8 +67,9 @@ export default function Temp({ children }) {
           {/* Title */}
           <h3 className="font-medium px-4 text-red-500 text-lg">HighHopes</h3>
 
+          {/* Links */}
           <div className="flex flex-col">
-            {links.map((item) => {
+            {mainLinks.map((item) => {
               return (
                 <Link
                   key={item.id}
@@ -74,13 +84,38 @@ export default function Temp({ children }) {
                 </Link>
               );
             })}
+            <div className="flex flex-col">
+              <button className="flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none hover:bg-zinc-200">
+                <div className="w-5">
+                  <FormIcon />
+                </div>
+                <p>Site Manager</p>
+              </button>
+              <div className="pl-5">
+                {siteLinks.map((item) => {
+                  return (
+                    <Link
+                      key={item.id}
+                      to={item.route}
+                      target={item.target && item.target}
+                      className={`flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none hover:bg-zinc-200
+                    ${getNav(item.route)}
+                  `}
+                    >
+                      <div className="w-5">{item.icon && item.icon}</div>
+                      <p>{item.name}</p>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           <div className="px-2">
             <Link
               to="/form"
               target="_blank"
-              className="hover:underline underline-offset-2 text-blue-600 flex items-baseline gap-2"
+              className="hover:shadow-md outline-none  text-blue-600 bg-blue-100 py-2 rounded-md flex items-baseline justify-center gap-2 transition-all"
             >
               <span className="ml-2">Enrollment Form</span>
               <NewLinkIcon className="w-4 h-4" />

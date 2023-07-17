@@ -20,7 +20,6 @@ export default function Mail() {
   const [loading, setLoading] = useState(false);
   const [isDis, setIsDis] = useState(true);
   const [success, setSuccess] = useState(false);
-  
 
   //? handle modal
   const handleModal = (res) => {
@@ -107,16 +106,11 @@ export default function Mail() {
     }
   };
 
-  
-
-
-
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="h-full flex flex-col gap-5 overflow-y-auto"
     >
       <div className="relative rounded-xl border shadow-md">
@@ -138,7 +132,7 @@ export default function Mail() {
             <span className={`${error.to && "text-red-500"}`}>To:</span>
 
             {/* To mails */}
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1">
               {
                 // To mails
                 toMail.map((mail, index) => (

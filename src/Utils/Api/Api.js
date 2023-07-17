@@ -1,5 +1,5 @@
-export const BASE_URL = "https://crm-backend-tiix.vercel.app";
-// export const BASE_URL = "http://localhost:4000";
+// export const BASE_URL = "https://crm-backend-tiix.vercel.app";
+export const BASE_URL = "http://localhost:4000";
 
 // export const BASE_URL = "http://127.0.0.1:4000";
 
@@ -61,6 +61,48 @@ export const getAppointments = async (filter) => {
     return data;
   } catch (error) {
     throw error;
+  }
+};
+
+//? Get Reviews List
+export const getReviews = async () => {
+  var options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    const response = await fetch(`${BASE_URL}/site/list-reviews`, options);
+    const data = await response.json();
+
+    if (data.error) {
+      throw data.error;
+    }
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+//? Get Misc Reviews information
+export const getMiscReviews = async () => {
+  var options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    const response = await fetch(`${BASE_URL}/site/misc`, options);
+    const data = await response.json();
+
+    if (data.error) {
+      throw data.error;
+    }
+    return data;
+  } catch (err) {
+    throw err;
   }
 };
 

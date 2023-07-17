@@ -101,9 +101,9 @@ export default function Dashboard() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="w-full h-full flex flex-col gap-5 overflow-y-auto overflow-x-hidden"
     >
       {/* Section 1 - Display */}
@@ -291,7 +291,6 @@ export default function Dashboard() {
               />
             </div>
           </div>
-          
         </div>
       </div>
 

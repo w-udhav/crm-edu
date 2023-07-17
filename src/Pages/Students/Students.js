@@ -54,9 +54,9 @@ export default function Students() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="flex flex-col gap-5 w-full h-full relative"
     >
       <div className="overflow- flex flex-col gap-3">
