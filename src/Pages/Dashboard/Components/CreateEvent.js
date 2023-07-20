@@ -66,20 +66,27 @@ export default function CreateEvent({ handleEventModal }) {
     handleEventModal();
   };
 
-  // console.log(form)
-
   const handleUpdate = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Convert date to ISO string
+    const startTimeUTC = new Date(form.startTime).toISOString();
+    const endTimeUTC = new Date(form.endTime).toISOString();
+
     setLoading(true);
     try {
-      const response = await addAppointment(form);
+      const formData = {
+        ...form,
+        startTime: startTimeUTC,
+        endTime: endTimeUTC,
+      };
+      const response = await addAppointment(formData);
       setLoading(false);
       setSuccess(true);
-
       closeModal();
     } catch (error) {
       setError(error.message || "An error occurred");
@@ -95,12 +102,20 @@ export default function CreateEvent({ handleEventModal }) {
     }
   }, [error]);
 
+  const handleTest = () => {
+    const date = new Date(form.startTime);
+    const date2 = new Date(form.endTime);
+
+    console.log(date2.toISOString());
+    console.log(form.startTime);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed  inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center z-30"
+      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex flex-col gap-3 justify-center items-center z-30"
     >
       <div className="flex flex-col gap-5 w-[25rem] max-h-[95vh]">
         <div className=" bg-white-og bg-opacity-80 rounded-xl flex flex-col overflow-hidden relative">
@@ -161,6 +176,15 @@ export default function CreateEvent({ handleEventModal }) {
             Cancel
           </button>
         </div>
+      </div>
+
+      <div>
+        <button
+          onClick={handleTest}
+          className="px-3 py-1 bg-black text-white rounded-md"
+        >
+          TEST
+        </button>
       </div>
     </motion.div>
   );

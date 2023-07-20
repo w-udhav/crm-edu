@@ -26,6 +26,12 @@ export default function Dashboard() {
     setEventModal(!eventModal);
   };
 
+  const handleTest = () => {
+    console.log(appointments[1].startTime);
+    const star = new Date(appointments[1].startTime);
+    console.log(star.toLocaleString());
+  };
+
   const handleDeleteAppointment = async (id) => {
     if (window.confirm("Are you sure you want to delete this appointment?")) {
       setLoadingEvent(true);
@@ -87,6 +93,15 @@ export default function Dashboard() {
       setError(err.message);
       setLoadingEvent(false);
     }
+  };
+
+  const formatTime = (timeString) => {
+    const time = new Date(timeString);
+    return time.toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
   };
 
   // console.log(appointments)
@@ -202,41 +217,11 @@ export default function Dashboard() {
               >
                 {appointments.length > 0 ? (
                   appointments.map((appointment) => {
-                    var startTime = new Date(appointment.startTime);
-                    var endTime = new Date(appointment.endTime);
-                    let startHours = startTime.getHours();
-                    let startMinutes = startTime.getMinutes();
-                    let endHours = endTime.getHours();
-                    let endMinutes = endTime.getMinutes();
-
-                    let period1 = "AM";
-                    let period2 = "AM";
-
-                    if (startHours >= 12) {
-                      period1 = "PM";
-                      if (startHours > 12) {
-                        startHours -= 12;
-                      }
-                    }
-                    if (endHours >= 12) {
-                      period2 = "PM";
-                      if (endHours > 12) {
-                        endHours -= 12;
-                      }
-                    }
-
-                    let startHoursFormatted =
-                      startHours < 10 ? `0${startHours}` : startHours;
-                    let endHoursFormatted =
-                      endHours < 10 ? `0${endHours}` : endHours;
-
-                    let startMinutesFormatted =
-                      startMinutes < 10 ? `0${startMinutes}` : startMinutes;
-                    let endMinutesFormatted =
-                      endMinutes < 10 ? `0${endMinutes}` : endMinutes;
-
-                    // console.log(appointment.startTime)
-
+                    const startTimeUTC = new Date(appointment.startTime);
+                    const endTimeUTC = new Date(appointment.endTime);
+                    // Convert UTC times to local times
+                    // const startTimeLocal = startTimeUTC.toLocaleString();
+                    // const endTimeLocal = endTimeUTC.toLocaleString();
                     return (
                       <div
                         key={appointment._id}
@@ -245,16 +230,15 @@ export default function Dashboard() {
                         <div>
                           <h1 className="text-[17px]"> {appointment.query} </h1>
                           <div className="text-[14px]">
-                            {startTime.toDateString()}
+                            {startTimeUTC.toDateString()}
                           </div>
                         </div>
                         <div className="flex justify-between items-center gap-1">
                           <div className="flex items-center gap-2">
                             <ClockIcon className="w-6 h-6 fill-sky-500 stroke-sky-500" />
-                            <h3 className="text-sky-500 pt-[2px]">
-                              {`${startHoursFormatted}:${startMinutesFormatted} ${period1}`}{" "}
-                              -{" "}
-                              {`${endHoursFormatted}:${endMinutesFormatted} ${period2}`}
+                            <h3 className="text-sky-500 pt-[2px] uppercase">
+                              {formatTime(appointment.startTime)} -{" "}
+                              {formatTime(appointment.endTime)}
                             </h3>
                           </div>
 
@@ -298,6 +282,15 @@ export default function Dashboard() {
       <AnimatePresence>
         {eventModal && <CreateEvent handleEventModal={handleEventModal} />}
       </AnimatePresence>
+
+      <div className="absolute bottom-5 right-5">
+        <button
+          onClick={handleTest}
+          className="px-3 py-2 rounded-md bg-orange-500 text-white shadow-md"
+        >
+          Test
+        </button>
+      </div>
     </motion.div>
   );
 }

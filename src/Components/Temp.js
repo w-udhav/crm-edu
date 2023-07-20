@@ -93,7 +93,7 @@ export default function Temp({ children }) {
                 <p>Site Manager</p>
               </button>
 
-              <div className="pl-9 relative">
+              <div className="pl-9 relative ">
                 <div className="absolute h-full w-1 top-0 left-6 bg-zinc-200"></div>
                 {siteLinks.map((item) => {
                   return (
