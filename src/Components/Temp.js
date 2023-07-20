@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import { Link, useLocation } from "react-router-dom";
 import FormIcon, {
   ApprovalIcon,
   DashboardIcon,
   MailIcon,
+  NewFileIcon,
   NewLinkIcon,
   SiteIcon,
   StudentIcon,
 } from "./Icons";
+import { AnimatePresence } from "framer-motion";
+import FormModal from "./FormModal";
 
 export default function Temp({ children }) {
+  const [open, setOpen] = useState(false);
+
+  const handleModal = (what) => {
+    setOpen(what);
+  };
+
   const mainLinks = [
     {
       id: 1,
@@ -67,6 +76,16 @@ export default function Temp({ children }) {
         <div className="w-[16rem] lg:w-[17rem] h-full p-2 flex flex-col bg-white-1 z-20 gap-9  ">
           {/* Title */}
           <h3 className="font-medium px-4 text-red-500 text-lg">HighHopes</h3>
+
+          <div>
+            <button
+              onClick={() => handleModal(true)}
+              className="p-4 flex items-center gap-1 rounded-xl shadow-md hover:shadow-xl bg-white-og hover:bg-amber-200 transition-all"
+            >
+              <NewFileIcon className="w-6 h-6" />
+              <span className="text-[17px]"> New </span>
+            </button>
+          </div>
 
           {/* Links */}
           <div className="flex flex-col">
@@ -134,6 +153,11 @@ export default function Temp({ children }) {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {open && <FormModal handleModal={handleModal} />}
+      </AnimatePresence>
     </div>
   );
 }

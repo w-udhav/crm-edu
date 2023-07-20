@@ -61,7 +61,7 @@ export default function Approval() {
       exit={{ opacity: 0 }}
       className="flex flex-col gap-5 w-full h-full overflow-hidden relative"
     >
-      <div className="overflow-x-auto rounded-xl border">
+      <div className="overflow-x-auto rounded-xl border min-h-[36.8rem]">
         <table className="w-full text-left rounded-xl table-auto ">
           <thead>
             <tr className="bg-gray-200">
@@ -80,10 +80,11 @@ export default function Approval() {
           </thead>
 
           <tbody>
-            {data && data.length > 0 ? (
+            {data &&
+              !loading &&
               data.map((row) => (
                 <tr key={row._id} className="text-[15px]">
-                  <td className=" px-2 py-1">{row.firstName}</td>
+                  <td className=" px-2 py-1">{`${row.firstName} ${row.lastName}`}</td>
                   <td className=" px-2 py-1">
                     {row.addressDetail ? row.addressDetail.parentsEmail : "N/A"}
                   </td>
@@ -105,28 +106,39 @@ export default function Approval() {
                     </div>
                   </td>
                 </tr>
-              ))
-            ) : error ? (
-              <tr>
-                <td colSpan="5" className="p-2">
-                  {error}
-                </td>
-              </tr>
-            ) : (
-              <tr>
-                <td colSpan="5" className="p-2">
-                  {data ? (
-                    <div className="py-3 flex justify-center items-center">
-                      <p className="px-4 py-2 rounded-md text-yellow-500 bg-yellow-100">
-                        No data available!
-                      </p>
-                    </div>
-                  ) : (
+              ))}
+            {
+              // ! This is the loading state
+              loading && (
+                <tr>
+                  <td colSpan={5} className="text-center p-2">
                     <Loader />
-                  )}
-                </td>
-              </tr>
-            )}
+                  </td>
+                </tr>
+              )
+            }
+            {
+              // ! This is the no data state
+              !loading && data && data.length === 0 && !error && (
+                <tr>
+                  <td colSpan={5} className="text-center p-2">
+                    No Data Found
+                  </td>
+                </tr>
+              )
+            }
+            {
+              // ! This is the error state
+              error && (
+                <tr>
+                  <td colSpan={5} className="text-center py-3 px-2">
+                    <div className=" w-full flex flex-col gap-2 items-center justify-center">
+                      <p className="text-red-500 text-xl">{error}</p>
+                    </div>
+                  </td>
+                </tr>
+              )
+            }
           </tbody>
         </table>
       </div>

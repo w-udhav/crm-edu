@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import WeekChart from "./Components/WeekChart";
 import Loader from "../../Components/Loader";
 import CreateEvent from "./Components/CreateEvent";
-import { ClockIcon, DeleteIcon } from "../../Components/Icons";
+import { ClockIcon, DeleteIcon, ReloadIcon } from "../../Components/Icons";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -166,7 +166,18 @@ export default function Dashboard() {
       <div className="w-[max-content]">
         <div className="flex justify-between items-center gap-1">
           <h3 className="text-3xl font-semibold">Appointments</h3>
-          <div className="flex items-center gap-2 ">
+          <div className="flex items-center gap-4 ">
+            <motion.button
+              transition={{
+                type: "spring",
+                stiffness: 700,
+                damping: 30,
+              }}
+              onClick={fetchAppointments}
+              className="rounded-full bg-sky-100 hover:bg-sky-200 transition-all hover:rotate-45 p-2"
+            >
+              <ReloadIcon className="w-5 h-5" />
+            </motion.button>
             <button
               onClick={handleEventModal}
               className="flex gap-1 items-center px-2 py-1 rounded-md text-[14px] bg-blue-100 text-blue-500 shadow"
@@ -282,15 +293,6 @@ export default function Dashboard() {
       <AnimatePresence>
         {eventModal && <CreateEvent handleEventModal={handleEventModal} />}
       </AnimatePresence>
-
-      <div className="absolute bottom-5 right-5">
-        <button
-          onClick={handleTest}
-          className="px-3 py-2 rounded-md bg-orange-500 text-white shadow-md"
-        >
-          Test
-        </button>
-      </div>
     </motion.div>
   );
 }
