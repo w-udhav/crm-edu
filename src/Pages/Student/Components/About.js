@@ -125,7 +125,7 @@ export default function About({ data }) {
       id: 6,
       name: "School Year",
       fieldName: "schoolYear",
-      type: "number",
+      type: "text",
     },
   ];
 
@@ -154,7 +154,7 @@ export default function About({ data }) {
     try {
       var tempList = [];
       for (var i = 0; i < commentsList.length; i++) {
-        if (commentsList[i]["_id"] != commentId) {
+        if (commentsList[i]["_id"] !== commentId) {
           tempList.push(commentsList[i]);
         }
       }
