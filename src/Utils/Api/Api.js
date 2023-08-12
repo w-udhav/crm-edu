@@ -85,6 +85,26 @@ export const getReviews = async () => {
   }
 };
 
+// Getting search results
+export const searchResult = async () => {
+  var options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}/student/search`, options);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 //? Get Misc Reviews information
 export const getMiscReviews = async () => {
   var options = {

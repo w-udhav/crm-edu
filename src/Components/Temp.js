@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import FormIcon, {
   ApprovalIcon,
   DashboardIcon,
+  GalleryIcon,
   MailIcon,
   NewFileIcon,
   NewLinkIcon,
@@ -54,6 +55,12 @@ export default function Temp({ children }) {
       route: "./reviews",
       icon: <FormIcon />,
     },
+    {
+      id: 2,
+      name: "Gallery",
+      route: "./gallery",
+      icon: <GalleryIcon className="w-[18px] h-[18px]" />,
+    },
   ];
 
   const location = useLocation();
@@ -95,7 +102,7 @@ export default function Temp({ children }) {
                   key={item.id}
                   to={item.route}
                   target={item.target && item.target}
-                  className={`flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none hover:bg-zinc-200
+                  className={`flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none hover:bg-zinc-300
                     ${getNav(item.route)}
                   `}
                 >
@@ -105,12 +112,12 @@ export default function Temp({ children }) {
               );
             })}
             <div className="flex flex-col relative">
-              <button className="flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none ">
+              <div className="flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none cursor-default">
                 <div className="w-5">
                   <SiteIcon />
                 </div>
                 <p>Site Manager</p>
-              </button>
+              </div>
 
               <div className="pl-9 relative ">
                 <div className="absolute h-full w-1 top-0 left-6 bg-zinc-200"></div>
@@ -120,11 +127,13 @@ export default function Temp({ children }) {
                       key={item.id}
                       to={item.route}
                       target={item.target && item.target}
-                      className={`flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none hover:bg-zinc-200
+                      className={`flex items-center text-[15px] gap-2 py-[5px] px-4 rounded-full outline-none hover:bg-zinc-300
                     ${getNav(item.route)}
                   `}
                     >
-                      <div className="w-5">{item.icon && item.icon}</div>
+                      <div className="w-5 flex justify-center">
+                        {item.icon && item.icon}
+                      </div>
                       <p>{item.name}</p>
                     </Link>
                   );

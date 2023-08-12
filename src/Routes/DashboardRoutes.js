@@ -7,6 +7,7 @@ import Mail from "../Pages/Mail/Mail";
 import Approval from "../Pages/Approval/Approval";
 import Students from "../Pages/Students/Students";
 import Reviews from "../Pages/Reviews/Reviews";
+import Gallery from "../Pages/Gallery/Gallery";
 
 export default function DashboardRoutes({ user }) {
   if (user === null) return <Navigate to="/auth/login" />;
@@ -19,6 +20,7 @@ export default function DashboardRoutes({ user }) {
         <Route path="/approvals" element={<Approval />} />
         <Route path="/students" element={<Students />} />
         <Route path="/reviews" element={<Reviews />} />
+        <Route path="/gallery" element={<Gallery />} />
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Temp>

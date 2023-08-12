@@ -996,13 +996,13 @@ export function ApprovalIcon({ className }) {
   );
 }
 
-export function DeleteIcon({ className }) {
+export function DeleteIcon({ className, color }) {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      stroke="#323232"
+      stroke={color ? color : "#323232"}
       className={`${className}`}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -1015,7 +1015,7 @@ export function DeleteIcon({ className }) {
         {" "}
         <path
           d="M6 5H18M9 5V5C10.5769 3.16026 13.4231 3.16026 15 5V5M9 20H15C16.1046 20 17 19.1046 17 18V9C17 8.44772 16.5523 8 16 8H8C7.44772 8 7 8.44772 7 9V18C7 19.1046 7.89543 20 9 20Z"
-          stroke="#323232"
+          stroke={color ? color : "#323232"}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -1196,6 +1196,79 @@ export function NewFileIcon({ className, color }) {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+        ></path>{" "}
+      </g>
+    </svg>
+  );
+}
+
+export function GalleryIcon({ className, color }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {" "}
+        <path
+          d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z"
+          stroke="#33363F"
+          strokeWidth="1.5"
+        ></path>{" "}
+        <circle
+          cx="16"
+          cy="8"
+          r="2"
+          stroke="#33363F"
+          strokeWidth="1.5"
+        ></circle>{" "}
+        <path
+          d="M2 12.5001L3.75159 10.9675C4.66286 10.1702 6.03628 10.2159 6.89249 11.0721L11.1822 15.3618C11.8694 16.0491 12.9512 16.1428 13.7464 15.5839L14.0446 15.3744C15.1888 14.5702 16.7369 14.6634 17.7765 15.599L21 18.5001"
+          stroke="#33363F"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        ></path>{" "}
+      </g>
+    </svg>
+  );
+}
+
+export function CloudUploadIcon({ className }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {" "}
+        <path
+          d="M12 16V22M12 16L14 18M12 16L10 18"
+          stroke="#1E40AF"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        ></path>{" "}
+        <path
+          d="M22 13.3529C22 15.6958 20.5562 17.7055 18.5 18.5604M14.381 8.02721C14.9767 7.81911 15.6178 7.70588 16.2857 7.70588C16.9404 7.70588 17.5693 7.81468 18.1551 8.01498M7.11616 10.6089C6.8475 10.5567 6.56983 10.5294 6.28571 10.5294C3.91878 10.5294 2 12.4256 2 14.7647C2 16.6611 3.26124 18.2664 5 18.8061M7.11616 10.6089C6.88706 9.9978 6.7619 9.33687 6.7619 8.64706C6.7619 5.52827 9.32028 3 12.4762 3C15.4159 3 17.8371 5.19371 18.1551 8.01498M7.11616 10.6089C7.68059 10.7184 8.20528 10.9374 8.66667 11.2426M18.1551 8.01498C19.0446 8.31916 19.8345 8.83436 20.4633 9.5"
+          stroke="#1E40AF"
+          strokeWidth="1.5"
+          strokeLinecap="round"
         ></path>{" "}
       </g>
     </svg>
