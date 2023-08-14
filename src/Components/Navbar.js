@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { LeftArrowHead, SearchIcon, SettingIcon } from "./Icons";
 import { logout } from "../Utils/Firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { searchResult } from "../Utils/Api/Api";
+import cross from "../Assets/cross.svg";
 
 export default function Navbar({ location }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,6 +25,35 @@ export default function Navbar({ location }) {
     setIsOpen(!isOpen);
   };
 
+  // Search functions
+  const handleChange = (e) => {
+    setSearchText(e.target.value);
+    setSearchResults([]);
+  };
+
+  // const isEmail = (email) => {
+  //   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // };
+
+  const handleSearch = async () => {
+    if (searchText.length === 0) return;
+    setLoading(true);
+    try {
+      const response = await searchResult(searchText);
+      setSearchResults(response);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="w-full h-[8vh] p-2 flex items-center">
       <div className="flex w-full items-center gap-2 justify-between">
@@ -30,26 +65,67 @@ export default function Navbar({ location }) {
         //! Search Bar
         */}
         <div
-          className={`lg:flex-1 flex items-center relative lg:bg-zinc-200 px-3 py-2 rounded-lg gap-2`}
+          className={`lg:w-[40rem] flex items-center justify-between relative bg-zinc-50 border border-zinc-200 px-3 py-2 rounded-lg
+          ${inputFocused && "shadow-lg bg-zinc-200"}
+          `}
         >
-          <SearchIcon className="w-6 h-6 opacity-70" />
-          <input
-            type="text"
-            placeholder="Search for Student"
-            className="hidden lg:block w-full min-w-[18rem] bg-transparent outline-none border-none placeholder:text-zinc-700"
-          />
-
+          <div className="flex gap-2 flex-1">
+            <SearchIcon className="w-6 h-6 opacity-70" />
+            <input
+              type="text"
+              value={searchText}
+              onFocus={() => setInputFocused(true)}
+              onBlur={() => setInputFocused(false)}
+              onChange={handleChange}
+              onKeyUp={handleKeyUp}
+              placeholder="Search by name"
+              className="hidden lg:block min-w-[18rem] w-full bg-transparent outline-none border-none placeholder:text-zinc-700 "
+            />
+          </div>
+          {searchText.length !== 0 && (
+            <button
+              onClick={() => setSearchText("")}
+              className="rounded-full hover:bg-zinc-300 transition-all box-border"
+            >
+              <img
+                src={cross}
+                alt="cross icon"
+                className="w-6 h-6 opacity-70 object-cover"
+              />
+            </button>
+          )}
           {
             // ? This is the dropdown for search
           }
-          {/* <div className="absolute z-20 top-12 left-0 w-full border bg-white-og rounded-lg p-2">
-            <div className="">
-              <p className="py-1 border-b">Student 1</p>
-              <p className="py-1 border-b">Student 2</p>
-              <p className="py-1 border-b">Student 3</p>
-              <p className="py-1 border-b">Student 4</p>
-            </div>
-          </div> */}
+          {searchResults.length > 0 && searchText.length !== 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              className="absolute z-20 top-11 left-0 w-full border bg-white-og rounded-lg shadow-xl"
+            >
+              <div className="flex flex-col">
+                {searchResults.map((result) => {
+                  let email = result.addressDetail.parentsEmail;
+                  return (
+                    <Link
+                      to={`student/${result._id}`}
+                      key={result._id}
+                      className="hover:bg-blue-100 px-2 py-1 text-black-1 flex justify-between items-center"
+                    >
+                      <span className="text-[15px]">
+                        {result.firstName} {result.lastName}
+                      </span>
+                      <span className="text-[13px] lowercase px-2 py-1 rounded-md bg-amber-200">
+                        {email}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
         </div>
 
         {/*

@@ -86,7 +86,7 @@ export const getReviews = async () => {
 };
 
 // Getting search results
-export const searchResult = async () => {
+export const searchResult = async (query) => {
   var options = {
     method: "GET",
     headers: {
@@ -95,7 +95,10 @@ export const searchResult = async () => {
   };
 
   try {
-    const response = await fetch(`${BASE_URL}/student/search`, options);
+    const response = await fetch(
+      `${BASE_URL}/student/search?firstName=${query}`,
+      options
+    );
     if (response.ok) {
       const data = await response.json();
       return data;

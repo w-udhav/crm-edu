@@ -81,8 +81,8 @@ export default function Student() {
     setStatus(e.target.value);
   };
 
-  const fetchData = () => {
-    getStudentById(params.id)
+  const fetchData = (id) => {
+    getStudentById(id)
       .then((data) => {
         setStudentData(data);
         setStatus(data.status);
@@ -96,8 +96,8 @@ export default function Student() {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(params.id);
+  }, [params]);
 
   if (error) return <div>Something went wrong</div>;
 
@@ -230,7 +230,7 @@ export default function Student() {
               <p>Some changes will be reflected after the reload.</p>
               <div>
                 <button
-                  onClick={fetchData}
+                  onClick={fetchData(params.id)}
                   className="text-orange-600 px-2 py-[1px] bg-orange-100 rounded-md"
                 >
                   Reload
