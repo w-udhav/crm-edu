@@ -178,14 +178,14 @@ export default function CreateEvent({ handleEventModal }) {
         </div>
       </div>
 
-      <div>
+      {/* <div>
         <button
           onClick={handleTest}
           className="px-3 py-1 bg-black text-white rounded-md"
         >
           TEST
         </button>
-      </div>
+      </div> */}
     </motion.div>
   );
 }
