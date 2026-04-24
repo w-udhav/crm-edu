@@ -138,7 +138,7 @@ export default function About({ data }) {
     setLoadingComment(true);
     const tempComment = { text: newComment };
     try {
-      await addComment(data._id, tempComment);
+      await addComment(data._id, newComment);
       setCommentList((prevList) => [...prevList, tempComment]);
       setNewComment("");
       setLoadingComment(false);

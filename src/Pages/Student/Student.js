@@ -230,7 +230,7 @@ export default function Student() {
               <p>Some changes will be reflected after the reload.</p>
               <div>
                 <button
-                  onClick={fetchData(params.id)}
+                  onClick={() => fetchData(params.id)}
                   className="text-orange-600 px-2 py-[1px] bg-orange-100 rounded-md"
                 >
                   Reload

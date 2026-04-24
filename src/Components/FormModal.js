@@ -92,7 +92,7 @@ export default function FormModal({ handleModal }) {
 
       const response = await sendFormByAdmin(sendingData);
       console.log("response", response);
-      if (response.status === 200) {
+      if (response.message) {
         alert("Form submitted successfully");
         setForm(resetForm);
         handleModal(false);

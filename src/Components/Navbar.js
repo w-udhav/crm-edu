@@ -110,7 +110,7 @@ export default function Navbar({ location }) {
                   let email = result.addressDetail.parentsEmail;
                   return (
                     <Link
-                      to={`student/${result._id}`}
+                      to={`/dashboard/student/${result._id}`}
                       key={result._id}
                       className="hover:bg-blue-100 px-2 py-1 text-black-1 flex justify-between items-center"
                     >

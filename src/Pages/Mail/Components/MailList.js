@@ -117,8 +117,7 @@ export default function MailList({ toMail, setToMail }) {
               onChange={(e) => setSelectedFilters(e.target.value)}
               className="border border-zinc-400 rounded-md bg-white outline-none"
             >
-              <option value="">All</option>
-              <option value="">Today</option>
+              <option value="All">All</option>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>

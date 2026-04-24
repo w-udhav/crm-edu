@@ -55,7 +55,7 @@ export default function Medical({ data, id }) {
       medications: form.medications,
     };
     const sendingData = {
-      healthDetail: { newData },
+      healthDetail: newData,
     };
 
     setLoadingForm(true);

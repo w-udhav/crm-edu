@@ -46,7 +46,7 @@ export default function CommentBox({ data, handleModal, setReload }) {
     setLoading(true);
     try {
       const tempComment = { text: newComment };
-      await addComment(id, tempComment);
+      await addComment(id, newComment);
       setNewComment("");
       setReload(true);
       setLoading(false);

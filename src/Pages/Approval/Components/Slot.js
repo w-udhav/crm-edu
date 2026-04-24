@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Slot() {
+export default function Slot({ timeSlots, handleTimeSlotChange, handleRemoveSlot }) {
   return (
     <div className="grid grid-cols-3">
       {timeSlots.map((timeSlot, index) => (
@@ -10,7 +10,7 @@ export default function Slot() {
             <select
               name={`timeSlots[${index}].day`}
               value={timeSlot.day}
-              onChange={(e) => handleTimeSlotChange(index, e)}
+              onChange={(e) => handleTimeSlotChange(index, "day", e.target.value)}
             >
               <option value=""> Select an option </option>
               <option value="Monday">Monday</option>
@@ -28,7 +28,7 @@ export default function Slot() {
               type="number"
               name={`timeSlots[${index}].hours`}
               value={timeSlot.hours}
-              onChange={(e) => handleTimeSlotChange(index, e)}
+              onChange={(e) => handleTimeSlotChange(index, "hours", e.target.value)}
             />
           </label>
           <button

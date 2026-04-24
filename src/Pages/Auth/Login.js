@@ -36,7 +36,7 @@ export default function Login() {
       setLoading(false);
       console.error(err.code);
       const errorCode = err.code;
-      if (errorCode === "auth/wrong-password") {
+      if (errorCode === "auth/wrong-password" || errorCode === "auth/invalid-credential") {
         setError("Wrong password.");
       }
       if (errorCode === "auth/user-not-found") {
